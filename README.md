@@ -131,7 +131,7 @@ overwritten on the next build.
   bold, uppercase and letter-spaced rather than a separate display font.
 - **Contact**: roni.luokkamaki@gmail.com, shown both as a mailto link and
   as plain text (per painting on the Order button, and in the footer).
-- **Order terms**: shipping within Finland by UPS from 15 EUR; payment agreed per order, usually MobilePay or bank transfer; made-to-order work exempt from exchange/return. See `content/order.html`.
+- **Order terms**: collection in Helsinki, or shipping within Finland by Matkahuolto/UPS from 15 EUR; payment agreed per order, usually MobilePay or bank transfer; made-to-order work exempt from exchange/return. See `content/order.html`.
 - **No browse-by-category section** on the gallery page — the thumbnail
   grid and full list are the whole gallery. `theme` stays in the
   catalogue for possible future use but isn't shown anywhere yet.
