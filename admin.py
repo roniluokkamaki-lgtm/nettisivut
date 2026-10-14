@@ -213,6 +213,10 @@ def save_work(wid):
         if override and override not in db.WEB_STATUSES:
             raise ValueError("unknown website status")
 
+        if existing and existing["slug"] != slug and existing["web_visible"]:
+            flash(f"Web name changed from '{existing['slug']}' to '{slug}'. Any link or "
+                  "bookmark using the old address will stop working.", "warn")
+
         image = save_upload(request.files.get("photo"), slug) or (
             existing["image"] if existing else "")
 
@@ -272,6 +276,57 @@ def save_work(wid):
     flash(f"Saved. {'Backed up to ' + where if ok else 'BACKUP FAILED: ' + where}",
           "ok" if ok else "error")
     return redirect(url_for("edit_work", wid=int(wid)))
+
+
+@app.route("/work/<int:wid>/photos/add", methods=["POST"])
+def add_detail_photo(wid):
+    """Extra reference shots: kept with the record, not published."""
+    con = db.connect()
+    w = con.execute("SELECT slug FROM artworks WHERE id = ?", (wid,)).fetchone()
+    if not w:
+        abort(404)
+    try:
+        n = con.execute("SELECT COUNT(*) FROM photos WHERE artwork_id = ?", (wid,)).fetchone()[0]
+        name = save_upload(request.files.get("photo"), f"{w['slug']}-detail-{n + 1}")
+        if not name:
+            raise ValueError("choose a file first")
+        con.execute(
+            "INSERT INTO photos (artwork_id, filename, caption, sort_order) VALUES (?,?,?,?)",
+            (wid, name, form_value("caption"), n + 1))
+        con.commit()
+        flash("Detail photograph added. These are kept with the record, not published.", "ok")
+    except ValueError as e:
+        flash(str(e), "error")
+    finally:
+        con.close()
+    db.backup()
+    return redirect(url_for("edit_work", wid=wid))
+
+
+@app.route("/work/<int:wid>/photos/<int:pid>/delete", methods=["POST"])
+def delete_detail_photo(wid, pid):
+    con = db.connect()
+    row = con.execute("SELECT filename FROM photos WHERE id = ? AND artwork_id = ?",
+                      (pid, wid)).fetchone()
+    if not row:
+        abort(404)
+    con.execute("DELETE FROM photos WHERE id = ?", (pid,))
+    con.commit()
+    con.close()
+    (ORIGINALS / row["filename"]).unlink(missing_ok=True)
+    db.backup()
+    flash("Detail photograph removed.", "ok")
+    return redirect(url_for("edit_work", wid=wid))
+
+
+@app.route("/detail-photo/<int:pid>")
+def detail_photo(pid):
+    con = db.connect()
+    row = con.execute("SELECT filename FROM photos WHERE id = ?", (pid,)).fetchone()
+    con.close()
+    if not row or not (ORIGINALS / row["filename"]).exists():
+        abort(404)
+    return send_file(ORIGINALS / row["filename"])
 
 
 @app.route("/work/<int:wid>/visible", methods=["POST"])

@@ -76,6 +76,7 @@
     </div>
   </fieldset>
 
+
   <fieldset>
     <legend>Website</legend>
     <div class="row row-3">
@@ -136,6 +137,33 @@
 </form>
 
 {% if w %}
+<fieldset>
+  <legend>Detail photographs — kept with the record, never published</legend>
+  {% if photos %}
+    <div class="row" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+      {% for ph in photos %}
+      <div>
+        <img src="{{ url_for('detail_photo', pid=ph.id) }}" alt=""
+             style="width:100%;border:1px solid var(--border)">
+        {% if ph.caption %}<p class="hint">{{ ph.caption }}</p>{% endif %}
+        <form method="post" action="{{ url_for('delete_detail_photo', wid=w.id, pid=ph.id) }}"
+              onsubmit="return confirm('Remove this detail photograph?')">
+          <button class="btn" style="padding:.15em .5em;font-size:.75rem;margin-top:.3em">Remove</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="hint">None yet. Useful for framing, the back of a canvas, or a close-up of the surface.</p>
+  {% endif %}
+  <form method="post" action="{{ url_for('add_detail_photo', wid=w.id) }}"
+        enctype="multipart/form-data" class="bar" style="margin-top:14px">
+    <input type="file" name="photo" accept="image/*" style="width:auto">
+    <input name="caption" placeholder="Caption (optional)" style="width:240px">
+    <button class="btn">Add detail photograph</button>
+  </form>
+</fieldset>
+
 <fieldset>
   <legend>Remove this work</legend>
   <div class="bar">

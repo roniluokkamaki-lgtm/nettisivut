@@ -238,24 +238,45 @@ def resize_variant(src: Path, dest: Path, longest_side: int, quality: int) -> tu
         with Image.open(dest) as im:
             return im.size
 
-    with Image.open(src) as im:
-        im = ImageOps.exif_transpose(im)  # respect camera rotation, then strip EXIF
-        im = im.convert("RGB")
-        w, h = im.size
-        scale = longest_side / max(w, h)
-        if scale < 1:
-            im = im.resize((max(1, round(w * scale)), max(1, round(h * scale))), Image.LANCZOS)
-        im.save(dest, "JPEG", quality=quality, optimize=True)
-        return im.size
+    try:
+        with Image.open(src) as im:
+            im = ImageOps.exif_transpose(im)  # respect camera rotation, then strip EXIF
+            im = im.convert("RGB")
+            w, h = im.size
+            scale = longest_side / max(w, h)
+            if scale < 1:
+                im = im.resize((max(1, round(w * scale)), max(1, round(h * scale))), Image.LANCZOS)
+            im.save(dest, "JPEG", quality=quality, optimize=True)
+            return im.size
+    except OSError as e:
+        # a damaged or mislabelled file should name itself, not produce a traceback
+        raise BuildError(
+            f"could not read the photograph {src.name!r}: {e}\n"
+            "    Open it to check it is a real image, then replace it in the admin tool."
+        ) from None
 
 
 def build_images(paintings: list[dict]) -> None:
     out_dir = DOCS_DIR / "img" / "paintings"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    expected = set()
     for p in paintings:
         for variant, (longest_side, quality) in IMAGE_VARIANTS.items():
             dest = out_dir / f"{p['id']}-{variant}.jpg"
+            expected.add(dest.name)
             w, h = resize_variant(p["image_path"], dest, longest_side, quality)
             p[f"{variant}_w"], p[f"{variant}_h"] = w, h
+
+    # Remove published images belonging to works that are no longer published:
+    # deleted, archived, hidden, or renamed. Without this they would stay on the
+    # live site at a guessable address long after the work came down.
+    removed = 0
+    for stale in out_dir.glob("*.jpg"):
+        if stale.name not in expected:
+            stale.unlink()
+            removed += 1
+    if removed:
+        print(f"removed {removed} image(s) belonging to works no longer published")
 
     # profile picture: hand-prepared, just copied through if present
     profile_src = ORIGINALS_DIR / "profile.jpg"
