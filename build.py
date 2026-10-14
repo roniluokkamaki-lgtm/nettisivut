@@ -199,25 +199,6 @@ def build_images(paintings: list[dict]) -> None:
         print("warning: originals/profile.jpg not found — front page image will 404", file=sys.stderr)
 
 
-# --------------------------------------------------------------- categories
-
-def build_categories(paintings: list[dict]) -> dict:
-    def group(key, reverse_keys=False):
-        buckets: dict = {}
-        for p in paintings:
-            buckets.setdefault(p[key], []).append(p)
-        for items in buckets.values():
-            items.sort(key=lambda p: (-p["year"], p["title"]))
-        ordered_keys = sorted(buckets.keys(), key=lambda k: (-k if reverse_keys else k))
-        return [(k, buckets[k]) for k in ordered_keys]
-
-    return {
-        "theme": group("theme"),
-        "year": group("year", reverse_keys=True),
-        "technique": group("technique"),
-    }
-
-
 # ------------------------------------------------------------------- mailto
 
 def mailto_for(p: dict) -> str:
@@ -239,7 +220,7 @@ def read_content(name: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def render_site(paintings: list[dict], categories: dict) -> None:
+def render_site(paintings: list[dict]) -> None:
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
         # Autoescape everywhere: CSV-sourced fields (title, technique, ...) and the
@@ -290,7 +271,6 @@ def render_site(paintings: list[dict], categories: dict) -> None:
             "page_title": "Gallery",
             "page_description": f"All paintings by {ARTIST_NAME}.",
             "paintings": paintings,
-            "categories": categories,
         }),
         ("404.html", "404.html", {
             "page_id": None,
@@ -358,9 +338,8 @@ def main() -> int:
     if not args.check_only:
         try:
             paintings = load_paintings()
-            categories = build_categories(paintings)
             build_images(paintings)
-            render_site(paintings, categories)
+            render_site(paintings)
         except BuildError as e:
             print(f"\nBUILD FAILED:\n{e}\n", file=sys.stderr)
             return 1

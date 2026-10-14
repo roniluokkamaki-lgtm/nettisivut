@@ -23,53 +23,6 @@
 
 <div class="divider" aria-hidden="true">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
 
-<section class="browse-by" aria-label="Browse by category">
-  <h2>browse by</h2>
-  <div class="browse-cols">
-    <div class="browse-col">
-      <h3>theme</h3>
-      <ul>
-        {% for theme, items in categories.theme %}
-        <li>
-          <span class="cat-name">{{ theme | e }}</span>
-          <ul class="cat-items">
-            {% for p in items %}<li><a href="#{{ p.id }}">{{ p.title | e }}</a> <span class="muted">({{ p.year }})</span></li>{% endfor %}
-          </ul>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="browse-col">
-      <h3>year</h3>
-      <ul>
-        {% for year, items in categories.year %}
-        <li>
-          <span class="cat-name">{{ year }}</span>
-          <ul class="cat-items">
-            {% for p in items %}<li><a href="#{{ p.id }}">{{ p.title | e }}</a></li>{% endfor %}
-          </ul>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="browse-col">
-      <h3>technique</h3>
-      <ul>
-        {% for technique, items in categories.technique %}
-        <li>
-          <span class="cat-name">{{ technique | e }}</span>
-          <ul class="cat-items">
-            {% for p in items %}<li><a href="#{{ p.id }}">{{ p.title | e }}</a> <span class="muted">({{ p.year }})</span></li>{% endfor %}
-          </ul>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="divider" aria-hidden="true">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
-
 <section class="full-list" aria-label="All paintings, full details">
   {% for p in paintings %}
   <article class="painting" id="{{ p.id }}">

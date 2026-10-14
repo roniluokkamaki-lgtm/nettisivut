@@ -5,21 +5,6 @@
    --surface is the cap fabric, --accent is the embroidery thread.
    ========================================================================= */
 
-@font-face {
-  font-family: "Amatic SC";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../fonts/amatic-sc-400.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Amatic SC";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("../fonts/amatic-sc-700.woff2") format("woff2");
-}
-
 :root {
   color-scheme: dark;
 
@@ -32,7 +17,6 @@
   --accent-hi: #cfe6d6; /* thread, lifted — hover/active/focus */
   --rose:      #afa1a6; /* mint, hue turned — sold / unavailable */
 
-  --display-font: "Amatic SC", "Arial Narrow", sans-serif;
   --mono-font: ui-monospace, "Cascadia Mono", "Consolas", "Courier New", monospace;
 
   --content-width: 920px;
@@ -59,16 +43,17 @@ a:hover, a:focus-visible { color: var(--accent-hi); }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
 
 h1, h2, h3 {
-  font-family: var(--display-font);
+  font-family: var(--mono-font);
   font-weight: 700;
   color: var(--fg);
-  letter-spacing: 0.02em;
-  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
   margin: 0.6em 0 0.3em;
 }
-h1 { font-size: 3.4rem; }
-h2 { font-size: 2.2rem; }
-h3 { font-size: 1.7rem; margin-top: 0; }
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.1rem; margin-top: 0; }
 
 .muted { color: var(--muted); }
 
@@ -119,12 +104,13 @@ h3 { font-size: 1.7rem; margin-top: 0; }
 }
 
 .brand {
-  font-family: var(--display-font);
+  font-family: var(--mono-font);
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.15rem;
   color: var(--fg);
   text-decoration: none;
-  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 .brand:hover, .brand:focus-visible { color: var(--accent-hi); }
 
@@ -157,6 +143,18 @@ h3 { font-size: 1.7rem; margin-top: 0; }
   flex-shrink: 0;
 }
 .intro-text { flex: 1 1 320px; min-width: 0; }
+
+/* small, centered, slightly askew — a postage-stamp feel */
+.about-stamp {
+  display: block;
+  width: 110px;
+  margin: 2.2rem auto 2.4rem;
+  border: 6px solid var(--surface);
+  outline: 1px solid var(--border);
+  outline-offset: -1px;
+  transform: rotate(-4deg);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
 .intro-text h1 { margin-top: 0; }
 
 /* ------------------------------------------------------------ thumb grid */
@@ -187,21 +185,6 @@ h3 { font-size: 1.7rem; margin-top: 0; }
   text-overflow: ellipsis;
 }
 .thumb:hover .thumb-caption, .thumb:focus-visible .thumb-caption { color: var(--accent-hi); }
-
-/* ---------------------------------------------------------------- browse */
-
-.browse-by h2 { margin-bottom: 0.8rem; }
-.browse-cols {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.6rem;
-}
-.browse-col h3 { font-size: 1.3rem; border-bottom: 1px solid var(--border); padding-bottom: 0.2em; }
-.browse-col ul { list-style: none; margin: 0; padding: 0; }
-.browse-col > ul > li { margin-bottom: 0.9rem; }
-.cat-name { color: var(--accent); font-weight: bold; }
-.cat-items { margin-top: 0.3rem; padding-left: 1rem; font-size: 0.9rem; }
-.cat-items li { margin-bottom: 0.15rem; }
 
 /* ------------------------------------------------------------- full list */
 
@@ -307,7 +290,7 @@ body:has(main > h1:only-child) main { text-align: left; }
   margin-top: 0.9rem;
   font-size: 0.9rem;
 }
-.lightbox-caption .lightbox-title { font-family: var(--display-font); font-size: 1.6rem; display: block; }
+.lightbox-caption .lightbox-title { font-family: var(--mono-font); font-weight: bold; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.1rem; display: block; }
 
 .lightbox-controls {
   position: absolute;
@@ -355,9 +338,8 @@ body:has(main > h1:only-child) main { text-align: left; }
 /* ------------------------------------------------------------ responsive */
 
 @media (max-width: 680px) {
-  h1 { font-size: 2.6rem; }
-  h2 { font-size: 1.8rem; }
-  .browse-cols { grid-template-columns: 1fr; gap: 1.1rem; }
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.25rem; }
   .painting { flex-direction: column; }
   .painting-img-link { flex-basis: auto; }
   .lightbox-nav { width: 2rem; height: 2rem; font-size: 1.1rem; }
