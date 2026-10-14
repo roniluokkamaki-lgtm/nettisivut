@@ -46,8 +46,7 @@ sort the spreadsheet yourself.
 Three short pages are plain HTML you edit by hand in a text editor:
 
 - `content/home.html` — the front-page introduction
-- `content/about.html` — your bio (currently has a placeholder paragraph —
-  replace the italic bracketed sentence with your own background)
+- `content/about.html` — your bio and the portrait
 - `content/buying.html` — how buying works (pickup, payment)
 
 After editing any of these, double-click `build.bat` to apply the change.
