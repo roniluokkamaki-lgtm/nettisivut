@@ -146,7 +146,10 @@ LANGUAGES = {
 
 IMAGE_VARIANTS = {
     # name: (longest_side_px, jpeg_quality)
-    "thumb": (400, 80),
+    # The grid shows three thumbnails across, about 280 CSS px each, so a
+    # high-resolution screen asks for up to ~560px of real image. 800 keeps them
+    # sharp without making the page heavy.
+    "thumb": (800, 80),
     "full": (1400, 85),
     "zoom": (2800, 85),
 }

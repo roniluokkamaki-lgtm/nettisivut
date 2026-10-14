@@ -166,13 +166,18 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 
 /* ------------------------------------------------------------ thumb grid */
 
+/* Three works to a row, with room to breathe between them */
 .thumb-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 14px;
-  margin: 1.2rem 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 1.4rem 0;
 }
-.thumb-grid--small { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+/* the front page keeps its own smaller strip */
+.thumb-grid--small {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 14px;
+}
 
 .thumb {
   display: block;
@@ -394,6 +399,7 @@ body:has(main > h1:only-child) main { text-align: left; }
   .lightbox-nav { width: 2rem; height: 2rem; font-size: 1.1rem; }
 }
 
-@media (max-width: 420px) {
-  .thumb-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+@media (max-width: 560px) {
+  /* still three across on a phone, just closer together */
+  .thumb-grid { gap: 12px; }
 }

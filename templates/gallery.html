@@ -14,9 +14,10 @@
      data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
      data-title="{{ p.title }}"
      data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
+    {# no visible title here, for a quieter grid; the alt text still names the
+       work for screen readers, and the full details are in the list below #}
     <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
     {% if p.status == 'sold' %}<span class="sold-flag">{{ L.tag_sold }}</span>{% endif %}
-    <span class="thumb-caption">{{ p.title }}</span>
   </a>
   {% endfor %}
 </section>
