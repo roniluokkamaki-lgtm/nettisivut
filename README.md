@@ -47,7 +47,7 @@ The four `status` values:
 
 - **`inquire`** — shown with "price on request" and an email button. Use
   this when the work is available but you haven't set a price.
-- **`for_sale`** — shows the price and a Buy button. Needs `price_eur`.
+- **`for_sale`** — shows the price and an Order button. Needs `price_eur`.
 - **`sold`** — shows a SOLD tag, no email button.
 - **`not_for_sale`** — shows a NOT FOR SALE tag, no email button.
 
@@ -60,7 +60,7 @@ Three short pages are plain HTML you edit by hand in a text editor:
 
 - `content/home.html` — the front-page introduction
 - `content/about.html` — your bio and the portrait
-- `content/buying.html` — how buying works (pickup, payment)
+- `content/order.html` — payments, delivery and returns
 
 After editing any of these, double-click `build.bat` to apply the change.
 
@@ -130,8 +130,8 @@ overwritten on the next build.
 - **Typography**: monospace throughout, including headings — headings are
   bold, uppercase and letter-spaced rather than a separate display font.
 - **Contact**: roni.luokkamaki@gmail.com, shown both as a mailto link and
-  as plain text (per painting on the Buy button, and in the footer).
-- **No shipping**: pickup only, payment agreed per sale by email.
+  as plain text (per painting on the Order button, and in the footer).
+- **Order terms**: shipping within Finland by UPS from 15 EUR; payment agreed per order, usually MobilePay or bank transfer; made-to-order work exempt from exchange/return. See `content/order.html`.
 - **No browse-by-category section** on the gallery page — the thumbnail
   grid and full list are the whole gallery. `theme` stays in the
   catalogue for possible future use but isn't shown anywhere yet.

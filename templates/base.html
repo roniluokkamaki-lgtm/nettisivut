@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{% block title %}{{ site_name }}{% endblock %}</title>
 <meta name="description" content="{% block description %}Paintings by {{ artist_name }}.{% endblock %}">
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ root }}img/icon-32.png">
+<link rel="apple-touch-icon" href="{{ root }}img/icon-180.png">
 <link rel="stylesheet" href="{{ root }}css/style.css?v={{ css_v }}">
 </head>
 <body>
@@ -20,7 +21,7 @@
     <span class="sep">|</span>
     <a href="{{ root }}about.html"{% if page_id == 'about' %} aria-current="page"{% endif %}>ABOUT</a>
     <span class="sep">|</span>
-    <a href="{{ root }}buying.html"{% if page_id == 'buying' %} aria-current="page"{% endif %}>BUYING</a>
+    <a href="{{ root }}order.html"{% if page_id == 'order' %} aria-current="page"{% endif %}>ORDER</a>
   </nav>
 </header>
 

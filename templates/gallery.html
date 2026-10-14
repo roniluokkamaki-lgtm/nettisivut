@@ -46,7 +46,7 @@
       <p class="painting-status">
         {% if p.status == 'for_sale' %}
           <span class="price">{{ '%g'|format(p.price_eur) }} EUR</span>
-          <a class="btn" href="{{ p.buy_href }}">[ Buy ]</a>
+          <a class="btn" href="{{ p.buy_href }}">[ Order ]</a>
         {% elif p.status == 'inquire' %}
           <span class="muted">price on request</span>
           <a class="btn" href="{{ p.buy_href }}">[ Ask about this work ]</a>

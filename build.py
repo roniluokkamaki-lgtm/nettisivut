@@ -307,11 +307,11 @@ def render_site(paintings: list[dict]) -> None:
             "page_description": f"About {ARTIST_NAME}.",
             "content": read_content("about.html"),
         }),
-        ("buying.html", "page.html", {
-            "page_id": "buying",
-            "page_title": "Buying",
-            "page_description": "How to buy a painting.",
-            "content": read_content("buying.html"),
+        ("order.html", "page.html", {
+            "page_id": "order",
+            "page_title": "Order",
+            "page_description": "Payments, delivery and returns.",
+            "content": read_content("order.html"),
         }),
         ("gallery.html", "gallery.html", {
             "page_id": "gallery",
