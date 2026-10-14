@@ -14,7 +14,7 @@
      data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
      data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
      data-title="{{ p.title | e }}"
-     data-caption="{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm &middot; {% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
+     data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
     <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title | e }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
     <span class="thumb-caption">{{ p.title | e }}</span>
   </a>
@@ -34,17 +34,20 @@
        data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
        data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
        data-title="{{ p.title | e }}"
-       data-caption="{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm &middot; {% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
+       data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
       <img src="{{ root }}img/paintings/{{ p.id }}-full.jpg" alt="{{ p.title | e }}" width="{{ p.full_w }}" height="{{ p.full_h }}" loading="lazy">
     </a>
     <div class="painting-info">
       <h3>{{ p.title | e }}</h3>
-      <p class="painting-meta">{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm</p>
+      {% if p.meta %}<p class="painting-meta">{{ p.meta }}</p>{% endif %}
       {% if p.description %}<p class="painting-desc">{{ p.description | e }}</p>{% endif %}
       <p class="painting-status">
         {% if p.status == 'for_sale' %}
           <span class="price">{{ '%g'|format(p.price_eur) }} EUR</span>
           <a class="btn" href="{{ p.buy_href }}">[ Buy ]</a>
+        {% elif p.status == 'inquire' %}
+          <span class="muted">price on request</span>
+          <a class="btn" href="{{ p.buy_href }}">[ Ask about this work ]</a>
         {% elif p.status == 'sold' %}
           <span class="tag tag-sold">SOLD</span>
         {% else %}
@@ -57,7 +60,7 @@
            data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
            data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
            data-title="{{ p.title | e }}"
-           data-caption="{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm">[ View closer ]</a>
+           data-caption="{{ p.meta }}">[ View closer ]</a>
       </p>
     </div>
   </article>

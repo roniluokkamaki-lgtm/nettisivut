@@ -37,8 +37,18 @@ ARTIST_NAME = "Roni Luokkamäki"
 CONTACT_EMAIL = "roni.luokkamaki@gmail.com"
 AUDIO_FILENAME = "track.mp3"  # only referenced on the page if this file exists in docs/audio/
 
-VALID_STATUSES = {"for_sale", "sold", "not_for_sale"}
-STATUS_LABEL = {"for_sale": "for sale", "sold": "sold", "not_for_sale": "not for sale"}
+VALID_STATUSES = {"for_sale", "inquire", "sold", "not_for_sale"}
+STATUS_LABEL = {
+    "for_sale": "for sale",
+    "inquire": "price on request",   # shown, buyable by email, but no price set yet
+    "sold": "sold",
+    "not_for_sale": "not for sale",
+}
+
+# Only these must be filled in for every row. Everything else (year, technique,
+# theme, dimensions, description, price) may be left blank and is simply left
+# off the page — so a work can go up before its details are known.
+REQUIRED_FIELDS = ("id", "title", "status", "image")
 
 IMAGE_VARIANTS = {
     # name: (longest_side_px, jpeg_quality)
@@ -80,7 +90,7 @@ def load_paintings() -> list[dict]:
     for i, row in enumerate(rows, start=2):  # row 1 is the header
         where = f"row {i} (id={row.get('id','?')!r})"
 
-        for field in ("id", "title", "year", "technique", "theme", "width_cm", "height_cm", "status", "image"):
+        for field in REQUIRED_FIELDS:
             if not (row.get(field) or "").strip():
                 errors.append(f"{where}: '{field}' is empty")
 
@@ -111,20 +121,30 @@ def load_paintings() -> list[dict]:
         elif price_raw:
             errors.append(f"{where}: status is {status!r} but price_eur is set ({price_raw!r}) — leave it blank")
 
+        # year is optional; if given it must be a sane integer
         year = None
-        try:
-            year = int((row.get("year") or "").strip())
-        except ValueError:
-            errors.append(f"{where}: year {row.get('year')!r} is not an integer")
+        year_raw = (row.get("year") or "").strip()
+        if year_raw:
+            try:
+                year = int(year_raw)
+                if not (1900 <= year <= 2100):
+                    errors.append(f"{where}: year {year} looks wrong")
+            except ValueError:
+                errors.append(f"{where}: year {year_raw!r} is not an integer")
 
+        # dimensions are optional, but must come as a pair if given at all
         width_cm = height_cm = None
-        try:
-            width_cm = int((row.get("width_cm") or "").strip())
-            height_cm = int((row.get("height_cm") or "").strip())
-            if width_cm <= 0 or height_cm <= 0:
-                errors.append(f"{where}: width_cm/height_cm must be positive")
-        except ValueError:
-            errors.append(f"{where}: width_cm/height_cm must be integers")
+        w_raw = (row.get("width_cm") or "").strip()
+        h_raw = (row.get("height_cm") or "").strip()
+        if bool(w_raw) != bool(h_raw):
+            errors.append(f"{where}: give both width_cm and height_cm, or neither")
+        elif w_raw and h_raw:
+            try:
+                width_cm, height_cm = int(w_raw), int(h_raw)
+                if width_cm <= 0 or height_cm <= 0:
+                    errors.append(f"{where}: width_cm/height_cm must be positive")
+            except ValueError:
+                errors.append(f"{where}: width_cm/height_cm must be whole numbers")
 
         image_name = (row.get("image") or "").strip()
         image_path = ORIGINALS_DIR / image_name if image_name else None
@@ -136,14 +156,22 @@ def load_paintings() -> list[dict]:
             # resize) don't crash on None, but the run will fail at the end.
             pass
 
+        technique = (row.get("technique") or "").strip()
+        # real Unicode, not HTML entities, so autoescaping leaves it alone
+        size = f"{width_cm}×{height_cm} cm" if width_cm and height_cm else ""
+        # the detail line under a title, built from whatever is actually known
+        meta = " · ".join(bit for bit in (str(year) if year else "", technique, size) if bit)
+
         paintings.append({
             "id": pid,
             "title": (row.get("title") or "").strip(),
             "year": year,
-            "technique": (row.get("technique") or "").strip(),
+            "technique": technique,
             "theme": (row.get("theme") or "").strip(),
             "width_cm": width_cm,
             "height_cm": height_cm,
+            "size_label": size,
+            "meta": meta,
             "price_eur": price,
             "status": status,
             "status_label": STATUS_LABEL.get(status, status),
@@ -156,8 +184,8 @@ def load_paintings() -> list[dict]:
         msg = "paintings.csv has problems:\n" + "\n".join(f"  - {e}" for e in errors)
         raise BuildError(msg)
 
-    # newest first: by year desc, then title asc for a stable order within a year
-    paintings.sort(key=lambda p: (-p["year"], p["title"]))
+    # newest first; works with no year yet sort to the end, then by title
+    paintings.sort(key=lambda p: (0 if p["year"] else 1, -(p["year"] or 0), p["title"]))
     return paintings
 
 
@@ -202,11 +230,15 @@ def build_images(paintings: list[dict]) -> None:
 # ------------------------------------------------------------------- mailto
 
 def mailto_for(p: dict) -> str:
+    """Prefilled inquiry email. Only mentions details that are actually known."""
     subject = f"Painting inquiry: {p['title']} ({p['id']})"
-    body = (
-        f"Hi,\n\nI'm interested in \"{p['title']}\" ({p['year']}, {p['technique']}, "
-        f"{p['width_cm']}x{p['height_cm']} cm).\n\n"
-    )
+    bits = [b for b in (
+        str(p["year"]) if p["year"] else "",
+        p["technique"],
+        f"{p['width_cm']}x{p['height_cm']} cm" if p["width_cm"] and p["height_cm"] else "",
+    ) if b]
+    detail = f" ({', '.join(bits)})" if bits else ""
+    body = f'Hi,\n\nI\'m interested in "{p["title"]}"{detail}.\n\n'
     q = urllib.parse.urlencode({"subject": subject, "body": body}, quote_via=urllib.parse.quote)
     return f"mailto:{CONTACT_EMAIL}?{q}"
 
@@ -246,7 +278,7 @@ def render_site(paintings: list[dict]) -> None:
         print("note: docs/audio/track.mp3 not found — audio player omitted for now", file=sys.stderr)
 
     for p in paintings:
-        p["buy_href"] = mailto_for(p) if p["status"] == "for_sale" else None
+        p["buy_href"] = mailto_for(p) if p["status"] in ("for_sale", "inquire") else None
 
     pages = [
         ("index.html", "index.html", {

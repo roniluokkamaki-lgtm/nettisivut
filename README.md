@@ -25,21 +25,34 @@ before publishing (see **Publishing**, below).
 
 ### `data/paintings.csv` columns
 
-| column | what to put in it |
-|---|---|
-| `id` | A short unique slug, lowercase, words separated by hyphens, e.g. `red-field-2023`. Used in the web address and the image filenames — once a painting is on the live site, avoid changing its id. |
-| `title` | The painting's title. |
-| `year` | The year painted, e.g. `2024`. |
-| `technique` | e.g. `Oil on canvas`. |
-| `theme` | e.g. `Harbour Studies`. Not currently shown on the site, but kept in the catalogue for future use. |
-| `width_cm`, `height_cm` | Size in centimetres, whole numbers. |
-| `price_eur` | The price in euros, e.g. `450`. **Leave empty** unless `status` is `for_sale`. |
-| `status` | One of `for_sale`, `sold`, or `not_for_sale`. |
-| `description` | Optional, one or two sentences. Leave empty if you don't want one. |
-| `image` | The exact filename you used in `originals/`, e.g. `red-field-2023.jpg`. |
+Only four columns are required: `id`, `title`, `status` and `image`.
+Everything else can be left blank, and anything blank is simply left off
+the page — so a work can go up before you've measured it or decided a
+price, and you can fill the details in later.
 
-Paintings are shown newest year first automatically — you don't need to
-sort the spreadsheet yourself.
+| column | required | what to put in it |
+|---|---|---|
+| `id` | yes | A short unique slug, lowercase, words separated by hyphens, e.g. `red-field-2023`. Used in the web address and the image filenames — once a painting is on the live site, avoid changing its id. |
+| `title` | yes | The painting's title. `Untitled` is fine. |
+| `status` | yes | One of `inquire`, `for_sale`, `sold`, `not_for_sale`. See below. |
+| `image` | yes | The exact filename in `originals/`, e.g. `DSCF1179.jpg`. |
+| `year` | no | The year painted, e.g. `2024`. |
+| `technique` | no | e.g. `Oil on canvas`. |
+| `width_cm`, `height_cm` | no | Size in centimetres, whole numbers. Give both or neither. |
+| `price_eur` | only if for sale | The price in euros, e.g. `450`. **Must be blank** unless `status` is `for_sale`. |
+| `theme` | no | Not shown on the site at the moment, kept for future use. |
+| `description` | no | A sentence or two about the work. |
+
+The four `status` values:
+
+- **`inquire`** — shown with "price on request" and an email button. Use
+  this when the work is available but you haven't set a price.
+- **`for_sale`** — shows the price and a Buy button. Needs `price_eur`.
+- **`sold`** — shows a SOLD tag, no email button.
+- **`not_for_sale`** — shows a NOT FOR SALE tag, no email button.
+
+Paintings are shown newest year first automatically, and any work without
+a year yet sorts to the end. You don't need to sort the spreadsheet.
 
 ### Editing the text pages
 
