@@ -1,8 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Not found &middot; {{ site_name }}{% endblock %}
-{% block description %}Page not found.{% endblock %}
+{% block title %}{{ page_title }} &middot; {{ site_name }}{% endblock %}
 {% block main %}
 <h1>404</h1>
-<p>That page does not exist.</p>
-<p><a href="{{ root }}index.html">back to the front page</a></p>
+<p>{{ L.not_found_body }}</p>
+<p><a href="index.html">{{ L.back_home }}</a></p>
 {% endblock %}

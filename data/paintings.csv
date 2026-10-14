@@ -1,20 +1,20 @@
-id,title,year,technique,theme,width_cm,height_cm,price_eur,status,description,image
-untitled-study-still-life,Untitled (Study: still life),2025,Acrylic on canvas,,24,33,,inquire,,DSCF1179.jpg
-untitled-study-airport,Untitled (Study: airport),2025,Acrylic and oil on canvas,,23,30,,sold,,DSCF1174_01.jpg
-untitled-study-cuba,"Untitled (Study: Cuba, Hemingway's house)",2023,Oil pastel on paper,,31,22,,inquire,,DSCF1207_01.jpg
-untitled-study-martini,Untitled (Study: Martini),2023,Acrylic on paper,,14,20,,inquire,,DSCF1201.jpg
-vision,Vision,2023,Oil pastel on paper,,23,34,,inquire,,DSCF1221.jpg
-dscf1167,Untitled,,,,,,,inquire,,DSCF1167_01.png
-dscf1176,Untitled,,,,,,,inquire,,DSCF1176.jpg
-dscf1185,Untitled,,,,,,,inquire,,DSCF1185_01.jpg
-dscf1186,Untitled,,,,,,,inquire,,DSCF1186_01.jpg
-dscf1197,Untitled,,,,,,,inquire,,DSCF1197_01.jpg
-dscf1198,Untitled,,,,,,,inquire,,DSCF1198_01.jpg
-dscf1219,Untitled,,,,,,,inquire,,DSCF1219_01.jpg
-dscf1226,Untitled,,,,,,,inquire,,DSCF1226.jpg
-dscf1231,Untitled,,,,,,,inquire,,DSCF1231.jpg
-dscf1234,Untitled,,,,,,,inquire,,DSCF1234.jpg
-dscf1235,Untitled,,,,,,,inquire,,DSCF1235.jpg
-dscf1238,Untitled,,,,,,,inquire,,DSCF1238.jpg
-dscf1245,Untitled,,,,,,,inquire,,DSCF1245.jpg
-dscf1251,Untitled,,,,,,,inquire,,DSCF1251.png
+id,title,title_fi,year,technique,technique_fi,theme,width_cm,height_cm,price_eur,status,description,description_fi,image
+untitled-study-still-life,Untitled (Study: still life),,2025,Acrylic on canvas,,,24,33,,inquire,,,DSCF1179.jpg
+untitled-study-airport,Untitled (Study: airport),,2025,Acrylic and oil on canvas,,,23,30,,sold,,,DSCF1174_01.jpg
+untitled-study-cuba,"Untitled (Study: Cuba, Hemingway's house)",,2023,Oil pastel on paper,,,31,22,,inquire,,,DSCF1207_01.jpg
+untitled-study-martini,Untitled (Study: Martini),,2023,Acrylic on paper,,,14,20,,inquire,,,DSCF1201.jpg
+vision,Vision,,2023,Oil pastel on paper,,,23,34,,inquire,,,DSCF1221.jpg
+dscf1167,Untitled,,,,,,,,,inquire,,,DSCF1167_01.png
+dscf1176,Untitled,,,,,,,,,inquire,,,DSCF1176.jpg
+dscf1185,Untitled,,,,,,,,,inquire,,,DSCF1185_01.jpg
+dscf1186,Untitled,,,,,,,,,inquire,,,DSCF1186_01.jpg
+dscf1197,Untitled,,,,,,,,,inquire,,,DSCF1197_01.jpg
+dscf1198,Untitled,,,,,,,,,inquire,,,DSCF1198_01.jpg
+dscf1219,Untitled,,,,,,,,,inquire,,,DSCF1219_01.jpg
+dscf1226,Untitled,,,,,,,,,inquire,,,DSCF1226.jpg
+dscf1231,Untitled,,,,,,,,,inquire,,,DSCF1231.jpg
+dscf1234,Untitled,,,,,,,,,inquire,,,DSCF1234.jpg
+dscf1235,Untitled,,,,,,,,,inquire,,,DSCF1235.jpg
+dscf1238,Untitled,,,,,,,,,inquire,,,DSCF1238.jpg
+dscf1245,Untitled,,,,,,,,,inquire,,,DSCF1245.jpg
+dscf1251,Untitled,,,,,,,,,inquire,,,DSCF1251.png

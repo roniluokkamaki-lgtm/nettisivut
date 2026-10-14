@@ -1,27 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{% block title %}{{ site_name }}{% endblock %}</title>
-<meta name="description" content="{% block description %}Paintings by {{ artist_name }}.{% endblock %}">
+<meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
+<link rel="alternate" hreflang="en" href="{{ alt_en }}">
+<link rel="alternate" hreflang="fi" href="{{ alt_fi }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ root }}img/icon-32.png">
 <link rel="apple-touch-icon" href="{{ root }}img/icon-180.png">
 <link rel="stylesheet" href="{{ root }}css/style.css?v={{ css_v }}">
 </head>
 <body>
-<div class="scanlines" aria-hidden="true"></div>
 
 <header class="site-header">
-  <a class="brand" href="{{ root }}index.html">{{ artist_name }}</a>
-  <nav class="main-nav" aria-label="Main">
-    <a href="{{ root }}index.html"{% if page_id == 'home' %} aria-current="page"{% endif %}>HOME</a>
+  <a class="brand" href="index.html">{{ artist_name }}</a>
+  <nav class="main-nav" aria-label="{{ L.page_titles.gallery }}">
+    <a href="index.html"{% if page_id == 'home' %} aria-current="page"{% endif %}>{{ L.nav.home }}</a>
     <span class="sep">|</span>
-    <a href="{{ root }}gallery.html"{% if page_id == 'gallery' %} aria-current="page"{% endif %}>GALLERY</a>
+    <a href="gallery.html"{% if page_id == 'gallery' %} aria-current="page"{% endif %}>{{ L.nav.gallery }}</a>
     <span class="sep">|</span>
-    <a href="{{ root }}about.html"{% if page_id == 'about' %} aria-current="page"{% endif %}>ABOUT</a>
+    <a href="about.html"{% if page_id == 'about' %} aria-current="page"{% endif %}>{{ L.nav.about }}</a>
     <span class="sep">|</span>
-    <a href="{{ root }}order.html"{% if page_id == 'order' %} aria-current="page"{% endif %}>ORDER</a>
+    <a href="order.html"{% if page_id == 'order' %} aria-current="page"{% endif %}>{{ L.nav.order }}</a>
+    <span class="sep">|</span>
+    <a class="lang-switch" href="{{ switch_href }}" hreflang="{{ L.other }}" title="{{ L.switch_title }}">{{ L.switch_label }}</a>
   </nav>
 </header>
 
@@ -36,18 +39,30 @@
 <footer class="site-footer">
   {% if audio_file %}
   <div class="player-row">
-    <span class="player-label">background music (own track)</span>
-    <audio controls preload="none" src="{{ root }}audio/{{ audio_file }}">
-      Your browser does not support the audio element.
-      <a href="{{ root }}audio/{{ audio_file }}">Download the track</a>.
-    </audio>
+    <span class="player-label">{{ L.music_label }}</span>
+    <audio controls preload="none" src="{{ root }}audio/{{ audio_file }}"></audio>
   </div>
   {% endif %}
-  <p class="contact-line">contact: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a></p>
-  <p class="meta-line">last updated {{ build_date }} &middot; &copy; {{ build_year }} {{ artist_name }}</p>
+  <p class="contact-line">
+    {{ L.contact }}: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+    {% if instagram %}
+    <a class="social" href="https://instagram.com/{{ instagram }}" rel="me noopener" target="_blank" title="Instagram">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+        <rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/>
+      </svg>
+      <span>@{{ instagram }}</span>
+    </a>
+    {% endif %}
+  </p>
+  <p class="meta-line">{{ L.last_updated }} {{ build_date }}</p>
+  <p class="meta-line">{{ L.rights.format(year=build_year, artist=artist_name) }}</p>
+  <p class="meta-line"><a href="terms.html">{{ L.page_titles.terms }}</a></p>
 </footer>
 
 {% if page_id == 'gallery' %}
+<script id="lb-strings" type="application/json">{{ L.lb | tojson }}</script>
 <script src="{{ root }}js/lightbox.js?v={{ js_v }}" defer></script>
 {% endif %}
 </body>

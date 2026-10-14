@@ -56,11 +56,25 @@ a year yet sorts to the end. You don't need to sort the spreadsheet.
 
 ### Editing the text pages
 
-Three short pages are plain HTML you edit by hand in a text editor:
+The site is published in two languages. English lives at the root, Finnish
+under `/fi/`. Each language has its own folder of hand-written pages, and
+they are separate texts rather than translations of each other:
 
-- `content/home.html` — the front-page introduction
-- `content/about.html` — your bio and the portrait
-- `content/order.html` — payments, delivery and returns
+| file | page |
+|---|---|
+| `content/en/home.html`, `content/fi/home.html` | front-page introduction |
+| `content/en/about.html`, `content/fi/about.html` | bio and portrait |
+| `content/en/order.html`, `content/fi/order.html` | payments, delivery, returns |
+| `content/en/terms.html`, `content/fi/terms.html` | terms of purchase |
+
+**Edit both languages when you change something**, or the two versions will
+drift apart. Everything else — navigation, buttons, status labels, the
+footer — is translated once in the `LANGUAGES` table near the top of
+`build.py`.
+
+Painting titles come from the catalogue. Fill in `title_fi`, `technique_fi`
+or `description_fi` to give a work Finnish wording; leave them blank and the
+English text is shown on the Finnish pages too.
 
 After editing any of these, double-click `build.bat` to apply the change.
 
@@ -102,11 +116,11 @@ double-clicking.
 
 ```
 data/paintings.csv     the catalogue — source of truth, edit this
-content/*.html          the three hand-written text pages
+content/en, content/fi  hand-written text pages, one folder per language
 originals/               full-resolution photos (not committed to git)
 templates/               Jinja2 page templates
 build.py                 the generator — reads the above, writes docs/
-docs/                    the published site (served by GitHub Pages)
+docs/                    the published site (English at root, Finnish in docs/fi/)
 palette.jpg              the site's color palette, sampled from a photo
 ```
 
@@ -119,6 +133,35 @@ overwritten on the next build.
 - **Background music**: put an MP3 at `docs/audio/track.mp3` and rebuild —
   the audio player appears in the footer automatically once that file
   exists, and is omitted (not broken) while it doesn't.
+- **Site icon**: `docs/img/icon-32.png` and `icon-180.png`, the RL monogram
+  shown in the browser tab.
+
+### Settings at the top of `build.py`
+
+- `INSTAGRAM_HANDLE` — your handle without the `@`. While it is empty the
+  Instagram link is left out of the footer entirely, rather than pointing
+  somewhere wrong. Set it to switch the icon on.
+- `SITE_URL` — used for the `hreflang` tags that tell search engines which
+  page is the English one and which is the Finnish one. Update it if the
+  site moves to a custom domain.
+
+## Custom domain
+
+GitHub Pages hosting and HTTPS are free, but **the domain name itself is
+not** — `roniluokkamaki.com` has to be registered with a registrar for
+roughly 10-15 EUR a year. It was unregistered as of 14 October 2026.
+
+Once you own it:
+
+1. At the registrar, point the DNS at GitHub:
+   - `www` as a **CNAME** to `roniluokkamaki-lgtm.github.io`
+   - the bare domain as **A** records to `185.199.108.153`,
+     `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+2. Create a file `docs/CNAME` containing one line: `www.roniluokkamaki.com`
+3. On GitHub: Settings → Pages → Custom domain, enter it, and tick
+   **Enforce HTTPS** once the certificate is issued (can take an hour).
+4. Change `SITE_URL` in `build.py` to `https://www.roniluokkamaki.com` and
+   rebuild, so the language tags point at the new address.
 
 ## Design decisions on record
 

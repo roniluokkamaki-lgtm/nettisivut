@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Gallery &middot; {{ site_name }}{% endblock %}
-{% block description %}{{ page_description }}{% endblock %}
+{% block title %}{{ page_title }} &middot; {{ site_name }}{% endblock %}
 {% block main %}
-<h1>Gallery</h1>
+<h1>{{ page_title }}</h1>
 
-<section class="thumb-grid" aria-label="All paintings, thumbnails">
+<section class="thumb-grid" aria-label="{{ page_title }}">
   {% for p in paintings %}
   <a class="thumb"
      href="#{{ p.id }}"
@@ -13,18 +12,18 @@
      data-zoom="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
      data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
      data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
-     data-title="{{ p.title | e }}"
+     data-title="{{ p.title }}"
      data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
-    <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title | e }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
-    {% if p.status == 'sold' %}<span class="sold-flag">SOLD</span>{% endif %}
-    <span class="thumb-caption">{{ p.title | e }}</span>
+    <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
+    {% if p.status == 'sold' %}<span class="sold-flag">{{ L.tag_sold }}</span>{% endif %}
+    <span class="thumb-caption">{{ p.title }}</span>
   </a>
   {% endfor %}
 </section>
 
 <div class="divider" aria-hidden="true">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
 
-<section class="full-list" aria-label="All paintings, full details">
+<section class="full-list">
   {% for p in paintings %}
   <article class="painting" id="{{ p.id }}">
     <a href="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
@@ -34,26 +33,26 @@
        data-zoom="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
        data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
        data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
-       data-title="{{ p.title | e }}"
+       data-title="{{ p.title }}"
        data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
-      <img src="{{ root }}img/paintings/{{ p.id }}-full.jpg" alt="{{ p.title | e }}" width="{{ p.full_w }}" height="{{ p.full_h }}" loading="lazy">
-      {% if p.status == 'sold' %}<span class="sold-flag sold-flag--large">SOLD</span>{% endif %}
+      <img src="{{ root }}img/paintings/{{ p.id }}-full.jpg" alt="{{ p.title }}" width="{{ p.full_w }}" height="{{ p.full_h }}" loading="lazy">
+      {% if p.status == 'sold' %}<span class="sold-flag sold-flag--large">{{ L.tag_sold }}</span>{% endif %}
     </a>
     <div class="painting-info">
-      <h3>{{ p.title | e }}</h3>
+      <h3>{{ p.title }}</h3>
       {% if p.meta %}<p class="painting-meta">{{ p.meta }}</p>{% endif %}
-      {% if p.description %}<p class="painting-desc">{{ p.description | e }}</p>{% endif %}
+      {% if p.description %}<p class="painting-desc">{{ p.description }}</p>{% endif %}
       <p class="painting-status">
         {% if p.status == 'for_sale' %}
           <span class="price">{{ '%g'|format(p.price_eur) }} EUR</span>
-          <a class="btn" href="{{ p.buy_href }}">[ Order ]</a>
+          <a class="btn" href="{{ p.buy_href }}">{{ L.btn_order }}</a>
         {% elif p.status == 'inquire' %}
-          <span class="muted">price on request</span>
-          <a class="btn" href="{{ p.buy_href }}">[ Ask about this work ]</a>
+          <span class="muted">{{ L.price_on_request }}</span>
+          <a class="btn" href="{{ p.buy_href }}">{{ L.btn_ask }}</a>
         {% elif p.status == 'sold' %}
-          <span class="tag tag-sold">SOLD</span>
+          <span class="tag tag-sold">{{ L.tag_sold }}</span>
         {% else %}
-          <span class="tag">NOT FOR SALE</span>
+          <span class="tag">{{ L.tag_nfs }}</span>
         {% endif %}
         <a class="btn btn-view" href="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
            data-id="{{ p.id }}"
@@ -61,8 +60,8 @@
            data-zoom="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
            data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
            data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
-           data-title="{{ p.title | e }}"
-           data-caption="{{ p.meta }}">[ View closer ]</a>
+           data-title="{{ p.title }}"
+           data-caption="{{ p.meta }}">{{ L.btn_view }}</a>
       </p>
     </div>
   </article>

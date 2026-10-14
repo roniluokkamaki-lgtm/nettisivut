@@ -81,7 +81,6 @@ h3 { font-size: 1.1rem; margin-top: 0; }
    not. Painting the texture into the page background instead puts it strictly
    behind all content, so it can never touch the artwork on any browser,
    rather than relying on stacking order to keep it away. */
-.scanlines { display: none; }
 
 .divider {
   max-width: var(--content-width);
@@ -129,6 +128,13 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   border-bottom: 1px solid var(--accent-hi);
 }
 .main-nav .sep { color: var(--border); margin: 0 0.35em; }
+
+.lang-switch {
+  border: 1px solid var(--border);
+  padding: 0.1em 0.45em;
+  letter-spacing: 0.08em;
+}
+.lang-switch:hover, .lang-switch:focus-visible { border-color: var(--accent-hi); }
 
 /* ----------------------------------------------------------------- intro */
 
@@ -265,9 +271,21 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 }
 .player-label { font-size: 0.8rem; color: var(--muted); }
 audio { height: 32px; max-width: 100%; }
-.contact-line { margin: 0 0 0.3em; }
+.contact-line { margin: 0 0 0.4em; display: flex; gap: 1.1rem; flex-wrap: wrap; align-items: center; }
 .contact-line a { color: var(--fg); }
-.meta-line { margin: 0; }
+.meta-line { margin: 0 0 0.2em; }
+.meta-line a { color: var(--muted); }
+.meta-line a:hover, .meta-line a:focus-visible { color: var(--accent-hi); }
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  text-decoration: none;
+  color: var(--accent);
+}
+.social:hover, .social:focus-visible { color: var(--accent-hi); }
+.social svg { display: block; }
 
 /* ---------------------------------------------------------------- 404 */
 

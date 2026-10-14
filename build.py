@@ -37,12 +37,111 @@ ARTIST_NAME = "Roni Luokkamäki"
 CONTACT_EMAIL = "roni.luokkamaki@gmail.com"
 AUDIO_FILENAME = "track.mp3"  # only referenced on the page if this file exists in docs/audio/
 
+# Instagram handle without the "@". While this is empty the icon is left off the
+# footer entirely, rather than linking somewhere wrong.
+INSTAGRAM_HANDLE = ""
+
+# Used only to build absolute hreflang URLs. Change this if the site moves to a
+# custom domain (see README, "Custom domain").
+SITE_URL = "https://roniluokkamaki-lgtm.github.io/nettisivut"
+
 VALID_STATUSES = {"for_sale", "inquire", "sold", "not_for_sale"}
-STATUS_LABEL = {
-    "for_sale": "for sale",
-    "inquire": "price on request",   # shown, buyable by email, but no price set yet
-    "sold": "sold",
-    "not_for_sale": "not for sale",
+
+# English is the default language and lives at the root of docs/. Finnish lives
+# in docs/fi/. Every user-visible string is listed here so a page is never half
+# translated; the Finnish copy is written as Finnish, not translated word by word.
+LANGUAGES = {
+    "en": {
+        "code": "en",
+        "subdir": "",          # written to docs/
+        "root": "",            # how a page in this language reaches docs/
+        "other": "fi",
+        "switch_label": "FI",
+        "switch_title": "Suomeksi",
+        "nav": {"home": "HOME", "gallery": "GALLERY", "about": "ABOUT", "order": "ORDER"},
+        "page_titles": {
+            "gallery": "Gallery", "about": "About", "order": "Order",
+            "terms": "Terms of purchase", "404": "Not found",
+        },
+        "descriptions": {
+            "home": f"Paintings and current work by {ARTIST_NAME}.",
+            "gallery": f"All paintings by {ARTIST_NAME}.",
+            "about": f"About {ARTIST_NAME}.",
+            "order": "Payments, delivery and returns.",
+            "terms": "Terms of purchase.",
+            "404": "Page not found.",
+        },
+        "latest_work": "latest work",
+        "view_gallery": "view the full gallery &rarr;",
+        "status": {
+            "for_sale": "for sale", "inquire": "price on request",
+            "sold": "sold", "not_for_sale": "not for sale",
+        },
+        "btn_order": "[ Order ]",
+        "btn_ask": "[ Ask about this work ]",
+        "btn_view": "[ View closer ]",
+        "tag_sold": "SOLD",
+        "tag_nfs": "NOT FOR SALE",
+        "price_on_request": "price on request",
+        "contact": "contact",
+        "last_updated": "last updated",
+        "music_label": "background music (own track)",
+        "rights": "All works and images © {year} {artist}. All rights reserved.",
+        "not_found_body": "That page does not exist.",
+        "back_home": "back to the front page",
+        "lb": {
+            "close": "Close", "prev": "Previous painting", "next": "Next painting",
+            "zoom_on": "zoom: on", "zoom_off": "zoom: off", "dialog": "Painting viewer",
+        },
+        "mail_subject": "Painting inquiry: {title} ({id})",
+        "mail_body": "Hi,\n\nI'm interested in \"{title}\"{detail}.\n\n",
+    },
+    "fi": {
+        "code": "fi",
+        "subdir": "fi",        # written to docs/fi/
+        "root": "../",
+        "other": "en",
+        "switch_label": "EN",
+        "switch_title": "In English",
+        "nav": {"home": "ETUSIVU", "gallery": "TEOKSET", "about": "TIETOA", "order": "TILAAMINEN"},
+        "page_titles": {
+            "gallery": "Teokset", "about": "Tietoa", "order": "Tilaaminen",
+            "terms": "Kauppaehdot", "404": "Sivua ei löytynyt",
+        },
+        "descriptions": {
+            "home": f"{ARTIST_NAME}, maalauksia ja ajankohtaisia teoksia.",
+            "gallery": f"{ARTIST_NAME}, kaikki teokset.",
+            "about": f"Tietoa taiteilijasta {ARTIST_NAME}.",
+            "order": "Maksaminen, toimitus ja palautukset.",
+            "terms": "Kauppaehdot.",
+            "404": "Sivua ei löytynyt.",
+        },
+        "latest_work": "uusimmat teokset",
+        "view_gallery": "katso kaikki teokset &rarr;",
+        "status": {
+            "for_sale": "myynnissä", "inquire": "hinta pyynnöstä",
+            "sold": "myyty", "not_for_sale": "ei myynnissä",
+        },
+        "btn_order": "[ Tilaa ]",
+        "btn_ask": "[ Kysy teoksesta ]",
+        "btn_view": "[ Katso tarkemmin ]",
+        "tag_sold": "MYYTY",
+        "tag_nfs": "EI MYYNNISSÄ",
+        "price_on_request": "hinta pyynnöstä",
+        "contact": "yhteys",
+        "last_updated": "päivitetty",
+        "music_label": "taustamusiikki (oma kappale)",
+        "rights": "Teokset ja kuvat © {year} {artist}. Kaikki oikeudet pidätetään.",
+        "not_found_body": "Sivua ei ole olemassa.",
+        "back_home": "takaisin etusivulle",
+        "lb": {
+            "close": "Sulje", "prev": "Edellinen teos", "next": "Seuraava teos",
+            "zoom_on": "lähennys: päällä", "zoom_off": "lähennys: pois",
+            "dialog": "Teoskatselin",
+        },
+        "mail_subject": "Teostiedustelu: {title} ({id})",
+        "mail_body": "Hei,\n\nOlen kiinnostunut teoksesta \"{title}\"{detail}.\n\n",
+    },
 }
 
 # Only these must be filled in for every row. Everything else (year, technique,
@@ -156,26 +255,22 @@ def load_paintings() -> list[dict]:
             # resize) don't crash on None, but the run will fail at the end.
             pass
 
-        technique = (row.get("technique") or "").strip()
-        # real Unicode, not HTML entities, so autoescaping leaves it alone
-        size = f"{width_cm}×{height_cm} cm" if width_cm and height_cm else ""
-        # the detail line under a title, built from whatever is actually known
-        meta = " · ".join(bit for bit in (str(year) if year else "", technique, size) if bit)
-
         paintings.append({
             "id": pid,
+            # The *_fi columns are optional. Where one is blank the English text
+            # is shown on the Finnish pages too, so a half-filled row still works.
             "title": (row.get("title") or "").strip(),
+            "title_fi": (row.get("title_fi") or "").strip(),
             "year": year,
-            "technique": technique,
+            "technique": (row.get("technique") or "").strip(),
+            "technique_fi": (row.get("technique_fi") or "").strip(),
             "theme": (row.get("theme") or "").strip(),
             "width_cm": width_cm,
             "height_cm": height_cm,
-            "size_label": size,
-            "meta": meta,
             "price_eur": price,
             "status": status,
-            "status_label": STATUS_LABEL.get(status, status),
             "description": (row.get("description") or "").strip(),
+            "description_fi": (row.get("description_fi") or "").strip(),
             "image": image_name,
             "image_path": image_path,
         })
@@ -227,18 +322,46 @@ def build_images(paintings: list[dict]) -> None:
         print("warning: originals/profile.jpg not found — front page image will 404", file=sys.stderr)
 
 
-# ------------------------------------------------------------------- mailto
+# -------------------------------------------------------------- localisation
 
-def mailto_for(p: dict) -> str:
+def localise(p: dict, L: dict) -> dict:
+    """One painting as it appears in a given language.
+
+    Finnish columns fall back to the English ones when blank, so a row that has
+    only been half translated still renders correctly rather than showing gaps.
+    """
+    fi = L["code"] == "fi"
+    title = (p["title_fi"] or p["title"]) if fi else p["title"]
+    technique = (p["technique_fi"] or p["technique"]) if fi else p["technique"]
+    description = (p["description_fi"] or p["description"]) if fi else p["description"]
+
+    # real Unicode, not HTML entities, so autoescaping leaves it alone
+    size = f"{p['width_cm']}×{p['height_cm']} cm" if p["width_cm"] and p["height_cm"] else ""
+    meta = " · ".join(b for b in (str(p["year"]) if p["year"] else "", technique, size) if b)
+
+    out = dict(p)
+    out.update({
+        "title": title,
+        "technique": technique,
+        "description": description,
+        "size_label": size,
+        "meta": meta,
+        "status_label": L["status"].get(p["status"], p["status"]),
+    })
+    out["buy_href"] = mailto_for(out, L) if p["status"] in ("for_sale", "inquire") else None
+    return out
+
+
+def mailto_for(p: dict, L: dict) -> str:
     """Prefilled inquiry email. Only mentions details that are actually known."""
-    subject = f"Painting inquiry: {p['title']} ({p['id']})"
+    subject = L["mail_subject"].format(title=p["title"], id=p["id"])
     bits = [b for b in (
         str(p["year"]) if p["year"] else "",
         p["technique"],
         f"{p['width_cm']}x{p['height_cm']} cm" if p["width_cm"] and p["height_cm"] else "",
     ) if b]
     detail = f" ({', '.join(bits)})" if bits else ""
-    body = f'Hi,\n\nI\'m interested in "{p["title"]}"{detail}.\n\n'
+    body = L["mail_body"].format(title=p["title"], detail=detail)
     q = urllib.parse.urlencode({"subject": subject, "body": body}, quote_via=urllib.parse.quote)
     return f"mailto:{CONTACT_EMAIL}?{q}"
 
@@ -258,8 +381,8 @@ def asset_version(rel_path: str) -> str:
     return hashlib.sha1(p.read_bytes()).hexdigest()[:8]
 
 
-def read_content(name: str) -> str:
-    path = CONTENT_DIR / name
+def read_content(lang: str, name: str) -> str:
+    path = CONTENT_DIR / lang / name
     if not path.exists():
         raise BuildError(f"missing content fragment: {path}")
     return path.read_text(encoding="utf-8")
@@ -269,7 +392,7 @@ def render_site(paintings: list[dict]) -> None:
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
         # Autoescape everywhere: CSV-sourced fields (title, technique, ...) and the
-        # mailto href need HTML/attribute escaping. The three hand-written content
+        # mailto href need HTML/attribute escaping. The hand-written content
         # fragments are raw HTML on purpose and opt out explicitly with `| safe`.
         autoescape=True,
         trim_blocks=True,
@@ -278,60 +401,66 @@ def render_site(paintings: list[dict]) -> None:
 
     today = datetime.date.today()
     audio_present = (DOCS_DIR / "audio" / AUDIO_FILENAME).exists()
-    base_ctx = {
-        "site_name": SITE_NAME,
-        "artist_name": ARTIST_NAME,
-        "contact_email": CONTACT_EMAIL,
-        "build_date": today.isoformat(),
-        "build_year": today.year,
-        "audio_file": AUDIO_FILENAME if audio_present else None,
-        "root": "",
-        "css_v": asset_version("css/style.css"),
-        "js_v": asset_version("js/lightbox.js"),
-    }
     if not audio_present:
         print("note: docs/audio/track.mp3 not found — audio player omitted for now", file=sys.stderr)
+    if not INSTAGRAM_HANDLE:
+        print("note: INSTAGRAM_HANDLE is empty in build.py — Instagram icon omitted", file=sys.stderr)
 
-    for p in paintings:
-        p["buy_href"] = mailto_for(p) if p["status"] in ("for_sale", "inquire") else None
-
-    pages = [
-        ("index.html", "index.html", {
-            "page_id": "home",
-            "content": read_content("home.html"),
-            "newest": paintings[:3],
-        }),
-        ("about.html", "page.html", {
-            "page_id": "about",
-            "page_title": "About",
-            "page_description": f"About {ARTIST_NAME}.",
-            "content": read_content("about.html"),
-        }),
-        ("order.html", "page.html", {
-            "page_id": "order",
-            "page_title": "Order",
-            "page_description": "Payments, delivery and returns.",
-            "content": read_content("order.html"),
-        }),
-        ("gallery.html", "gallery.html", {
-            "page_id": "gallery",
-            "page_title": "Gallery",
-            "page_description": f"All paintings by {ARTIST_NAME}.",
-            "paintings": paintings,
-        }),
-        ("404.html", "404.html", {
-            "page_id": None,
-            "page_title": "Not found",
-            "page_description": "Page not found.",
-        }),
-    ]
-
+    css_v = asset_version("css/style.css")
+    js_v = asset_version("js/lightbox.js")
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
-    for out_name, template_name, ctx in pages:
-        tmpl = env.get_template(template_name)
-        rendered = tmpl.render(**base_ctx, **ctx)
-        (DOCS_DIR / out_name).write_text(rendered, encoding="utf-8")
-        print(f"wrote docs/{out_name}")
+
+    for lang, L in LANGUAGES.items():
+        out_dir = DOCS_DIR / L["subdir"] if L["subdir"] else DOCS_DIR
+        out_dir.mkdir(parents=True, exist_ok=True)
+        local = [localise(p, L) for p in paintings]
+
+        base_ctx = {
+            "L": L,
+            "lang": L["code"],
+            "site_name": SITE_NAME,
+            "artist_name": ARTIST_NAME,
+            "contact_email": CONTACT_EMAIL,
+            "instagram": INSTAGRAM_HANDLE,
+            "build_date": today.isoformat(),
+            "build_year": today.year,
+            "audio_file": AUDIO_FILENAME if audio_present else None,
+            "root": L["root"],
+            "css_v": css_v,
+            "js_v": js_v,
+            "site_url": SITE_URL,
+        }
+
+        pages = [
+            ("index.html", "index.html", {
+                "page_id": "home",
+                "content": read_content(lang, "home.html"),
+                "newest": local[:3],
+            }),
+            ("about.html", "page.html", {"page_id": "about", "content": read_content(lang, "about.html")}),
+            ("order.html", "page.html", {"page_id": "order", "content": read_content(lang, "order.html")}),
+            ("terms.html", "page.html", {"page_id": "terms", "content": read_content(lang, "terms.html")}),
+            ("gallery.html", "gallery.html", {"page_id": "gallery", "paintings": local}),
+            ("404.html", "404.html", {"page_id": "404"}),
+        ]
+
+        for out_name, template_name, ctx in pages:
+            key = ctx["page_id"]
+            ctx.setdefault("page_title", L["page_titles"].get(key))
+            ctx.setdefault("page_description", L["descriptions"].get(key, ""))
+            # where the language switch in the header points for this page
+            other = LANGUAGES[L["other"]]
+            ctx["switch_href"] = (
+                f"{other['subdir']}/{out_name}" if other["subdir"] else f"{L['root']}{out_name}"
+            )
+            ctx["alt_en"] = f"{SITE_URL}/{out_name}"
+            ctx["alt_fi"] = f"{SITE_URL}/fi/{out_name}"
+
+            tmpl = env.get_template(template_name)
+            (out_dir / out_name).write_text(tmpl.render(**base_ctx, **ctx), encoding="utf-8")
+
+        shown = L["subdir"] + "/" if L["subdir"] else ""
+        print(f"wrote docs/{shown}  ({len(pages)} pages, {lang})")
 
     (DOCS_DIR / ".nojekyll").touch()
 
@@ -344,7 +473,7 @@ ID_RE = re.compile(r'id="([^"]+)"')
 
 def check_links() -> list[str]:
     problems = []
-    html_files = sorted(DOCS_DIR.glob("*.html"))
+    html_files = sorted(DOCS_DIR.rglob("*.html"))  # includes the /fi/ pages
     id_cache: dict[Path, set[str]] = {}
 
     def ids_in(path: Path) -> set[str]:
@@ -353,6 +482,7 @@ def check_links() -> list[str]:
         return id_cache[path]
 
     for page in html_files:
+        where = page.relative_to(DOCS_DIR).as_posix()
         text = page.read_text(encoding="utf-8")
         for target in LINK_RE.findall(text):
             if target.startswith(("mailto:", "http://", "https://", "data:", "tel:")):
@@ -362,15 +492,16 @@ def check_links() -> list[str]:
             if path_part in ("", "."):
                 resolved = page
             else:
-                resolved = (DOCS_DIR / path_part).resolve()
+                # relative to the page that contains the link, so ../ works
+                resolved = (page.parent / path_part).resolve()
             if not str(resolved).startswith(str(DOCS_DIR.resolve())):
-                problems.append(f"{page.name}: link escapes docs/: {target}")
+                problems.append(f"{where}: link escapes docs/: {target}")
                 continue
             if not resolved.exists():
-                problems.append(f"{page.name}: broken link target: {target}")
+                problems.append(f"{where}: broken link target: {target}")
                 continue
             if fragment and resolved.suffix == ".html" and fragment not in ids_in(resolved):
-                problems.append(f"{page.name}: missing anchor #{fragment} in {resolved.name}")
+                problems.append(f"{where}: missing anchor #{fragment} in {resolved.name}")
 
     return problems
 

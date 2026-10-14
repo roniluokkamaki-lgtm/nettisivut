@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block title %}{{ site_name }}{% endblock %}
-{% block description %}Paintings and current work by {{ artist_name }}.{% endblock %}
 {% block main %}
 <section class="intro">
-  <img class="profile-pic" src="{{ root }}img/profile.jpg" alt="Portrait of {{ artist_name }}" width="280" height="360" loading="eager">
+  <img class="profile-pic" src="{{ root }}img/profile.jpg" alt="{{ artist_name }}" width="280" height="360" loading="eager">
   <div class="intro-text">
     {{ content | safe }}
   </div>
@@ -13,16 +12,17 @@
 <div class="divider" aria-hidden="true">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
 
 <section class="newest">
-  <h2>latest work</h2>
+  <h2>{{ L.latest_work }}</h2>
   <div class="thumb-grid thumb-grid--small">
     {% for p in newest %}
-    <a class="thumb" href="{{ root }}gallery.html#{{ p.id }}">
-      <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title | e }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
-      <span class="thumb-caption">{{ p.title | e }} &middot; {{ p.year }}</span>
+    <a class="thumb" href="gallery.html#{{ p.id }}">
+      <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
+      {% if p.status == 'sold' %}<span class="sold-flag">{{ L.tag_sold }}</span>{% endif %}
+      <span class="thumb-caption">{{ p.title }}{% if p.year %} &middot; {{ p.year }}{% endif %}</span>
     </a>
     {% endfor %}
   </div>
-  <p><a href="{{ root }}gallery.html">view the full gallery &rarr;</a></p>
+  <p><a href="gallery.html">{{ L.view_gallery | safe }}</a></p>
 </section>
 {% endif %}
 {% endblock %}

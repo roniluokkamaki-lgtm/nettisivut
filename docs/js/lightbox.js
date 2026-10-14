@@ -11,6 +11,20 @@
 
   var TRIGGER_SELECTOR = ".thumb[data-full], .painting-img-link[data-full], .btn-view[data-full]";
 
+  // UI strings for the current language, written into the page by build.py.
+  // The English defaults keep the viewer usable if that block is ever missing.
+  var S = {
+    close: "Close", prev: "Previous painting", next: "Next painting",
+    zoom_on: "zoom: on", zoom_off: "zoom: off", dialog: "Painting viewer"
+  };
+  try {
+    var el = document.getElementById("lb-strings");
+    if (el) {
+      var parsed = JSON.parse(el.textContent);
+      for (var k in parsed) { if (parsed[k]) S[k] = parsed[k]; }
+    }
+  } catch (e) { /* keep the defaults */ }
+
   var triggers = Array.prototype.slice.call(document.querySelectorAll(TRIGGER_SELECTOR));
   if (!triggers.length) return;
 
@@ -46,15 +60,15 @@
   root.hidden = true;
   root.setAttribute("role", "dialog");
   root.setAttribute("aria-modal", "true");
-  root.setAttribute("aria-label", "Painting viewer");
+  root.setAttribute("aria-label", S.dialog);
 
   root.innerHTML =
     '<div class="lightbox-controls">' +
-      '<button type="button" class="lightbox-zoom" aria-pressed="false">zoom: off</button>' +
-      '<button type="button" class="lightbox-close" aria-label="Close">&times; close</button>' +
+      '<button type="button" class="lightbox-zoom" aria-pressed="false">' + S.zoom_off + "</button>" +
+      '<button type="button" class="lightbox-close" aria-label="' + S.close + '">&times; ' + S.close + "</button>" +
     "</div>" +
-    '<button type="button" class="lightbox-nav lightbox-prev" aria-label="Previous painting">&#8249;</button>' +
-    '<button type="button" class="lightbox-nav lightbox-next" aria-label="Next painting">&#8250;</button>' +
+    '<button type="button" class="lightbox-nav lightbox-prev" aria-label="' + S.prev + '">&#8249;</button>' +
+    '<button type="button" class="lightbox-nav lightbox-next" aria-label="' + S.next + '">&#8250;</button>' +
     '<div class="lightbox-stage"><img alt=""></div>' +
     '<p class="lightbox-caption"><span class="lightbox-title"></span><span class="lightbox-meta"></span></p>';
 
@@ -84,7 +98,7 @@
     if (!it) return;
     zoomed = false;
     stage.classList.remove("is-zoomed");
-    btnZoom.textContent = "zoom: off";
+    btnZoom.textContent = S.zoom_off;
     btnZoom.setAttribute("aria-pressed", "false");
     img.src = it.full;
     img.alt = it.title;
@@ -137,7 +151,7 @@
       img.setAttribute("width", it.fullW);
       img.setAttribute("height", it.fullH);
     }
-    btnZoom.textContent = zoomed ? "zoom: on" : "zoom: off";
+    btnZoom.textContent = zoomed ? S.zoom_on : S.zoom_off;
     btnZoom.setAttribute("aria-pressed", String(zoomed));
   }
 
