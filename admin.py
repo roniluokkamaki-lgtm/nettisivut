@@ -22,6 +22,7 @@ from pathlib import Path
 
 from flask import (Flask, abort, flash, redirect, render_template, request,
                    send_file, send_from_directory, url_for)
+from io import BytesIO
 
 import build
 import db
@@ -95,6 +96,18 @@ def save_upload(file_storage, slug: str) -> str | None:
     return name
 
 
+def send_bytes(path: Path):
+    """Serve an image from memory.
+
+    send_file() on a path leaves the file open until the response is released,
+    and Windows then refuses to delete or overwrite it. These are small admin
+    previews, so reading them into memory costs nothing and avoids the lock.
+    """
+    mime = {".png": "image/png", ".webp": "image/webp",
+            ".tif": "image/tiff", ".tiff": "image/tiff"}.get(path.suffix.lower(), "image/jpeg")
+    return send_file(BytesIO(path.read_bytes()), mimetype=mime)
+
+
 def run_build() -> tuple[bool, str]:
     """Rebuild the site in a subprocess so a failure cannot kill the admin tool."""
     r = subprocess.run([sys.executable, str(ROOT / "build.py"), "--check"],
@@ -147,12 +160,12 @@ def photo(slug):
     """Thumbnail for the admin list: the built one if it exists, else the original."""
     built = DOCS / "img" / "paintings" / f"{slug}-thumb.jpg"
     if built.exists():
-        return send_file(built)
+        return send_bytes(built)
     con = db.connect()
     row = con.execute("SELECT image FROM artworks WHERE slug = ?", (slug,)).fetchone()
     con.close()
     if row and row["image"] and (ORIGINALS / row["image"]).exists():
-        return send_file(ORIGINALS / row["image"])
+        return send_bytes(ORIGINALS / row["image"])
     abort(404)
 
 
@@ -313,7 +326,12 @@ def delete_detail_photo(wid, pid):
     con.execute("DELETE FROM photos WHERE id = ?", (pid,))
     con.commit()
     con.close()
-    (ORIGINALS / row["filename"]).unlink(missing_ok=True)
+    try:
+        (ORIGINALS / row["filename"]).unlink(missing_ok=True)
+    except OSError as e:
+        # Windows can still hold the file open from having served it. The record
+        # is gone either way; the stray file is in originals/, which is private.
+        flash(f"Removed from the record, but the file is still in use: {e}", "warn")
     db.backup()
     flash("Detail photograph removed.", "ok")
     return redirect(url_for("edit_work", wid=wid))
@@ -326,7 +344,7 @@ def detail_photo(pid):
     con.close()
     if not row or not (ORIGINALS / row["filename"]).exists():
         abort(404)
-    return send_file(ORIGINALS / row["filename"])
+    return send_bytes(ORIGINALS / row["filename"])
 
 
 @app.route("/work/<int:wid>/visible", methods=["POST"])
