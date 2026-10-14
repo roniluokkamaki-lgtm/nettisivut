@@ -28,7 +28,16 @@ html { color-scheme: dark; }
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* worn-CRT scanlines, painted into the page background so they sit strictly
+     behind all content and can never fall across the artwork */
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.22) 0px,
+    rgba(0, 0, 0, 0.22) 1px,
+    transparent 1px,
+    transparent 3px
+  );
   color: var(--fg);
   font-family: var(--mono-font);
   font-size: 16px;
@@ -64,36 +73,15 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   margin-inline: auto;
 }
 
-/* scanline texture — subtle, fixed, never blocks clicks */
-.scanlines {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 50;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.14) 0px,
-    rgba(0, 0, 0, 0.14) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  mix-blend-mode: multiply;
-  opacity: 0.5;
-}
-
-/* Keep the scanlines off the artwork itself. The overlay multiplies over
-   everything painted below z-index 50, which darkened the paintings and laid
-   visible horizontal lines across them; the lightbox (z-index 100) was already
-   above it, which is why viewing mode looked right and the page did not.
-   Lifting just the photographs above the overlay keeps the texture on the
-   page chrome while the work reproduces faithfully. */
-.thumb img,
-.painting-img-link img,
-.profile-pic,
-.about-stamp {
-  position: relative;
-  z-index: 60;
-}
+/* Scanline texture.
+   This used to be a fixed overlay element sitting ON TOP of the page with
+   mix-blend-mode: multiply. That darkened every painting and laid faint grey
+   lines across the artwork, while the lightbox (higher in the stacking order)
+   stayed clean — which is why viewing mode looked right and the gallery did
+   not. Painting the texture into the page background instead puts it strictly
+   behind all content, so it can never touch the artwork on any browser,
+   rather than relying on stacking order to keep it away. */
+.scanlines { display: none; }
 
 .divider {
   max-width: var(--content-width);
@@ -182,6 +170,7 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 
 .thumb {
   display: block;
+  position: relative;
   border: 1px solid var(--border);
   background: var(--surface);
   text-decoration: none;
@@ -210,7 +199,7 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   scroll-margin-top: 1rem;
 }
 .painting:first-child { padding-top: 0; }
-.painting-img-link { flex: 0 1 420px; border: 1px solid var(--border); background: var(--surface); }
+.painting-img-link { flex: 0 1 420px; position: relative; border: 1px solid var(--border); background: var(--surface); }
 .painting-info { flex: 1 1 260px; min-width: 0; }
 .painting-meta { color: var(--muted); margin: 0.2em 0 0.6em; }
 .painting-desc { margin: 0 0 0.8em; }
@@ -225,6 +214,30 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   letter-spacing: 0.08em;
 }
 .tag-sold { color: var(--rose); border-color: var(--rose); }
+
+/* SOLD marker stamped on the corner of the artwork, in the grid and the list */
+.sold-flag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  font-family: var(--mono-font);
+  font-size: 0.68rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rose);
+  background: var(--bg);
+  border: 1px solid var(--rose);
+  border-top: 0;
+  border-left: 0;
+  padding: 0.35em 0.55em 0.3em;
+}
+.sold-flag--large {
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  padding: 0.45em 0.7em 0.4em;
+}
 
 .btn {
   display: inline-block;

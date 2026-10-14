@@ -15,7 +15,7 @@ from __future__ import annotations
 import argparse
 import csv
 import datetime
-import html
+import hashlib
 import re
 import shutil
 import sys
@@ -245,6 +245,19 @@ def mailto_for(p: dict) -> str:
 
 # --------------------------------------------------------------------- html
 
+def asset_version(rel_path: str) -> str:
+    """Short content hash, appended to the CSS/JS URLs as ?v=...
+
+    Browsers cache stylesheets and scripts aggressively, so an edit could sit
+    invisible behind a stale copy for a long time. Changing the URL whenever the
+    file's contents change forces the browser to fetch the new one immediately.
+    """
+    p = DOCS_DIR / rel_path
+    if not p.exists():
+        return "0"
+    return hashlib.sha1(p.read_bytes()).hexdigest()[:8]
+
+
 def read_content(name: str) -> str:
     path = CONTENT_DIR / name
     if not path.exists():
@@ -273,6 +286,8 @@ def render_site(paintings: list[dict]) -> None:
         "build_year": today.year,
         "audio_file": AUDIO_FILENAME if audio_present else None,
         "root": "",
+        "css_v": asset_version("css/style.css"),
+        "js_v": asset_version("js/lightbox.js"),
     }
     if not audio_present:
         print("note: docs/audio/track.mp3 not found — audio player omitted for now", file=sys.stderr)
@@ -343,6 +358,7 @@ def check_links() -> list[str]:
             if target.startswith(("mailto:", "http://", "https://", "data:", "tel:")):
                 continue
             path_part, _, fragment = target.partition("#")
+            path_part = path_part.partition("?")[0]  # drop ?v= cache-busting stamps
             if path_part in ("", "."):
                 resolved = page
             else:

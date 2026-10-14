@@ -16,6 +16,7 @@
      data-title="{{ p.title | e }}"
      data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
     <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title | e }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
+    {% if p.status == 'sold' %}<span class="sold-flag">SOLD</span>{% endif %}
     <span class="thumb-caption">{{ p.title | e }}</span>
   </a>
   {% endfor %}
@@ -36,6 +37,7 @@
        data-title="{{ p.title | e }}"
        data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
       <img src="{{ root }}img/paintings/{{ p.id }}-full.jpg" alt="{{ p.title | e }}" width="{{ p.full_w }}" height="{{ p.full_h }}" loading="lazy">
+      {% if p.status == 'sold' %}<span class="sold-flag sold-flag--large">SOLD</span>{% endif %}
     </a>
     <div class="painting-info">
       <h3>{{ p.title | e }}</h3>

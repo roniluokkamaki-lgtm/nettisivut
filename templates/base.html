@@ -6,7 +6,7 @@
 <title>{% block title %}{{ site_name }}{% endblock %}</title>
 <meta name="description" content="{% block description %}Paintings by {{ artist_name }}.{% endblock %}">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="{{ root }}css/style.css">
+<link rel="stylesheet" href="{{ root }}css/style.css?v={{ css_v }}">
 </head>
 <body>
 <div class="scanlines" aria-hidden="true"></div>
@@ -47,7 +47,7 @@
 </footer>
 
 {% if page_id == 'gallery' %}
-<script src="{{ root }}js/lightbox.js" defer></script>
+<script src="{{ root }}js/lightbox.js?v={{ js_v }}" defer></script>
 {% endif %}
 </body>
 </html>
