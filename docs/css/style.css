@@ -170,14 +170,16 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 .thumb-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: start;
   gap: 24px;
   margin: 1.4rem 0;
 }
-/* the front page keeps its own smaller strip */
+/* the front page keeps its own smaller strip, cropped square so the row stays even */
 .thumb-grid--small {
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 14px;
 }
+.thumb-grid--small .thumb img { aspect-ratio: 1 / 1; object-fit: cover; }
 
 .thumb {
   display: block;
@@ -187,7 +189,10 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   text-decoration: none;
   color: var(--fg);
 }
-.thumb img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+/* Each work keeps its own proportions rather than being cropped to a square.
+   align-items: start on the grid lets every box end at the bottom of its own
+   image, instead of stretching to the tallest work in the row. */
+.thumb img { width: 100%; height: auto; }
 .thumb-caption {
   display: block;
   padding: 0.4em 0.5em;
