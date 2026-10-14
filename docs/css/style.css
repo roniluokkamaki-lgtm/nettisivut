@@ -81,6 +81,20 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   opacity: 0.5;
 }
 
+/* Keep the scanlines off the artwork itself. The overlay multiplies over
+   everything painted below z-index 50, which darkened the paintings and laid
+   visible horizontal lines across them; the lightbox (z-index 100) was already
+   above it, which is why viewing mode looked right and the page did not.
+   Lifting just the photographs above the overlay keeps the texture on the
+   page chrome while the work reproduces faithfully. */
+.thumb img,
+.painting-img-link img,
+.profile-pic,
+.about-stamp {
+  position: relative;
+  z-index: 60;
+}
+
 .divider {
   max-width: var(--content-width);
   margin: 1.6rem auto;
