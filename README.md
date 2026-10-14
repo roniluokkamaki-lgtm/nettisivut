@@ -5,7 +5,7 @@ generated from a local artwork database by a small Python script. The only
 JavaScript on the site is the gallery's image viewer; everything else works
 without it.
 
-Works are managed with `admin.bat`, which also previews and publishes the site.
+Works are managed with `Manage artworks`, which also previews and publishes the site.
 
 See `MUISTIINPANOT.md` for the original design notes and `PLAN.md` for the
 full build plan this project followed.
@@ -13,7 +13,7 @@ full build plan this project followed.
 ## Managing artworks
 
 Everything about your works lives in a database, and you manage it with a small
-tool that runs on this computer. **Double-click `admin.bat`.** It opens in your
+tool that runs on this computer. **Double-click `Manage artworks`.** It opens in your
 browser at `http://127.0.0.1:5000`.
 
 From there you can:
@@ -28,6 +28,12 @@ From there you can:
 
 Close the window to stop the tool. It listens only on this machine, so nothing
 is reachable from the internet and there is no password to manage.
+
+> **Can't find it in File Explorer?** Windows hides file extensions by
+> default, so the three scripts show up as **Manage artworks**, **Preview
+> site** and **Rebuild site**, without the `.bat` on the end. To see full
+> filenames, open the **View** menu in File Explorer, go to **Show**, and
+> tick **File name extensions**.
 
 ### What is private and what is published
 
@@ -86,11 +92,11 @@ Painting titles come from the database. Fill in the Finnish title, medium or
 description in the admin tool to give a work Finnish wording; leave them blank
 and the English text is shown on the Finnish pages too.
 
-After editing any of these, double-click `build.bat` to apply the change.
+After editing any of these, double-click `Rebuild site` to apply the change.
 
 ## Previewing
 
-Double-click `preview.bat`. It starts a small local server and opens the
+Double-click `Preview site`. It starts a small local server and opens the
 site in your browser at `http://localhost:8000`. Close the server window
 when you're done.
 
@@ -111,14 +117,14 @@ The live site updates within a minute or two.
 ## First-time setup
 
 Requires [Python 3.10+](https://www.python.org/downloads/) — check
-"Add python.exe to PATH" during install, since `build.bat` and
-`preview.bat` both use the `py` launcher that the installer registers.
+"Add python.exe to PATH" during install, since `Rebuild site` and
+`Preview site` both use the `py` launcher that the installer registers.
 
 ```
 py -3 -m pip install -r requirements.txt
 ```
 
-`build.bat` runs this automatically every time, so you only need this step
+`Rebuild site` runs this automatically every time, so you only need this step
 if you want to run `python build.py` yourself from a terminal instead of
 double-clicking.
 
@@ -126,7 +132,7 @@ double-clicking.
 
 ```
 data/artworks.db        the artwork database — source of truth, NOT in git
-admin.py, admin.bat     the admin tool
+admin.py                the admin tool, started by "Manage artworks"
 db.py                   database schema, and the list of columns safe to publish
 content/en, content/fi  hand-written text pages, one folder per language
 originals/               full-resolution photos (not committed to git)
@@ -195,13 +201,13 @@ Once you own it:
 
 **"Python was not found" / opens the Microsoft Store** — this happens when
 something runs the bare `python` command and Windows intercepts it with a
-broken shortcut. `build.bat` and `preview.bat` use `py -3` instead, which
+broken shortcut. `Rebuild site` and `Preview site` use `py -3` instead, which
 avoids this; if you see the Store-redirect message anyway, Python isn't
 installed yet — see **First-time setup**.
 
-**A painting is missing from the website** — open `admin.bat` and check the
+**A painting is missing from the website** — open `Manage artworks` and check the
 Shown tick on that work. A work with no photograph cannot be shown, and the
 tool says so when you try.
 
 **The admin tool will not start** — something else may already be using port
-5000. Close the other program, or close and reopen `admin.bat`.
+5000. Close the other program, or close and reopen `Manage artworks`.
