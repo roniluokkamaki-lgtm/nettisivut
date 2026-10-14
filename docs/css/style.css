@@ -311,7 +311,10 @@ body:has(main > h1:only-child) main { text-align: left; }
 .lightbox-stage {
   max-width: min(94vw, 1400px);
   max-height: 78vh;
-  overflow: auto;
+  /* Scrollbars are only wanted while zoomed in. Left on permanently, the
+     fitted image overflowed its box by the width of the border and put a
+     useless slider down the side of every work. */
+  overflow: hidden;
   border: 1px solid var(--border);
   background: var(--surface);
   display: flex;
@@ -319,13 +322,15 @@ body:has(main > h1:only-child) main { text-align: left; }
   justify-content: center;
 }
 .lightbox-stage img {
-  max-width: 94vw;
-  max-height: 78vh;
+  /* account for the 1px border on each side, so the fitted image never
+     overflows and never triggers a scrollbar */
+  max-width: calc(min(94vw, 1400px) - 2px);
+  max-height: calc(78vh - 2px);
   width: auto;
   height: auto;
   display: block;
 }
-.lightbox-stage.is-zoomed { display: block; cursor: grab; }
+.lightbox-stage.is-zoomed { display: block; overflow: auto; cursor: grab; }
 .lightbox-stage.is-zoomed img { max-width: none; max-height: none; }
 
 .lightbox-caption {
