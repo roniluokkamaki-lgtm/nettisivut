@@ -1,0 +1,158 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ w.title if w else 'New artwork' }}{% endblock %}
+{% macro val(field, default='') %}{{ (w[field] if w and w[field] is not none else default) }}{% endmacro %}
+{% block main %}
+
+<p><a href="{{ url_for('index') }}">&larr; all artworks</a></p>
+
+<form method="post" enctype="multipart/form-data"
+      action="{{ url_for('save_work', wid=w.id if w else 'new') }}">
+
+  <fieldset>
+    <legend>The work</legend>
+    <div class="row row-2">
+      <div><label>Title</label><input name="title" value="{{ val('title') }}" required></div>
+      <div><label>Title in Finnish (optional)</label><input name="title_fi" value="{{ val('title_fi') }}"></div>
+    </div>
+    <div class="row row-3">
+      <div><label>Year</label><input name="year" value="{{ val('year') }}" placeholder="2025"></div>
+      <div><label>Month (optional)</label><input name="month" value="{{ val('month') }}" placeholder="1-12"></div>
+      <div><label>Tags</label><input name="tags" value="{{ val('tags') }}" placeholder="still life, studio"></div>
+    </div>
+    <div class="row row-2">
+      <div><label>Medium</label><input name="medium" value="{{ val('medium') }}" placeholder="Oil on canvas"></div>
+      <div><label>Medium in Finnish</label><input name="medium_fi" value="{{ val('medium_fi') }}" placeholder="Öljy kankaalle"></div>
+    </div>
+    <div class="row row-2">
+      <div><label>Description (English)</label><textarea name="description" rows="2">{{ val('description') }}</textarea></div>
+      <div><label>Description (Finnish)</label><textarea name="description_fi" rows="2">{{ val('description_fi') }}</textarea></div>
+    </div>
+    <div class="row">
+      <div><label>Exhibitions</label>
+        <textarea name="exhibitions" rows="2" placeholder="Where and when this work has been shown">{{ val('exhibitions') }}</textarea>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Production</legend>
+    <div class="row row-3">
+      <div><label>Width (cm)</label><input name="width_cm" value="{{ val('width_cm') }}"></div>
+      <div><label>Height (cm)</label><input name="height_cm" value="{{ val('height_cm') }}"></div>
+      <div><label>Depth (cm, optional)</label><input name="depth_cm" value="{{ val('depth_cm') }}"></div>
+    </div>
+    <div class="row row-3">
+      <div><label>Support</label>
+        <select name="support">
+          {% for s in SUPPORTS %}
+          <option value="{{ s }}" {{ 'selected' if w and w['support']==s }}>{{ s or '—' }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div><label>&nbsp;</label><div class="check"><input type="checkbox" id="framed" name="framed"
+        {{ 'checked' if w and w['framed'] }}><label for="framed" style="margin:0">Framed</label></div></div>
+      <div><label>&nbsp;</label><div class="check"><input type="checkbox" id="signed" name="signed"
+        {{ 'checked' if w and w['signed'] }}><label for="signed" style="margin:0">Signed</label></div></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Photograph</legend>
+    <div class="row row-2">
+      <div>
+        {% if w and w.image %}
+          <img src="{{ url_for('photo', slug=w.slug) }}" alt=""
+               style="width:160px;border:1px solid var(--border)">
+          <p class="hint">{{ w.image }}</p>
+        {% else %}
+          <p class="hint">No photograph yet. A work cannot be shown on the site without one.</p>
+        {% endif %}
+      </div>
+      <div>
+        <label>{{ 'Replace photograph' if w and w.image else 'Upload photograph' }}</label>
+        <input type="file" name="photo" accept="image/*">
+        <p class="hint">The web-sized versions are made automatically when the site is built.</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Website</legend>
+    <div class="row row-3">
+      <div><label>Status</label>
+        <select name="status">
+          <option value="in_possession" {{ 'selected' if not w or w['status']=='in_possession' }}>In my possession</option>
+          <option value="sold" {{ 'selected' if w and w['status']=='sold' }}>Sold</option>
+        </select>
+      </div>
+      <div><label>Asking price (EUR)</label><input name="asking_price_eur" value="{{ val('asking_price_eur') }}" placeholder="450"></div>
+      <div><label>Override what the site says</label>
+        <select name="web_status_override">
+          <option value="">Follow the status</option>
+          {% for s in WEB_STATUSES %}
+          <option value="{{ s }}" {{ 'selected' if w and w['web_status_override']==s }}>{{ s.replace('_',' ') }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="check"><input type="checkbox" id="vis" name="web_visible"
+      {{ 'checked' if not w or w['web_visible'] }}><label for="vis" style="margin:0">Show this work on the website</label></div>
+    <p class="hint">With no override: sold shows SOLD, a price shows an Order button, and no price
+      shows "price on request".</p>
+    <div class="row" style="margin-top:14px">
+      <div><label>Web name (used in the address and image filenames)</label>
+        <input name="slug" value="{{ val('slug') }}" placeholder="left blank: made from the title">
+        <p class="hint">Avoid changing this once a work is live; it would break existing links.</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="private">
+    <legend>Sale and buyer — private, never published</legend>
+    <div class="row row-2">
+      <div><label>Date sold</label><input name="sold_date" type="date" value="{{ val('sold_date') }}"></div>
+      <div><label>Price paid (EUR)</label><input name="sold_price_eur" value="{{ val('sold_price_eur') }}"></div>
+    </div>
+    <div class="row row-3">
+      <div><label>Buyer name</label><input name="buyer_name" value="{{ val('buyer_name') }}"></div>
+      <div><label>Buyer email</label><input name="buyer_email" value="{{ val('buyer_email') }}"></div>
+      <div><label>Buyer phone</label><input name="buyer_phone" value="{{ val('buyer_phone') }}"></div>
+    </div>
+    <div class="row row-2">
+      <div><label>Buyer address</label><textarea name="buyer_address" rows="3">{{ val('buyer_address') }}</textarea></div>
+      <div><label>Sale notes</label><textarea name="sale_notes" rows="3">{{ val('sale_notes') }}</textarea></div>
+    </div>
+  </fieldset>
+
+  <fieldset class="private">
+    <legend>Private notes</legend>
+    <textarea name="notes" rows="3">{{ val('notes') }}</textarea>
+  </fieldset>
+
+  <div class="bar" style="margin-bottom:40px">
+    <button class="btn btn-primary">Save</button>
+    <a class="btn" href="{{ url_for('index') }}">Cancel</a>
+  </div>
+</form>
+
+{% if w %}
+<fieldset>
+  <legend>Remove this work</legend>
+  <div class="bar">
+    <form method="post" action="{{ url_for('toggle_archive', wid=w.id) }}">
+      <button class="btn">{{ 'Restore from archive' if w.archived else 'Archive' }}</button>
+    </form>
+    <span class="hint">Archiving hides it everywhere but keeps the record and its sale history.</span>
+  </div>
+  <form method="post" action="{{ url_for('delete_work', wid=w.id) }}" class="bar" style="margin-top:16px"
+        onsubmit="return confirm('Delete this work and its sale record permanently?')">
+    <input name="confirm" placeholder="Type DELETE to confirm" style="width:220px">
+    <button class="btn btn-danger">Delete permanently</button>
+    {% if w.buyer_name or w.sold_date %}
+      <span class="hint" style="color:var(--rose)">This work has a sale record that will be lost.</span>
+    {% endif %}
+  </form>
+</fieldset>
+{% endif %}
+
+{% endblock %}

@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """
-Build the static site from data/paintings.csv + content/*.html into docs/.
+Build the static site from the artwork database + content/*.html into docs/.
 
 Usage:
     python build.py            build the site into docs/
     python build.py --check    build, then verify every internal link/anchor resolves
     python build.py --check-only   skip the build, just check the existing docs/
 
-Add a painting: put its photo in originals/, add one row to data/paintings.csv,
-run this script, commit, push. See README.md for the full walkthrough.
+Add a painting with the admin tool (admin.bat), which can also preview and
+publish. See README.md for the full walkthrough.
 """
 from __future__ import annotations
 
 import argparse
-import csv
 import datetime
 import hashlib
 import re
@@ -25,8 +24,9 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from PIL import Image, ImageOps
 
+import db
+
 ROOT = Path(__file__).resolve().parent
-DATA_CSV = ROOT / "data" / "paintings.csv"
 CONTENT_DIR = ROOT / "content"
 TEMPLATES_DIR = ROOT / "templates"
 ORIGINALS_DIR = ROOT / "originals"
@@ -144,11 +144,6 @@ LANGUAGES = {
     },
 }
 
-# Only these must be filled in for every row. Everything else (year, technique,
-# theme, dimensions, description, price) may be left blank and is simply left
-# off the page — so a work can go up before its details are known.
-REQUIRED_FIELDS = ("id", "title", "status", "image")
-
 IMAGE_VARIANTS = {
     # name: (longest_side_px, jpeg_quality)
     "thumb": (400, 80),
@@ -164,123 +159,73 @@ class BuildError(Exception):
 # ---------------------------------------------------------------- catalogue
 
 def load_paintings() -> list[dict]:
-    if not DATA_CSV.exists():
-        raise BuildError(f"missing catalogue: {DATA_CSV}")
+    """Works to publish, read from the artwork database.
 
-    with DATA_CSV.open(newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        required_cols = {
-            "id", "title", "year", "technique", "theme",
-            "width_cm", "height_cm", "price_eur", "status",
-            "description", "image",
-        }
-        missing_cols = required_cols - set(reader.fieldnames or [])
-        if missing_cols:
-            raise BuildError(f"paintings.csv is missing columns: {sorted(missing_cols)}")
-        rows = list(reader)
+    The selection and the privacy boundary live in db.public_works(): it returns
+    only visible, non-archived works, and only columns that are safe to publish.
+    Buyer and sale details are not among them and never reach this module.
+    """
+    if not db.DB_PATH.exists():
+        raise BuildError(
+            f"no artwork database at {db.DB_PATH}\n"
+            "    Run the admin tool (admin.bat) to create one, or\n"
+            "    py -3 migrate_csv_to_db.py to import the old spreadsheet."
+        )
 
-    if not rows:
-        raise BuildError("paintings.csv has no rows")
+    works = db.public_works()
+    if not works:
+        raise BuildError("no works are marked visible — nothing to publish")
 
-    seen_ids: set[str] = set()
     errors: list[str] = []
     paintings = []
 
-    for i, row in enumerate(rows, start=2):  # row 1 is the header
-        where = f"row {i} (id={row.get('id','?')!r})"
+    for w in works:
+        where = f"{w['slug']!r}"
+        status = w["web_status"]
+        price = w["asking_price_eur"]
 
-        for field in REQUIRED_FIELDS:
-            if not (row.get(field) or "").strip():
-                errors.append(f"{where}: '{field}' is empty")
+        if status not in VALID_STATUSES:
+            errors.append(f"{where}: unknown website status {status!r}")
+        if status == "for_sale" and not price:
+            errors.append(f"{where}: shown as for sale but has no price")
 
-        pid = (row.get("id") or "").strip()
-        if pid:
-            if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", pid):
-                errors.append(f"{where}: id {pid!r} should be a lowercase-hyphen slug, e.g. 'red-field-2023'")
-            if pid in seen_ids:
-                errors.append(f"{where}: duplicate id {pid!r}")
-            seen_ids.add(pid)
-
-        status = (row.get("status") or "").strip()
-        if status and status not in VALID_STATUSES:
-            errors.append(f"{where}: status {status!r} must be one of {sorted(VALID_STATUSES)}")
-
-        price_raw = (row.get("price_eur") or "").strip()
-        price = None
-        if status == "for_sale":
-            if not price_raw:
-                errors.append(f"{where}: status is 'for_sale' but price_eur is empty")
-            else:
-                try:
-                    price = float(price_raw)
-                    if price <= 0:
-                        errors.append(f"{where}: price_eur must be positive")
-                except ValueError:
-                    errors.append(f"{where}: price_eur {price_raw!r} is not a number")
-        elif price_raw:
-            errors.append(f"{where}: status is {status!r} but price_eur is set ({price_raw!r}) — leave it blank")
-
-        # year is optional; if given it must be a sane integer
-        year = None
-        year_raw = (row.get("year") or "").strip()
-        if year_raw:
-            try:
-                year = int(year_raw)
-                if not (1900 <= year <= 2100):
-                    errors.append(f"{where}: year {year} looks wrong")
-            except ValueError:
-                errors.append(f"{where}: year {year_raw!r} is not an integer")
-
-        # dimensions are optional, but must come as a pair if given at all
-        width_cm = height_cm = None
-        w_raw = (row.get("width_cm") or "").strip()
-        h_raw = (row.get("height_cm") or "").strip()
-        if bool(w_raw) != bool(h_raw):
-            errors.append(f"{where}: give both width_cm and height_cm, or neither")
-        elif w_raw and h_raw:
-            try:
-                width_cm, height_cm = int(w_raw), int(h_raw)
-                if width_cm <= 0 or height_cm <= 0:
-                    errors.append(f"{where}: width_cm/height_cm must be positive")
-            except ValueError:
-                errors.append(f"{where}: width_cm/height_cm must be whole numbers")
-
-        image_name = (row.get("image") or "").strip()
+        image_name = (w["image"] or "").strip()
         image_path = ORIGINALS_DIR / image_name if image_name else None
-        if image_name and not (image_path and image_path.exists()):
-            errors.append(f"{where}: image {image_name!r} not found in originals/")
+        if not image_name:
+            errors.append(f"{where}: no photograph attached")
+        elif not image_path.exists():
+            errors.append(f"{where}: photograph {image_name!r} not found in originals/")
 
-        if errors and errors[-1].startswith(where):
-            # still build the record where possible so later checks (e.g. image
-            # resize) don't crash on None, but the run will fail at the end.
-            pass
+        w_cm, h_cm = w["width_cm"], w["height_cm"]
+        if bool(w_cm) != bool(h_cm):
+            errors.append(f"{where}: give both width and height, or neither")
 
         paintings.append({
-            "id": pid,
-            # The *_fi columns are optional. Where one is blank the English text
-            # is shown on the Finnish pages too, so a half-filled row still works.
-            "title": (row.get("title") or "").strip(),
-            "title_fi": (row.get("title_fi") or "").strip(),
-            "year": year,
-            "technique": (row.get("technique") or "").strip(),
-            "technique_fi": (row.get("technique_fi") or "").strip(),
-            "theme": (row.get("theme") or "").strip(),
-            "width_cm": width_cm,
-            "height_cm": height_cm,
-            "price_eur": price,
+            # the website's identifier is the slug: it is used in page anchors
+            # and in every generated image filename
+            "id": w["slug"],
+            "title": w["title"],
+            "title_fi": w["title_fi"],
+            "year": w["year"],
+            "technique": w["medium"],
+            "technique_fi": w["medium_fi"],
+            "theme": w["theme"],
+            "width_cm": w_cm,
+            "height_cm": h_cm,
+            "price_eur": price if status == "for_sale" else None,
             "status": status,
-            "description": (row.get("description") or "").strip(),
-            "description_fi": (row.get("description_fi") or "").strip(),
+            "description": w["description"],
+            "description_fi": w["description_fi"],
             "image": image_name,
             "image_path": image_path,
         })
 
     if errors:
-        msg = "paintings.csv has problems:\n" + "\n".join(f"  - {e}" for e in errors)
-        raise BuildError(msg)
+        raise BuildError(
+            "the artwork database has problems:\n"
+            + "\n".join(f"  - {e}" for e in errors)
+        )
 
-    # newest first; works with no year yet sort to the end, then by title
-    paintings.sort(key=lambda p: (0 if p["year"] else 1, -(p["year"] or 0), p["title"]))
     return paintings
 
 

@@ -1,58 +1,68 @@
 # nettisivut
 
 Roni Luokkamäki's painting portfolio and store. Hand-built HTML and CSS,
-generated from a spreadsheet by a small Python script. The only JavaScript
-on the site is the gallery's image viewer; everything else works without it.
+generated from a local artwork database by a small Python script. The only
+JavaScript on the site is the gallery's image viewer; everything else works
+without it.
+
+Works are managed with `admin.bat`, which also previews and publishes the site.
 
 See `MUISTIINPANOT.md` for the original design notes and `PLAN.md` for the
 full build plan this project followed.
 
-## Adding a new painting
+## Managing artworks
 
-This is the normal day-to-day task — three steps, no coding:
+Everything about your works lives in a database, and you manage it with a small
+tool that runs on this computer. **Double-click `admin.bat`.** It opens in your
+browser at `http://127.0.0.1:5000`.
 
-1. **Put the photo** in the `originals/` folder. Use a plain filename with
-   no spaces, e.g. `red-field-2023.jpg`.
-2. **Add one row** to `data/paintings.csv`. You can open this file in Excel,
-   Numbers, or Google Sheets — it's a normal spreadsheet. See the column
-   reference below.
-3. **Double-click `build.bat`.** It checks everything and rebuilds the
-   `docs/` folder. If something's wrong (a typo, a missing photo), it tells
-   you exactly which row and what to fix.
+From there you can:
 
-Then double-click `preview.bat` to look at the result in your browser
-before publishing (see **Publishing**, below).
+- **Add a work** — title, year, medium, size, tags, photograph, and so on.
+- **Edit anything** about a work you already have.
+- **Record a sale** — date, price paid, and the buyer's name and contact details.
+- **Choose what appears on the website** with the Shown tick on each work.
+- **Archive** a work to take it off the site while keeping its record, or delete
+  it permanently behind a typed confirmation.
+- **Preview** the website as it would look, then **Publish** it live.
 
-### `data/paintings.csv` columns
+Close the window to stop the tool. It listens only on this machine, so nothing
+is reachable from the internet and there is no password to manage.
 
-Only four columns are required: `id`, `title`, `status` and `image`.
-Everything else can be left blank, and anything blank is simply left off
-the page — so a work can go up before you've measured it or decided a
-price, and you can fill the details in later.
+### What is private and what is published
 
-| column | required | what to put in it |
+| private, never leaves this computer | published on the website |
+|---|---|
+| buyer name, email, phone, address | title, year, medium, size |
+| price actually paid, date sold | asking price, if you set one |
+| sale notes, private notes | description, photograph |
+| tags, exhibitions | whether it is sold |
+
+The website is built from a fixed list of safe columns in `db.py`
+(`PUBLIC_COLUMNS`). No buyer field is in that list, so personal data cannot reach
+the published pages even by accident. The database file itself is excluded from
+git and is never pushed.
+
+### Backups
+
+After every change the database is copied to
+`OneDrive/nettisivut-backup/`, together with a full spreadsheet export that
+*does* include the buyer details. That export is the escape hatch: your records
+stay readable in Excel without this tool. To recover, copy `artworks.db` back
+into `data/` and rebuild.
+
+### Status and what the site shows
+
+Each work has a real status, and the website follows it:
+
+| real status | asking price | the site shows |
 |---|---|---|
-| `id` | yes | A short unique slug, lowercase, words separated by hyphens, e.g. `red-field-2023`. Used in the web address and the image filenames — once a painting is on the live site, avoid changing its id. |
-| `title` | yes | The painting's title. `Untitled` is fine. |
-| `status` | yes | One of `inquire`, `for_sale`, `sold`, `not_for_sale`. See below. |
-| `image` | yes | The exact filename in `originals/`, e.g. `DSCF1179.jpg`. |
-| `year` | no | The year painted, e.g. `2024`. |
-| `technique` | no | e.g. `Oil on canvas`. |
-| `width_cm`, `height_cm` | no | Size in centimetres, whole numbers. Give both or neither. |
-| `price_eur` | only if for sale | The price in euros, e.g. `450`. **Must be blank** unless `status` is `for_sale`. |
-| `theme` | no | Not shown on the site at the moment, kept for future use. |
-| `description` | no | A sentence or two about the work. |
+| In my possession | set | the price and an Order button |
+| In my possession | blank | "price on request" and an ask button |
+| Sold | — | a SOLD marker, no order button |
 
-The four `status` values:
-
-- **`inquire`** — shown with "price on request" and an email button. Use
-  this when the work is available but you haven't set a price.
-- **`for_sale`** — shows the price and an Order button. Needs `price_eur`.
-- **`sold`** — shows a SOLD tag, no email button.
-- **`not_for_sale`** — shows a NOT FOR SALE tag, no email button.
-
-Paintings are shown newest year first automatically, and any work without
-a year yet sorts to the end. You don't need to sort the spreadsheet.
+Use *Override what the site says* on a work to force something else, for example
+to mark a piece "not for sale".
 
 ### Editing the text pages
 
@@ -72,9 +82,9 @@ drift apart. Everything else — navigation, buttons, status labels, the
 footer — is translated once in the `LANGUAGES` table near the top of
 `build.py`.
 
-Painting titles come from the catalogue. Fill in `title_fi`, `technique_fi`
-or `description_fi` to give a work Finnish wording; leave them blank and the
-English text is shown on the Finnish pages too.
+Painting titles come from the database. Fill in the Finnish title, medium or
+description in the admin tool to give a work Finnish wording; leave them blank
+and the English text is shown on the Finnish pages too.
 
 After editing any of these, double-click `build.bat` to apply the change.
 
@@ -115,7 +125,9 @@ double-clicking.
 ## Project layout
 
 ```
-data/paintings.csv     the catalogue — source of truth, edit this
+data/artworks.db        the artwork database — source of truth, NOT in git
+admin.py, admin.bat     the admin tool
+db.py                   database schema, and the list of columns safe to publish
 content/en, content/fi  hand-written text pages, one folder per language
 originals/               full-resolution photos (not committed to git)
 templates/               Jinja2 page templates
@@ -187,7 +199,9 @@ broken shortcut. `build.bat` and `preview.bat` use `py -3` instead, which
 avoids this; if you see the Store-redirect message anyway, Python isn't
 installed yet — see **First-time setup**.
 
-**A painting is missing from the site after editing the CSV** — rerun
-`build.bat` and read its output; a validation error (duplicate id, missing
-photo, a `for_sale` row with no price) stops the whole build until it's
-fixed, on purpose, so a typo can't silently break the live site.
+**A painting is missing from the website** — open `admin.bat` and check the
+Shown tick on that work. A work with no photograph cannot be shown, and the
+tool says so when you try.
+
+**The admin tool will not start** — something else may already be using port
+5000. Close the other program, or close and reopen `admin.bat`.

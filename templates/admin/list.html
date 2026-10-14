@@ -1,0 +1,61 @@
+{% extends "admin/base.html" %}
+{% block main %}
+
+<form method="get" class="bar" style="margin-bottom:16px">
+  <input name="q" value="{{ q }}" placeholder="Search title or tag" style="width:220px">
+  <select name="status" style="width:auto">
+    <option value="">All statuses</option>
+    <option value="in_possession" {{ 'selected' if status=='in_possession' }}>In my possession</option>
+    <option value="sold" {{ 'selected' if status=='sold' }}>Sold</option>
+  </select>
+  <select name="sort" style="width:auto">
+    <option value="year" {{ 'selected' if sort=='year' }}>Newest first</option>
+    <option value="title" {{ 'selected' if sort=='title' }}>By title</option>
+    <option value="added" {{ 'selected' if sort=='added' }}>Recently added</option>
+  </select>
+  <label class="check" style="margin:0"><input type="checkbox" name="archived" value="1"
+    {{ 'checked' if show_archived }} onchange="this.form.submit()"> Show archive</label>
+  <button class="btn">Filter</button>
+  <span class="count">{{ counts.total }} works · {{ counts.shown }} on the site ·
+    {{ counts.sold }} sold · {{ counts.archived }} archived</span>
+</form>
+
+{% if not works %}
+  <p class="count">Nothing here yet. Use <a href="{{ url_for('new_work') }}">Add artwork</a> to start.</p>
+{% else %}
+<table>
+  <thead>
+    <tr><th></th><th>Title</th><th>Year</th><th>Size</th><th>Status</th><th>Site</th><th></th></tr>
+  </thead>
+  <tbody>
+  {% for w in works %}
+    <tr>
+      <td>{% if w.image %}<img src="{{ url_for('photo', slug=w.slug) }}" alt="">{% endif %}</td>
+      <td>
+        <a href="{{ url_for('edit_work', wid=w.id) }}">{{ w.title }}</a>
+        {% if w.title_fi %}<div class="count">{{ w.title_fi }}</div>{% endif %}
+        {% if w.tags %}<div class="count">{{ w.tags }}</div>{% endif %}
+      </td>
+      <td>{{ w.year or '' }}{% if w.month %}/{{ '%02d'|format(w.month) }}{% endif %}</td>
+      <td>{% if w.width_cm %}{{ w.width_cm }}×{{ w.height_cm }} cm{% endif %}</td>
+      <td>
+        {% if w.status == 'sold' %}<span class="tag tag-sold">SOLD</span>
+        {% else %}<span class="tag">IN POSSESSION</span>{% endif %}
+      </td>
+      <td>
+        <form method="post" action="{{ url_for('toggle_visible', wid=w.id) }}">
+          <button class="btn" style="padding:.15em .5em;font-size:.75rem">
+            {% if w.web_visible %}<span class="tag tag-shown">SHOWN</span>{% else %}hidden{% endif %}
+          </button>
+        </form>
+      </td>
+      <td style="text-align:right">
+        <a class="btn" style="padding:.2em .6em" href="{{ url_for('edit_work', wid=w.id) }}">Edit</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}

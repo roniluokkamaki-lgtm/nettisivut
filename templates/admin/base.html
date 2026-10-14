@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Artworks{% endblock %} · admin</title>
+<style>
+  :root {
+    --bg:#1b141a; --surface:#2e252c; --border:#473f45; --fg:#c9c2c6;
+    --muted:#8b8389; --accent:#a1afa7; --accent-hi:#cfe6d6; --rose:#afa1a6;
+    --mono: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--mono);
+         font-size:15px; line-height:1.5; padding:0 20px 60px; }
+  a { color:var(--accent); }
+  a:hover { color:var(--accent-hi); }
+  header { max-width:1100px; margin:0 auto; display:flex; flex-wrap:wrap; gap:12px;
+           align-items:baseline; justify-content:space-between; padding:18px 0; }
+  h1 { font-size:1.2rem; text-transform:uppercase; letter-spacing:.08em; margin:0; font-weight:400; }
+  main { max-width:1100px; margin:0 auto; }
+  .bar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .count { color:var(--muted); font-size:.85rem; }
+
+  .btn { display:inline-block; border:1px solid var(--border); background:var(--surface);
+         color:var(--fg); font:inherit; padding:.4em .8em; cursor:pointer; text-decoration:none; }
+  .btn:hover { border-color:var(--accent-hi); color:var(--accent-hi); }
+  .btn-primary { border-color:var(--accent); color:var(--accent-hi); }
+  .btn-danger { border-color:var(--rose); color:var(--rose); }
+
+  input, select, textarea { font:inherit; background:#241d22; color:var(--fg);
+         border:1px solid var(--border); padding:.4em .5em; width:100%; }
+  input:focus, select:focus, textarea:focus { outline:2px solid var(--accent-hi); outline-offset:1px; }
+  label { display:block; font-size:.8rem; color:var(--muted); margin-bottom:.25em;
+          text-transform:uppercase; letter-spacing:.06em; }
+  .row { display:grid; gap:14px; margin-bottom:14px; }
+  .row-2 { grid-template-columns:1fr 1fr; }
+  .row-3 { grid-template-columns:1fr 1fr 1fr; }
+  .check { display:flex; align-items:center; gap:.5em; }
+  .check input { width:auto; }
+
+  fieldset { border:1px solid var(--border); margin:0 0 22px; padding:16px; }
+  legend { color:var(--accent); text-transform:uppercase; letter-spacing:.1em; font-size:.8rem;
+           padding:0 .5em; }
+  fieldset.private { border-color:var(--rose); }
+  fieldset.private legend { color:var(--rose); }
+  .hint { color:var(--muted); font-size:.8rem; margin:.3em 0 0; }
+
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:8px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  th { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; font-weight:400; }
+  tr:hover td { background:#241d22; }
+  td img { width:56px; height:56px; object-fit:cover; border:1px solid var(--border); display:block; }
+  .tag { font-size:.7rem; letter-spacing:.1em; border:1px solid var(--border); padding:.1em .45em;
+         color:var(--muted); white-space:nowrap; }
+  .tag-sold { color:var(--rose); border-color:var(--rose); }
+  .tag-shown { color:var(--accent); border-color:var(--accent); }
+
+  .flash { border:1px solid var(--border); padding:10px 12px; margin:10px auto; max-width:1100px;
+           white-space:pre-wrap; font-size:.85rem; }
+  .flash.ok { border-color:var(--accent); }
+  .flash.error { border-color:var(--rose); color:var(--rose); }
+  .flash.warn { border-color:#b9a06a; color:#d8c08a; }
+
+  @media (max-width:700px) { .row-2, .row-3 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><a href="{{ url_for('index') }}" style="text-decoration:none;color:inherit">Artworks</a></h1>
+  <div class="bar">
+    <a class="btn btn-primary" href="{{ url_for('new_work') }}">+ Add artwork</a>
+    <form method="post" action="{{ url_for('preview') }}"><button class="btn">Preview site</button></form>
+    <form method="post" action="{{ url_for('publish') }}"
+          onsubmit="return confirm('Rebuild and publish the live website now?')">
+      <button class="btn">Publish</button>
+    </form>
+  </div>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, m in messages %}
+    <div class="flash {{ category }}">{{ m }}</div>
+  {% endfor %}
+{% endwith %}
+
+<main>
+{% block main %}{% endblock %}
+</main>
+
+</body>
+</html>

@@ -3,3 +3,9 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+
+# the artwork database holds buyer names and contact details: never commit it
+data/artworks.db
+data/artworks.db-journal
+data/artworks.db-wal
+data/*.retired
