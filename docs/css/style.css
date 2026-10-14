@@ -1,0 +1,368 @@
+/* =========================================================================
+   Roni Luokkamäki — site stylesheet
+   Hand-written, single file, no preprocessor. Palette sampled from a
+   Carhartt Canvas Script Cap (see palette.jpg in the project root):
+   --surface is the cap fabric, --accent is the embroidery thread.
+   ========================================================================= */
+
+@font-face {
+  font-family: "Amatic SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/amatic-sc-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Amatic SC";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/amatic-sc-700.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: dark;
+
+  --bg:        #1b141a; /* deepest cap shadow */
+  --surface:   #2e252c; /* cap fabric average */
+  --border:    #473f45; /* lit upper crown */
+  --fg:        #c9c2c6; /* studio grey, warmed */
+  --muted:     #8b8389; /* dimmed grey */
+  --accent:    #a1afa7; /* embroidery thread (mint) */
+  --accent-hi: #cfe6d6; /* thread, lifted — hover/active/focus */
+  --rose:      #afa1a6; /* mint, hue turned — sold / unavailable */
+
+  --display-font: "Amatic SC", "Arial Narrow", sans-serif;
+  --mono-font: ui-monospace, "Cascadia Mono", "Consolas", "Courier New", monospace;
+
+  --content-width: 920px;
+}
+
+* { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--mono-font);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 20px;
+  -webkit-text-size-adjust: 100%;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); text-decoration-thickness: 1px; }
+a:hover, a:focus-visible { color: var(--accent-hi); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+
+h1, h2, h3 {
+  font-family: var(--display-font);
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  margin: 0.6em 0 0.3em;
+}
+h1 { font-size: 3.4rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.7rem; margin-top: 0; }
+
+.muted { color: var(--muted); }
+
+/* ---------------------------------------------------------------- layout */
+
+.site-header, main, .site-footer {
+  max-width: var(--content-width);
+  margin-inline: auto;
+}
+
+/* scanline texture — subtle, fixed, never blocks clicks */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.14) 0px,
+    rgba(0, 0, 0, 0.14) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+.divider {
+  max-width: var(--content-width);
+  margin: 1.6rem auto;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--border);
+  font-family: var(--mono-font);
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+/* ---------------------------------------------------------------- header */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem 1.2rem;
+  padding-top: calc(1.4rem + env(safe-area-inset-top, 0px));
+}
+
+.brand {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+}
+.brand:hover, .brand:focus-visible { color: var(--accent-hi); }
+
+.main-nav {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+.main-nav a {
+  text-decoration: none;
+  padding: 0.15em 0.1em;
+}
+.main-nav a[aria-current="page"] {
+  color: var(--accent-hi);
+  border-bottom: 1px solid var(--accent-hi);
+}
+.main-nav .sep { color: var(--border); margin: 0 0.35em; }
+
+/* ----------------------------------------------------------------- intro */
+
+.intro {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.profile-pic {
+  width: 180px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.intro-text { flex: 1 1 320px; min-width: 0; }
+.intro-text h1 { margin-top: 0; }
+
+/* ------------------------------------------------------------ thumb grid */
+
+.thumb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+  margin: 1.2rem 0;
+}
+.thumb-grid--small { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+
+.thumb {
+  display: block;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--fg);
+}
+.thumb img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.thumb-caption {
+  display: block;
+  padding: 0.4em 0.5em;
+  font-size: 0.82rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.thumb:hover .thumb-caption, .thumb:focus-visible .thumb-caption { color: var(--accent-hi); }
+
+/* ---------------------------------------------------------------- browse */
+
+.browse-by h2 { margin-bottom: 0.8rem; }
+.browse-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+.browse-col h3 { font-size: 1.3rem; border-bottom: 1px solid var(--border); padding-bottom: 0.2em; }
+.browse-col ul { list-style: none; margin: 0; padding: 0; }
+.browse-col > ul > li { margin-bottom: 0.9rem; }
+.cat-name { color: var(--accent); font-weight: bold; }
+.cat-items { margin-top: 0.3rem; padding-left: 1rem; font-size: 0.9rem; }
+.cat-items li { margin-bottom: 0.15rem; }
+
+/* ------------------------------------------------------------- full list */
+
+.painting {
+  display: flex;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 1rem;
+}
+.painting:first-child { padding-top: 0; }
+.painting-img-link { flex: 0 1 420px; border: 1px solid var(--border); background: var(--surface); }
+.painting-info { flex: 1 1 260px; min-width: 0; }
+.painting-meta { color: var(--muted); margin: 0.2em 0 0.6em; }
+.painting-desc { margin: 0 0 0.8em; }
+.painting-status { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+
+.price { font-weight: bold; color: var(--accent); font-size: 1.05rem; }
+.tag {
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.15em 0.5em;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+.tag-sold { color: var(--rose); border-color: var(--rose); }
+
+.btn {
+  display: inline-block;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  text-decoration: none;
+  padding: 0.3em 0.7em;
+  font-size: 0.9rem;
+}
+.btn:hover, .btn:focus-visible { border-color: var(--accent-hi); color: var(--accent-hi); }
+
+/* ---------------------------------------------------------------- footer */
+
+.site-footer {
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.player-label { font-size: 0.8rem; color: var(--muted); }
+audio { height: 32px; max-width: 100%; }
+.contact-line { margin: 0 0 0.3em; }
+.contact-line a { color: var(--fg); }
+.meta-line { margin: 0; }
+
+/* ---------------------------------------------------------------- 404 */
+
+body:has(main > h1:only-child) main { text-align: left; }
+
+/* ------------------------------------------------------------- lightbox
+   Populated by js/lightbox.js. Hidden by [hidden] until opened; this is
+   the one place transitions are used, guarded by prefers-reduced-motion. */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(10, 8, 10, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem 1rem;
+}
+.lightbox[hidden] { display: none; }
+
+.lightbox-stage {
+  max-width: min(94vw, 1400px);
+  max-height: 78vh;
+  overflow: auto;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-stage img {
+  max-width: 94vw;
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  display: block;
+}
+.lightbox-stage.is-zoomed { display: block; cursor: grab; }
+.lightbox-stage.is-zoomed img { max-width: none; max-height: none; }
+
+.lightbox-caption {
+  color: var(--fg);
+  text-align: center;
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+}
+.lightbox-caption .lightbox-title { font-family: var(--display-font); font-size: 1.6rem; display: block; }
+
+.lightbox-controls {
+  position: absolute;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
+  right: 1rem;
+  left: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  pointer-events: none;
+}
+.lightbox-controls button {
+  pointer-events: auto;
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  font-family: var(--mono-font);
+  font-size: 0.95rem;
+  padding: 0.4em 0.7em;
+  cursor: pointer;
+}
+.lightbox-controls button:hover, .lightbox-controls button:focus-visible { border-color: var(--accent-hi); color: var(--accent-hi); }
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  font-family: var(--mono-font);
+  font-size: 1.4rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  cursor: pointer;
+}
+.lightbox-nav:hover, .lightbox-nav:focus-visible { border-color: var(--accent-hi); color: var(--accent-hi); }
+.lightbox-prev { left: 0.6rem; }
+.lightbox-next { right: 0.6rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox-stage img { transition: opacity 0.12s ease; }
+}
+
+/* ------------------------------------------------------------ responsive */
+
+@media (max-width: 680px) {
+  h1 { font-size: 2.6rem; }
+  h2 { font-size: 1.8rem; }
+  .browse-cols { grid-template-columns: 1fr; gap: 1.1rem; }
+  .painting { flex-direction: column; }
+  .painting-img-link { flex-basis: auto; }
+  .lightbox-nav { width: 2rem; height: 2rem; font-size: 1.1rem; }
+}
+
+@media (max-width: 420px) {
+  .thumb-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+}

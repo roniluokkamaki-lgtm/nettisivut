@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Gallery &middot; {{ site_name }}{% endblock %}
+{% block description %}{{ page_description }}{% endblock %}
+{% block main %}
+<h1>Gallery</h1>
+
+<section class="thumb-grid" aria-label="All paintings, thumbnails">
+  {% for p in paintings %}
+  <a class="thumb"
+     href="#{{ p.id }}"
+     data-id="{{ p.id }}"
+     data-full="{{ root }}img/paintings/{{ p.id }}-full.jpg"
+     data-zoom="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
+     data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
+     data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
+     data-title="{{ p.title | e }}"
+     data-caption="{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm &middot; {% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
+    <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title | e }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
+    <span class="thumb-caption">{{ p.title | e }}</span>
+  </a>
+  {% endfor %}
+</section>
+
+<div class="divider" aria-hidden="true">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+
+<section class="browse-by" aria-label="Browse by category">
+  <h2>browse by</h2>
+  <div class="browse-cols">
+    <div class="browse-col">
+      <h3>theme</h3>
+      <ul>
+        {% for theme, items in categories.theme %}
+        <li>
+          <span class="cat-name">{{ theme | e }}</span>
+          <ul class="cat-items">
+            {% for p in items %}<li><a href="#{{ p.id }}">{{ p.title | e }}</a> <span class="muted">({{ p.year }})</span></li>{% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="browse-col">
+      <h3>year</h3>
+      <ul>
+        {% for year, items in categories.year %}
+        <li>
+          <span class="cat-name">{{ year }}</span>
+          <ul class="cat-items">
+            {% for p in items %}<li><a href="#{{ p.id }}">{{ p.title | e }}</a></li>{% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="browse-col">
+      <h3>technique</h3>
+      <ul>
+        {% for technique, items in categories.technique %}
+        <li>
+          <span class="cat-name">{{ technique | e }}</span>
+          <ul class="cat-items">
+            {% for p in items %}<li><a href="#{{ p.id }}">{{ p.title | e }}</a> <span class="muted">({{ p.year }})</span></li>{% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div>
+
+<section class="full-list" aria-label="All paintings, full details">
+  {% for p in paintings %}
+  <article class="painting" id="{{ p.id }}">
+    <a href="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
+       class="painting-img-link"
+       data-id="{{ p.id }}"
+       data-full="{{ root }}img/paintings/{{ p.id }}-full.jpg"
+       data-zoom="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
+       data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
+       data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
+       data-title="{{ p.title | e }}"
+       data-caption="{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm &middot; {% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
+      <img src="{{ root }}img/paintings/{{ p.id }}-full.jpg" alt="{{ p.title | e }}" width="{{ p.full_w }}" height="{{ p.full_h }}" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>{{ p.title | e }}</h3>
+      <p class="painting-meta">{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm</p>
+      {% if p.description %}<p class="painting-desc">{{ p.description | e }}</p>{% endif %}
+      <p class="painting-status">
+        {% if p.status == 'for_sale' %}
+          <span class="price">{{ '%g'|format(p.price_eur) }} EUR</span>
+          <a class="btn" href="{{ p.buy_href }}">[ Buy ]</a>
+        {% elif p.status == 'sold' %}
+          <span class="tag tag-sold">SOLD</span>
+        {% else %}
+          <span class="tag">NOT FOR SALE</span>
+        {% endif %}
+        <a class="btn btn-view" href="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
+           data-id="{{ p.id }}"
+           data-full="{{ root }}img/paintings/{{ p.id }}-full.jpg"
+           data-zoom="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
+           data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
+           data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
+           data-title="{{ p.title | e }}"
+           data-caption="{{ p.year }} &middot; {{ p.technique | e }} &middot; {{ p.width_cm }}&times;{{ p.height_cm }} cm">[ View closer ]</a>
+      </p>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% endblock %}

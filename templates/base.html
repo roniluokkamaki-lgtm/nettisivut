@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block title %}{{ site_name }}{% endblock %}</title>
+<meta name="description" content="{% block description %}Paintings by {{ artist_name }}.{% endblock %}">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="{{ root }}css/style.css">
+</head>
+<body>
+<div class="scanlines" aria-hidden="true"></div>
+
+<header class="site-header">
+  <a class="brand" href="{{ root }}index.html">{{ artist_name }}</a>
+  <nav class="main-nav" aria-label="Main">
+    <a href="{{ root }}index.html"{% if page_id == 'home' %} aria-current="page"{% endif %}>HOME</a>
+    <span class="sep">|</span>
+    <a href="{{ root }}gallery.html"{% if page_id == 'gallery' %} aria-current="page"{% endif %}>GALLERY</a>
+    <span class="sep">|</span>
+    <a href="{{ root }}about.html"{% if page_id == 'about' %} aria-current="page"{% endif %}>ABOUT</a>
+    <span class="sep">|</span>
+    <a href="{{ root }}buying.html"{% if page_id == 'buying' %} aria-current="page"{% endif %}>BUYING</a>
+  </nav>
+</header>
+
+<div class="divider" aria-hidden="true">////////////////////////////////////////////////////////////</div>
+
+<main id="main">
+{% block main %}{% endblock %}
+</main>
+
+<div class="divider" aria-hidden="true">////////////////////////////////////////////////////////////</div>
+
+<footer class="site-footer">
+  {% if audio_file %}
+  <div class="player-row">
+    <span class="player-label">background music (own track)</span>
+    <audio controls preload="none" src="{{ root }}audio/{{ audio_file }}">
+      Your browser does not support the audio element.
+      <a href="{{ root }}audio/{{ audio_file }}">Download the track</a>.
+    </audio>
+  </div>
+  {% endif %}
+  <p class="contact-line">contact: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a></p>
+  <p class="meta-line">last updated {{ build_date }} &middot; &copy; {{ build_year }} {{ artist_name }}</p>
+</footer>
+
+{% if page_id == 'gallery' %}
+<script src="{{ root }}js/lightbox.js" defer></script>
+{% endif %}
+</body>
+</html>
