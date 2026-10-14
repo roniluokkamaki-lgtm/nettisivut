@@ -58,7 +58,9 @@
   </p>
   <p class="meta-line">{{ L.last_updated }} {{ build_date }}</p>
   <p class="meta-line">{{ L.rights.format(year=build_year, artist=artist_name) }}</p>
+  {% if page_id not in ('home', 'about', 'gallery') %}
   <p class="meta-line"><a href="terms.html">{{ L.page_titles.terms }}</a></p>
+  {% endif %}
 </footer>
 
 {% if page_id == 'gallery' %}
