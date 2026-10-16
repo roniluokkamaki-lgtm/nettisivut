@@ -165,21 +165,10 @@ overwritten on the next build.
 
 ## Custom domain
 
-GitHub Pages hosting and HTTPS are free, but **the domain name itself is
-not** — `roniluokkamaki.com` has to be registered with a registrar for
-roughly 10-15 EUR a year. It was unregistered as of 14 October 2026.
-
-Once you own it:
-
-1. At the registrar, point the DNS at GitHub:
-   - `www` as a **CNAME** to `roniluokkamaki-lgtm.github.io`
-   - the bare domain as **A** records to `185.199.108.153`,
-     `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-2. Create a file `docs/CNAME` containing one line: `www.roniluokkamaki.com`
-3. On GitHub: Settings → Pages → Custom domain, enter it, and tick
-   **Enforce HTTPS** once the certificate is issued (can take an hour).
-4. Change `SITE_URL` in `build.py` to `https://www.roniluokkamaki.com` and
-   rebuild, so the language tags point at the new address.
+`roniluokkamaki.com` is registered at Domainhotelli, its DNS is on
+Cloudflare's free plan, and the site is hosted on GitHub Pages. See
+**`INFRASTRUCTURE.md`** for the full setup, costs, renewal date, DNS records,
+the remaining switch-over steps, and what to check if the site stops loading.
 
 ## Design decisions on record
 
