@@ -153,15 +153,17 @@ overwritten on the next build.
   exists, and is omitted (not broken) while it doesn't.
 - **Site icon**: `docs/img/icon-32.png` and `icon-180.png`, the RL monogram
   shown in the browser tab.
+- **Custom domain**: `docs/CNAME`, containing `www.roniluokkamaki.com`.
+  GitHub Pages reads it to know which domain the site answers on.
 
 ### Settings at the top of `build.py`
 
 - `INSTAGRAM_HANDLE` — your handle without the `@`. While it is empty the
   Instagram link is left out of the footer entirely, rather than pointing
   somewhere wrong. Set it to switch the icon on.
-- `SITE_URL` — used for the `hreflang` tags that tell search engines which
-  page is the English one and which is the Finnish one. Update it if the
-  site moves to a custom domain.
+- `SITE_URL` — the site's public address, `https://www.roniluokkamaki.com`.
+  It is used for the `hreflang` tags that tell search engines which page is
+  the English one and which is the Finnish one.
 
 ## Custom domain
 

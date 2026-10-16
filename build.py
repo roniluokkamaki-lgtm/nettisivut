@@ -43,7 +43,7 @@ INSTAGRAM_HANDLE = ""
 
 # Used only to build absolute hreflang URLs. Change this if the site moves to a
 # custom domain (see README, "Custom domain").
-SITE_URL = "https://roniluokkamaki-lgtm.github.io/nettisivut"
+SITE_URL = "https://www.roniluokkamaki.com"
 
 VALID_STATUSES = {"for_sale", "inquire", "sold", "not_for_sale"}
 
