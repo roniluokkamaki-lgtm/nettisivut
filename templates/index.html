@@ -13,12 +13,13 @@
 
 <section class="newest">
   <h2>{{ L.latest_work }}</h2>
-  <div class="thumb-grid thumb-grid--small">
+  {# same grid as the gallery: each work in its own proportions, no visible
+     title; the alt text still names the work for screen readers #}
+  <div class="thumb-grid">
     {% for p in newest %}
     <a class="thumb" href="gallery.html#{{ p.id }}">
       <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
       {% if p.status == 'sold' %}<span class="sold-flag">{{ L.tag_sold }}</span>{% endif %}
-      <span class="thumb-caption">{{ p.title }}{% if p.year %} &middot; {{ p.year }}{% endif %}</span>
     </a>
     {% endfor %}
   </div>
