@@ -1,6 +1,7 @@
 # nettisivut
 
-Roni Luokkamäki's painting portfolio and store. Hand-built HTML and CSS,
+Roni Luokkamäki's painting portfolio and store, live at
+**https://www.roniluokkamaki.com**. Hand-built HTML and CSS,
 generated from a local artwork database by a small Python script. The only
 JavaScript on the site is the gallery's image viewer; everything else works
 without it.
@@ -102,9 +103,9 @@ when you're done.
 
 ## Publishing
 
-The site is published from the `docs/` folder via GitHub Pages. Once the
-repository exists on GitHub with Pages enabled (Settings → Pages → Deploy
-from branch `main`, folder `/docs`):
+The site is published from the `docs/` folder via GitHub Pages (Settings →
+Pages → Deploy from branch `main`, folder `/docs`). The **Publish** button
+in `Manage artworks` does this for you; from a terminal it is:
 
 ```
 git add -A
@@ -167,10 +168,11 @@ overwritten on the next build.
 
 ## Custom domain
 
-`roniluokkamaki.com` is registered at Domainhotelli, its DNS is on
-Cloudflare's free plan, and the site is hosted on GitHub Pages. See
-**`INFRASTRUCTURE.md`** for the full setup, costs, renewal date, DNS records,
-the remaining switch-over steps, and what to check if the site stops loading.
+The site lives at `www.roniluokkamaki.com`. The domain is registered at
+Domainhotelli, its DNS is on Cloudflare's free plan, and the site is hosted
+on GitHub Pages with HTTPS. See **`INFRASTRUCTURE.md`** for the full setup,
+costs, renewal date, DNS records, and what to check if the site stops
+loading.
 
 ## Design decisions on record
 
@@ -180,10 +182,10 @@ the remaining switch-over steps, and what to check if the site stops loading.
   embroidery thread, `--rose` is that same mint hue rotated to a
   blue-leaning red.
 - **Typography**: monospace throughout, including headings — headings are
-  bold, uppercase and letter-spaced rather than a separate display font.
+  regular weight, uppercase and letter-spaced rather than a separate display font.
 - **Contact**: roni.luokkamaki@gmail.com, shown both as a mailto link and
   as plain text (per painting on the Order button, and in the footer).
-- **Order terms**: collection in Helsinki, or shipping within Finland by Matkahuolto/UPS from 15 EUR; payment agreed per order, usually MobilePay or bank transfer; made-to-order work exempt from exchange/return. See `content/order.html`.
+- **Order terms**: collection in Helsinki, or shipping within Finland by Matkahuolto/UPS from 15 EUR; payment agreed per order, usually MobilePay or bank transfer; made-to-order work exempt from exchange/return. See `content/en/order.html` and `content/fi/order.html`.
 - **No browse-by-category section** on the gallery page — the thumbnail
   grid and full list are the whole gallery. `theme` stays in the
   catalogue for possible future use but isn't shown anywhere yet.

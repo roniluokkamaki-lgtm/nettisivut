@@ -194,7 +194,8 @@ element until the mp3 exists, so no broken player ships.
 
 - `git init`, first commit, `gh repo create nettisivut --public --source . --push`.
 - GitHub Pages: Deploy from branch `main`, folder `/docs`. `docs/.nojekyll` present.
-- Custom domain later by adding `docs/CNAME`.
+- Custom domain later by adding `docs/CNAME`. Done 16.10.2026: the site is at
+  `www.roniluokkamaki.com`, see `INFRASTRUCTURE.md`.
 - Workflow after launch: edit CSV or content, `python build.py`, commit, push. Live in about
   a minute.
 
