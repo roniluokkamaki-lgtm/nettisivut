@@ -95,6 +95,25 @@ The filter needs JavaScript. Without it the gallery simply shows every work.
 Clicking a thumbnail at the top of the gallery scrolls down to that work in
 the list; clicking the large picture there opens the viewer.
 
+### Exhibitions
+
+The website's **Exhibitions** page lists your exhibitions in two sections,
+*Solo exhibitions* and *Group exhibitions*, newest first. Manage them with the
+**Exhibitions** button at the top of Manage artworks.
+
+Each exhibition has a kind (solo or group), title, venue, place, dates or just
+a year, a few lines of details, and optionally a poster or photograph. Finnish
+versions of the title, place and details are optional; left blank, the English
+text is shown. Dates are written out in each language automatically.
+
+The page, and its link in the menu, only appear once at least one exhibition
+is shown, so the site never has an empty Exhibitions page. Untick *Show this
+exhibition on the website* to take one down without deleting it.
+
+Posters are kept in `originals/exhibitions/` (not committed to git) and
+web-sized copies are made when the site is built. This is separate from the
+private *Exhibitions* note on each artwork, which is never published.
+
 ### Editing the text pages
 
 The site is published in two languages. English lives at the root, Finnish
@@ -107,6 +126,9 @@ they are separate texts rather than translations of each other:
 | `content/en/about.html`, `content/fi/about.html` | bio and portrait |
 | `content/en/order.html`, `content/fi/order.html` | payments, delivery, returns |
 | `content/en/terms.html`, `content/fi/terms.html` | terms of purchase |
+
+The Exhibitions page is not in this list: it is built from the exhibitions
+you enter in Manage artworks.
 
 **Edit both languages when you change something**, or the two versions will
 drift apart. Everything else — navigation, buttons, status labels, the

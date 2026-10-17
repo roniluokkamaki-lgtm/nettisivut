@@ -15,13 +15,19 @@ from __future__ import annotations
 
 import csv
 import datetime
+import os
 import shutil
 import sqlite3
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-DB_PATH = ROOT / "data" / "artworks.db"
-BACKUP_DIR = Path.home() / "OneDrive" / "nettisivut-backup"
+# NETTISIVUT_DB points the tools at another database file, for trying changes
+# out on a copy without touching the real records.
+DB_PATH = Path(os.environ.get("NETTISIVUT_DB") or ROOT / "data" / "artworks.db")
+# A copy pointed to by NETTISIVUT_DB backs up beside itself, never over the real
+# OneDrive backup.
+BACKUP_DIR = (DB_PATH.parent / "backup" if os.environ.get("NETTISIVUT_DB")
+              else Path.home() / "OneDrive" / "nettisivut-backup")
 
 STATUSES = ("in_possession", "sold")
 WEB_STATUSES = ("for_sale", "inquire", "sold", "not_for_sale")
@@ -29,6 +35,7 @@ SUPPORTS = ("", "canvas", "paper", "panel", "board", "other")
 # What kind of work it is, for the gallery filter. Blank means not yet decided;
 # such a work is still shown, it just isn't listed under any category.
 CATEGORIES = ("", "painting", "drawing", "other")
+EXHIBITION_KINDS = ("solo", "group")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS artworks (
@@ -83,6 +90,29 @@ CREATE TABLE IF NOT EXISTS photos (
 );
 
 CREATE INDEX IF NOT EXISTS idx_photos_artwork ON photos(artwork_id);
+
+-- Exhibitions for the website's Exhibitions page. Everything here is public:
+-- an exhibition record holds nothing private, and hiding one is done with
+-- web_visible rather than by keeping secrets in it.
+CREATE TABLE IF NOT EXISTS exhibitions (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    kind        TEXT    NOT NULL DEFAULT 'solo',
+    title       TEXT    NOT NULL,
+    title_fi    TEXT    NOT NULL DEFAULT '',
+    venue       TEXT    NOT NULL DEFAULT '',
+    place       TEXT    NOT NULL DEFAULT '',
+    place_fi    TEXT    NOT NULL DEFAULT '',
+    year        INTEGER NOT NULL,
+    start_date  TEXT,
+    end_date    TEXT,
+    details     TEXT    NOT NULL DEFAULT '',
+    details_fi  TEXT    NOT NULL DEFAULT '',
+    poster      TEXT    NOT NULL DEFAULT '',
+    web_visible INTEGER NOT NULL DEFAULT 1,
+    created_at  TEXT    NOT NULL,
+    updated_at  TEXT    NOT NULL,
+    CHECK (kind IN ('solo', 'group'))
+);
 """
 
 # The website may read exactly these columns. No buyer or private field appears
@@ -161,6 +191,18 @@ def public_works(path: Path = DB_PATH) -> list[dict]:
     return [dict(r) | {"web_status": derive_web_status(r)} for r in rows]
 
 
+def public_exhibitions(path: Path = DB_PATH) -> list[dict]:
+    """Exhibitions the website should list, newest first."""
+    with connect(path) as con:
+        rows = con.execute(
+            "SELECT id, kind, title, title_fi, venue, place, place_fi, year, "
+            "start_date, end_date, details, details_fi, poster FROM exhibitions "
+            "WHERE web_visible = 1 "
+            "ORDER BY year DESC, (start_date IS NULL), start_date DESC, title"
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
 def backup(path: Path = DB_PATH, backup_dir: Path = BACKUP_DIR) -> tuple[bool, str]:
     """Copy the database and a full CSV export to OneDrive.
 
@@ -176,11 +218,16 @@ def backup(path: Path = DB_PATH, backup_dir: Path = BACKUP_DIR) -> tuple[bool, s
             # sqlite's own backup API copies safely even while connected
             with sqlite3.connect(dest) as target:
                 con.backup(target)
-            rows = con.execute("SELECT * FROM artworks ORDER BY id").fetchall()
+            tables = {
+                name: con.execute(f"SELECT * FROM {name} ORDER BY id").fetchall()
+                for name in ("artworks", "exhibitions")
+            }
 
-        if rows:
-            stamp = datetime.date.today().isocalendar()
-            csv_path = backup_dir / f"artworks-{stamp.year}-w{stamp.week:02d}.csv"
+        stamp = datetime.date.today().isocalendar()
+        for name, rows in tables.items():
+            if not rows:
+                continue
+            csv_path = backup_dir / f"{name}-{stamp.year}-w{stamp.week:02d}.csv"
             with csv_path.open("w", newline="", encoding="utf-8-sig") as f:
                 w = csv.DictWriter(f, fieldnames=rows[0].keys())
                 w.writeheader()

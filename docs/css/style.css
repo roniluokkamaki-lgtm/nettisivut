@@ -257,6 +257,39 @@ h3 { font-size: 1.1rem; margin-top: 0; }
    image, instead of stretching to the tallest work in the row. */
 .thumb img { width: 100%; height: auto; }
 
+/* ----------------------------------------------------------- exhibitions */
+
+.exhibitions { margin: 2.2rem 0 3rem; }
+.exhibition {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.6rem;
+  padding: 1.2rem 0;
+}
+.exhibition-poster {
+  flex: 0 1 260px;
+  width: 260px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.exhibition-info { flex: 1 1 280px; min-width: 0; }
+/* the heading reads as a sentence ("Title, Venue, Place, 2026"), so it is
+   not set in capitals like other headings; the detail lines below are */
+.exhibition-heading {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 1.2rem;
+  margin: 0 0 0.7rem;
+}
+.exhibition-line {
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+}
+
 /* ------------------------------------------------------------- full list */
 
 /* clear space between the thumbnail grid and the list, where a divider line used to be */

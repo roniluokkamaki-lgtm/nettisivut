@@ -34,8 +34,16 @@ on the Finnish pages.
 *Untitled (Study: airport)* record and sets its private tags to `secrettag`,
 and earlier runs left those made-up details behind (cleared on 17.10.2026).
 The tests should copy the database to a temporary file and work on that, so
-running them can never change real records. Until then, check that record's
+running them can never change real records. The groundwork exists: setting
+the `NETTISIVUT_DB` environment variable points `db.py` at another database
+file, and a copy used that way backs up beside itself instead of over the
+OneDrive backup. Until then, check that record's
 sale details after running the tests.
+
+## Add your exhibitions
+
+The Exhibitions page appears on the site once the first exhibition is entered
+in Manage artworks (Exhibitions button). Posters are optional.
 
 ## Small things
 

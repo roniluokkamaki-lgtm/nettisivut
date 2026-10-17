@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} &middot; {{ site_name }}{% endblock %}
+{% block main %}
+<h1>{{ page_title }}</h1>
+
+{% for section in sections %}
+<section class="exhibitions">
+  <h2>{{ section.title }}</h2>
+  {% for x in section.entries %}
+  <article class="exhibition">
+    {% if x.poster %}
+    <img class="exhibition-poster" src="{{ root }}img/exhibitions/{{ x.poster }}" alt="{{ x.title }}"
+         width="{{ x.poster_w }}" height="{{ x.poster_h }}" loading="lazy">
+    {% endif %}
+    <div class="exhibition-info">
+      <h3 class="exhibition-heading">{{ x.heading }}</h3>
+      {% for line in x.lines %}
+      <p class="exhibition-line">{{ line }}</p>
+      {% endfor %}
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% endfor %}
+{% endblock %}

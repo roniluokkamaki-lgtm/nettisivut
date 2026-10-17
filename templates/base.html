@@ -21,6 +21,10 @@
     <span class="sep">|</span>
     <a href="gallery.html"{% if page_id == 'gallery' %} aria-current="page"{% endif %}>{{ L.nav.gallery }}</a>
     <span class="sep">|</span>
+    {% if has_exhibitions %}
+    <a href="exhibitions.html"{% if page_id == 'exhibitions' %} aria-current="page"{% endif %}>{{ L.nav.exhibitions }}</a>
+    <span class="sep">|</span>
+    {% endif %}
     <a href="about.html"{% if page_id == 'about' %} aria-current="page"{% endif %}>{{ L.nav.about }}</a>
     <span class="sep">|</span>
     <a href="order.html"{% if page_id == 'order' %} aria-current="page"{% endif %}>{{ L.nav.order }}</a>
@@ -55,7 +59,7 @@
   </p>
   <p class="meta-line">{{ L.last_updated }} {{ build_date }}</p>
   <p class="meta-line">{{ L.rights.format(year=build_year, artist=artist_name) }}</p>
-  {% if page_id not in ('home', 'about', 'gallery') %}
+  {% if page_id not in ('home', 'about', 'gallery', 'exhibitions') %}
   <p class="meta-line"><a href="terms.html">{{ L.page_titles.terms }}</a></p>
   {% endif %}
 </footer>

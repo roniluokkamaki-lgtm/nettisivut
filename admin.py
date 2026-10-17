@@ -29,13 +29,15 @@ import db
 
 ROOT = Path(__file__).resolve().parent
 ORIGINALS = ROOT / "originals"
+POSTERS = ORIGINALS / "exhibitions"
 DOCS = ROOT / "docs"
 ALLOWED_IMAGE = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp"}
 
 app = Flask(__name__, template_folder="templates")
 app.secret_key = "local-admin-only"  # only used for flash messages on localhost
 app.jinja_env.globals.update(STATUSES=db.STATUSES, WEB_STATUSES=db.WEB_STATUSES,
-                             SUPPORTS=db.SUPPORTS, CATEGORIES=db.CATEGORIES)
+                             SUPPORTS=db.SUPPORTS, CATEGORIES=db.CATEGORIES,
+                             EXHIBITION_KINDS=db.EXHIBITION_KINDS)
 
 
 # ----------------------------------------------------------------- helpers
@@ -406,6 +408,152 @@ def delete_work(wid):
     flash(f"Deleted {row['title']!r} permanently. The OneDrive backup still holds "
           "the previous copy if you need it back.", "ok")
     return redirect(url_for("index"))
+
+
+# ------------------------------------------------------------- exhibitions
+
+@app.route("/exhibitions")
+def exhibitions():
+    con = db.connect()
+    rows = con.execute(
+        "SELECT * FROM exhibitions "
+        "ORDER BY kind DESC, year DESC, (start_date IS NULL), start_date DESC, title"
+    ).fetchall()
+    con.close()
+    return render_template("admin/exhibitions.html", exhibitions=rows)
+
+
+@app.route("/exhibition/new")
+def new_exhibition():
+    return render_template("admin/exhibition_form.html", e=None)
+
+
+@app.route("/exhibition/<int:eid>")
+def edit_exhibition(eid):
+    con = db.connect()
+    e = con.execute("SELECT * FROM exhibitions WHERE id = ?", (eid,)).fetchone()
+    con.close()
+    if not e:
+        abort(404)
+    return render_template("admin/exhibition_form.html", e=e)
+
+
+def form_date(name):
+    v = form_value(name)
+    if not v:
+        return None
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", v):
+        raise ValueError(f"{name.replace('_', ' ')} must be a date")
+    return v
+
+
+@app.route("/exhibition/<eid>/save", methods=["POST"])
+def save_exhibition(eid):
+    con = db.connect()
+    is_new = eid == "new"
+    existing = None
+    if not is_new:
+        existing = con.execute("SELECT * FROM exhibitions WHERE id = ?", (int(eid),)).fetchone()
+        if not existing:
+            con.close()
+            abort(404)
+    try:
+        title = form_value("title")
+        if not title:
+            raise ValueError("an exhibition needs a title")
+        kind = form_value("kind", "solo")
+        if kind not in db.EXHIBITION_KINDS:
+            raise ValueError("choose solo or group")
+        start, end = form_date("start_date"), form_date("end_date")
+        if end and not start:
+            raise ValueError("give a start date as well as an end date")
+        if start and end and end < start:
+            raise ValueError("the end date is before the start date")
+        year = form_int("year") or (int(start[:4]) if start else None)
+        if not year:
+            raise ValueError("give a year, or a start date")
+        if not (1900 <= year <= 2100):
+            raise ValueError("that year looks wrong")
+
+        fields = {
+            "kind": kind, "title": title, "title_fi": form_value("title_fi"),
+            "venue": form_value("venue"),
+            "place": form_value("place"), "place_fi": form_value("place_fi"),
+            "year": year, "start_date": start, "end_date": end,
+            "details": form_value("details"), "details_fi": form_value("details_fi"),
+            "web_visible": 1 if request.form.get("web_visible") else 0,
+            "updated_at": db.now(),
+        }
+        if is_new:
+            fields["created_at"] = db.now()
+            cols = ", ".join(fields)
+            con.execute(f"INSERT INTO exhibitions ({cols}) VALUES ({', '.join('?' * len(fields))})",
+                        list(fields.values()))
+            eid = con.execute("SELECT last_insert_rowid()").fetchone()[0]
+        else:
+            sets = ", ".join(f"{k} = ?" for k in fields)
+            con.execute(f"UPDATE exhibitions SET {sets} WHERE id = ?", [*fields.values(), int(eid)])
+
+        # the poster is named after the record's number, so it can only be
+        # stored once the record exists
+        upload = request.files.get("poster")
+        if upload and upload.filename:
+            ext = Path(upload.filename).suffix.lower()
+            if ext not in ALLOWED_IMAGE:
+                raise ValueError(f"{ext or 'that file'} is not an image I can use")
+            POSTERS.mkdir(parents=True, exist_ok=True)
+            name = f"exhibition-{eid}{ext}"
+            for old in POSTERS.glob(f"exhibition-{eid}.*"):
+                if old.name != name:
+                    old.unlink(missing_ok=True)
+            upload.save(POSTERS / name)
+            con.execute("UPDATE exhibitions SET poster = ? WHERE id = ?", (name, int(eid)))
+        con.commit()
+    except ValueError as e:
+        con.rollback()
+        con.close()
+        flash(str(e), "error")
+        return redirect(url_for("new_exhibition") if is_new else url_for("edit_exhibition", eid=int(eid)))
+    con.close()
+
+    ok, where = db.backup()
+    flash(f"Saved. {'Backed up to ' + where if ok else 'BACKUP FAILED: ' + where}",
+          "ok" if ok else "error")
+    return redirect(url_for("edit_exhibition", eid=int(eid)))
+
+
+@app.route("/exhibition/<int:eid>/delete", methods=["POST"])
+def delete_exhibition(eid):
+    con = db.connect()
+    row = con.execute("SELECT * FROM exhibitions WHERE id = ?", (eid,)).fetchone()
+    if not row:
+        con.close()
+        abort(404)
+    if form_value("confirm") != "DELETE":
+        con.close()
+        flash("Type DELETE in the box to confirm.", "error")
+        return redirect(url_for("edit_exhibition", eid=eid))
+    con.execute("DELETE FROM exhibitions WHERE id = ?", (eid,))
+    con.commit()
+    con.close()
+    if row["poster"]:
+        try:
+            (POSTERS / row["poster"]).unlink(missing_ok=True)
+        except OSError:
+            pass  # a stray file in originals/ is harmless: that folder is never published
+    db.backup()
+    flash(f"Deleted the exhibition {row['title']!r}.", "ok")
+    return redirect(url_for("exhibitions"))
+
+
+@app.route("/exhibition-poster/<int:eid>")
+def exhibition_poster(eid):
+    con = db.connect()
+    row = con.execute("SELECT poster FROM exhibitions WHERE id = ?", (eid,)).fetchone()
+    con.close()
+    if not row or not row["poster"] or not (POSTERS / row["poster"]).exists():
+        abort(404)
+    return send_bytes(POSTERS / row["poster"])
 
 
 # ------------------------------------------------------- preview / publish

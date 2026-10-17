@@ -1,0 +1,86 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ e.title if e else 'New exhibition' }}{% endblock %}
+{% macro val(field, default='') %}{{ (e[field] if e and e[field] is not none else default) }}{% endmacro %}
+{% block main %}
+
+<p><a href="{{ url_for('exhibitions') }}">&larr; all exhibitions</a></p>
+
+<form method="post" enctype="multipart/form-data"
+      action="{{ url_for('save_exhibition', eid=e.id if e else 'new') }}">
+
+  <fieldset>
+    <legend>The exhibition</legend>
+    <div class="row row-3">
+      <div><label>Kind</label>
+        <select name="kind">
+          <option value="solo" {{ 'selected' if not e or e['kind'] == 'solo' }}>Solo exhibition</option>
+          <option value="group" {{ 'selected' if e and e['kind'] == 'group' }}>Group exhibition</option>
+        </select>
+      </div>
+      <div><label>Title</label><input name="title" value="{{ val('title') }}" required placeholder="Crossing Paths"></div>
+      <div><label>Title in Finnish (optional)</label><input name="title_fi" value="{{ val('title_fi') }}" placeholder="Risteävät polut"></div>
+    </div>
+    <div class="row row-3">
+      <div><label>Venue</label><input name="venue" value="{{ val('venue') }}" placeholder="Galleria Huuto"></div>
+      <div><label>Place</label><input name="place" value="{{ val('place') }}" placeholder="Helsinki, Finland"></div>
+      <div><label>Place in Finnish (optional)</label><input name="place_fi" value="{{ val('place_fi') }}" placeholder="Helsinki"></div>
+    </div>
+    <div class="row row-3">
+      <div><label>Start date</label><input name="start_date" type="date" value="{{ val('start_date') }}"></div>
+      <div><label>End date</label><input name="end_date" type="date" value="{{ val('end_date') }}"></div>
+      <div><label>Year</label><input name="year" value="{{ val('year') }}" placeholder="filled in from the start date">
+      </div>
+    </div>
+    <p class="hint">Dates are written out on the site in each language, e.g. "11 December 2025 – 8 January 2026"
+      and "11.12.2025–8.1.2026". If you don't know the dates, give just the year.</p>
+    <div class="row row-2" style="margin-top:14px">
+      <div><label>Details (English)</label>
+        <textarea name="details" rows="4" placeholder="Duo exhibition with ..., curated by ...">{{ val('details') }}</textarea>
+      </div>
+      <div><label>Details (Finnish)</label>
+        <textarea name="details_fi" rows="4" placeholder="Duonäyttely ..., kuraattori ...">{{ val('details_fi') }}</textarea>
+      </div>
+    </div>
+    <p class="hint">Each line becomes its own line on the page. Leave the Finnish box empty to show the English text there too.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Poster or photograph</legend>
+    <div class="row row-2">
+      <div>
+        {% if e and e.poster %}
+          <img src="{{ url_for('exhibition_poster', eid=e.id) }}" alt=""
+               style="width:160px;border:1px solid var(--border)">
+          <p class="hint">{{ e.poster }}</p>
+        {% else %}
+          <p class="hint">No image yet. Optional: the exhibition is listed without one.</p>
+        {% endif %}
+      </div>
+      <div>
+        <label>{{ 'Replace image' if e and e.poster else 'Upload image' }}</label>
+        <input type="file" name="poster" accept="image/*">
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="check" style="margin-bottom:18px"><input type="checkbox" id="vis" name="web_visible"
+    {{ 'checked' if not e or e['web_visible'] }}><label for="vis" style="margin:0">Show this exhibition on the website</label></div>
+
+  <div class="bar" style="margin-bottom:40px">
+    <button class="btn btn-primary">Save</button>
+    <a class="btn" href="{{ url_for('exhibitions') }}">Cancel</a>
+  </div>
+</form>
+
+{% if e %}
+<fieldset>
+  <legend>Delete this exhibition</legend>
+  <form method="post" action="{{ url_for('delete_exhibition', eid=e.id) }}" class="bar">
+    <input name="confirm" placeholder="type DELETE" style="width:160px">
+    <button class="btn btn-danger">Delete permanently</button>
+    <span class="hint">To take it off the site but keep it, untick "Show" above instead.</span>
+  </form>
+</fieldset>
+{% endif %}
+
+{% endblock %}

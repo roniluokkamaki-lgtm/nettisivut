@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parent
 CONTENT_DIR = ROOT / "content"
 TEMPLATES_DIR = ROOT / "templates"
 ORIGINALS_DIR = ROOT / "originals"
+POSTERS_DIR = ORIGINALS_DIR / "exhibitions"
 DOCS_DIR = ROOT / "docs"
 
 SITE_NAME = "Roni Luokkamäki"
@@ -70,20 +71,25 @@ LANGUAGES = {
         "other": "fi",
         "switch_label": "FI",
         "switch_title": "Suomeksi",
-        "nav": {"home": "HOME", "gallery": "GALLERY", "about": "ABOUT", "order": "ORDER"},
+        "nav": {"home": "HOME", "gallery": "GALLERY", "exhibitions": "EXHIBITIONS",
+                "about": "ABOUT", "order": "ORDER"},
         "page_titles": {
-            "gallery": "Gallery", "about": "About", "order": "Order",
+            "gallery": "Gallery", "exhibitions": "Exhibitions", "about": "About", "order": "Order",
             "terms": "Terms of purchase", "404": "Not found",
         },
         "descriptions": {
             "home": f"Paintings and current work by {ARTIST_NAME}.",
             "gallery": f"All paintings by {ARTIST_NAME}.",
+            "exhibitions": f"Solo and group exhibitions by {ARTIST_NAME}.",
             "about": f"About {ARTIST_NAME}.",
             "order": "Payments, delivery and returns.",
             "terms": "Terms of purchase.",
             "404": "Page not found.",
         },
         "latest_work": "latest work",
+        "exh_sections": {"solo": "Solo exhibitions", "group": "Group exhibitions"},
+        "months": ("January", "February", "March", "April", "May", "June", "July",
+                   "August", "September", "October", "November", "December"),
         "view_gallery": "view the full gallery &rarr;",
         "status": {
             "for_sale": "for sale", "inquire": "price on request",
@@ -127,20 +133,24 @@ LANGUAGES = {
         "other": "en",
         "switch_label": "EN",
         "switch_title": "In English",
-        "nav": {"home": "ETUSIVU", "gallery": "TEOKSET", "about": "TIETOA", "order": "TILAAMINEN"},
+        "nav": {"home": "ETUSIVU", "gallery": "TEOKSET", "exhibitions": "NÄYTTELYT",
+                "about": "TIETOA", "order": "TILAAMINEN"},
         "page_titles": {
-            "gallery": "Teokset", "about": "Tietoa", "order": "Tilaaminen",
+            "gallery": "Teokset", "exhibitions": "Näyttelyt", "about": "Tietoa", "order": "Tilaaminen",
             "terms": "Kauppaehdot", "404": "Sivua ei löytynyt",
         },
         "descriptions": {
             "home": f"{ARTIST_NAME}, maalauksia ja ajankohtaisia teoksia.",
             "gallery": f"{ARTIST_NAME}, kaikki teokset.",
+            "exhibitions": f"{ARTIST_NAME}, yksityis- ja ryhmänäyttelyt.",
             "about": f"Tietoa taiteilijasta {ARTIST_NAME}.",
             "order": "Maksaminen, toimitus ja palautukset.",
             "terms": "Kauppaehdot.",
             "404": "Sivua ei löytynyt.",
         },
         "latest_work": "uusimmat teokset",
+        "exh_sections": {"solo": "Yksityisnäyttelyt", "group": "Ryhmänäyttelyt"},
+        "months": None,  # Finnish dates are written as numbers, 11.12.2025
         "view_gallery": "katso kaikki teokset &rarr;",
         "status": {
             "for_sale": "myynnissä", "inquire": "hinta pyynnöstä",
@@ -190,6 +200,8 @@ IMAGE_VARIANTS = {
     "full": (1400, 85),
     "zoom": (2800, 85),
 }
+# exhibition posters are shown at about 260 CSS px wide
+POSTER_VARIANT = (900, 85)
 
 
 class BuildError(Exception):
@@ -273,6 +285,21 @@ def load_paintings() -> list[dict]:
     return paintings
 
 
+def load_exhibitions() -> list[dict]:
+    """Exhibitions to list on the Exhibitions page, newest first."""
+    exhibitions = db.public_exhibitions()
+    errors = []
+    for e in exhibitions:
+        e["poster_path"] = POSTERS_DIR / e["poster"] if e["poster"] else None
+        if e["poster_path"] and not e["poster_path"].exists():
+            errors.append(f"exhibition {e['title']!r}: image {e['poster']!r} "
+                          "not found in originals/exhibitions/")
+    if errors:
+        raise BuildError("the exhibition list has problems:\n"
+                         + "\n".join(f"  - {x}" for x in errors))
+    return exhibitions
+
+
 # ------------------------------------------------------------------ images
 
 def resize_variant(src: Path, dest: Path, longest_side: int, quality: int) -> tuple[int, int]:
@@ -332,6 +359,23 @@ def build_images(paintings: list[dict]) -> None:
         print("warning: originals/profile.jpg not found — front page image will 404", file=sys.stderr)
 
 
+def build_exhibition_images(exhibitions: list[dict]) -> None:
+    out_dir = DOCS_DIR / "img" / "exhibitions"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    expected = set()
+    for e in exhibitions:
+        if not e["poster_path"]:
+            continue
+        dest = out_dir / f"exhibition-{e['id']}.jpg"
+        expected.add(dest.name)
+        e["poster_w"], e["poster_h"] = resize_variant(e["poster_path"], dest, *POSTER_VARIANT)
+        e["poster_file"] = dest.name
+    # as with paintings: the image of a hidden or deleted exhibition comes down too
+    for stale in out_dir.glob("*.jpg"):
+        if stale.name not in expected:
+            stale.unlink()
+
+
 # -------------------------------------------------------------- localisation
 
 def localise(p: dict, L: dict) -> dict:
@@ -367,6 +411,55 @@ def localise(p: dict, L: dict) -> dict:
     })
     out["buy_href"] = mailto_for(out, L) if p["status"] in ("for_sale", "inquire") else None
     return out
+
+
+def date_range(start: str | None, end: str | None, L: dict) -> str:
+    """An exhibition's dates written the way each language writes them.
+
+    English: "28 March – 16 May 2026", "11 December 2025 – 8 January 2026".
+    Finnish: "28.3.–16.5.2026", "11.12.2025–8.1.2026".
+    """
+    if not start:
+        return ""
+    s = datetime.date.fromisoformat(start)
+    e = datetime.date.fromisoformat(end) if end else None
+    months = L["months"]
+    if months is None:  # Finnish, numeric
+        if not e or e == s:
+            return f"{s.day}.{s.month}.{s.year}"
+        head = f"{s.day}.{s.month}." if s.year == e.year else f"{s.day}.{s.month}.{s.year}"
+        return f"{head}–{e.day}.{e.month}.{e.year}"
+    if not e or e == s:
+        return f"{s.day} {months[s.month - 1]} {s.year}"
+    if s.year != e.year:
+        head = f"{s.day} {months[s.month - 1]} {s.year}"
+    elif s.month != e.month:
+        head = f"{s.day} {months[s.month - 1]}"
+    else:
+        return f"{s.day}–{e.day} {months[e.month - 1]} {e.year}"
+    return f"{head} – {e.day} {months[e.month - 1]} {e.year}"
+
+
+def localise_exhibition(e: dict, L: dict) -> dict:
+    """One exhibition as a heading line plus detail lines, in the page's language."""
+    fi = L["code"] == "fi"
+    title = (e["title_fi"] or e["title"]) if fi else e["title"]
+    place = (e["place_fi"] or e["place"]) if fi else e["place"]
+    details = (e["details_fi"] or e["details"]) if fi else e["details"]
+    lines = [" ".join(line.split()) for line in details.splitlines()]
+    lines = [line for line in lines if line]
+    dates = date_range(e["start_date"], e["end_date"], L)
+    if dates:
+        lines.append(dates)
+    return {
+        "heading": ", ".join(b for b in (title, e["venue"], place, str(e["year"])) if b),
+        "title": title,
+        "lines": lines,
+        "poster": e.get("poster_file"),
+        "poster_w": e.get("poster_w"),
+        "poster_h": e.get("poster_h"),
+        "kind": e["kind"],
+    }
 
 
 def split_tags(text: str) -> list[str]:
@@ -474,7 +567,7 @@ def read_content(lang: str, name: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def render_site(paintings: list[dict]) -> None:
+def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
         # Autoescape everywhere: CSV-sourced fields (title, technique, ...) and the
@@ -516,6 +609,9 @@ def render_site(paintings: list[dict]) -> None:
             "css_v": css_v,
             "js_v": js_v,
             "filter_v": filter_v,
+            # the Exhibitions page, and its menu link, exist only once there is
+            # something to list
+            "has_exhibitions": bool(exhibitions),
             "site_url": SITE_URL,
         }
 
@@ -535,6 +631,19 @@ def render_site(paintings: list[dict]) -> None:
             }),
             ("404.html", "404.html", {"page_id": "404"}),
         ]
+        if exhibitions:
+            local_exh = [localise_exhibition(e, L) for e in exhibitions]
+            pages.append(("exhibitions.html", "exhibitions.html", {
+                "page_id": "exhibitions",
+                "sections": [
+                    {"title": L["exh_sections"][kind],
+                     "entries": [x for x in local_exh if x["kind"] == kind]}
+                    for kind in db.EXHIBITION_KINDS
+                    if any(x["kind"] == kind for x in local_exh)
+                ],
+            }))
+        else:
+            (out_dir / "exhibitions.html").unlink(missing_ok=True)
 
         for out_name, template_name, ctx in pages:
             key = ctx["page_id"]
@@ -609,8 +718,10 @@ def main() -> int:
     if not args.check_only:
         try:
             paintings = load_paintings()
+            exhibitions = load_exhibitions()
             build_images(paintings)
-            render_site(paintings)
+            build_exhibition_images(exhibitions)
+            render_site(paintings, exhibitions)
         except BuildError as e:
             print(f"\nBUILD FAILED:\n{e}\n", file=sys.stderr)
             return 1
