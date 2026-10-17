@@ -122,6 +122,21 @@ def git(*args) -> tuple[bool, str]:
     return r.returncode == 0, (r.stdout + r.stderr).strip()
 
 
+def live_slugs() -> set[str] | None:
+    """Works that are on the live website right now.
+
+    The live site is whatever was last pushed to GitHub, so this reads the
+    published thumbnails from origin/main rather than from the local docs/
+    folder, which may hold a newer build that has not been published yet.
+    Returns None if git can't tell (for example, before the first push).
+    """
+    ok, out = git("ls-tree", "--name-only", "origin/main", "docs/img/paintings/")
+    if not ok:
+        return None
+    return {Path(p).name[:-len("-thumb.jpg")] for p in out.splitlines()
+            if p.endswith("-thumb.jpg")}
+
+
 # -------------------------------------------------------------------- list
 
 @app.route("/")
@@ -154,7 +169,8 @@ def index():
     }
     con.close()
     return render_template("admin/list.html", works=works, counts=counts, q=q,
-                           status=status, show_archived=show_archived, sort=sort)
+                           status=status, show_archived=show_archived, sort=sort,
+                           live=live_slugs())
 
 
 @app.route("/photo/<slug>")

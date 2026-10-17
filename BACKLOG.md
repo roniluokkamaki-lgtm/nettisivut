@@ -13,7 +13,6 @@ Status on 17.10.2026, for the 19 works shown on the site:
 | Missing | Works | Why it matters |
 |---|---|---|
 | Category (painting / drawing / other) | 19 | the gallery's Category filter stays hidden until works have one |
-| Website tags | 19 | the Tags filter stays hidden until works have some |
 | Real title (still "Untitled…") | 18 | fine if a work really is untitled |
 | Year | 14 | works without a year don't appear under any year in the filter |
 | Medium | 14 | shown under each work in the gallery |
@@ -50,4 +49,3 @@ in Manage artworks (Exhibitions button). Posters are optional.
 - The private tags on *Untitled (Study: airport)* still read `secrettag`, a
   test value. Clear it in Manage artworks.
 - Background music: add `docs/audio/track.mp3` when the track is ready.
-- Instagram: set `INSTAGRAM_HANDLE` in `build.py` to show the footer icon.

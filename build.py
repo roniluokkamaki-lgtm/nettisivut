@@ -40,7 +40,7 @@ AUDIO_FILENAME = "track.mp3"  # only referenced on the page if this file exists 
 
 # Instagram handle without the "@". While this is empty the icon is left off the
 # footer entirely, rather than linking somewhere wrong.
-INSTAGRAM_HANDLE = ""
+INSTAGRAM_HANDLE = "roniluokkamaki"
 
 # Used only to build absolute hreflang URLs. Change this if the site moves to a
 # custom domain (see README, "Custom domain").

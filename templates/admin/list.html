@@ -25,7 +25,8 @@
 {% else %}
 <table>
   <thead>
-    <tr><th></th><th>Title</th><th>Year</th><th>Size</th><th>Status</th><th>Site</th><th></th></tr>
+    <tr><th></th><th>Title</th><th>Year</th><th>Size</th><th>Status</th><th>Site</th>
+      <th title="Whether the work is on www.roniluokkamaki.com right now">Live</th><th></th></tr>
   </thead>
   <tbody>
   {% for w in works %}
@@ -48,6 +49,14 @@
             {% if w.web_visible %}<span class="tag tag-shown">SHOWN</span>{% else %}hidden{% endif %}
           </button>
         </form>
+      </td>
+      <td>
+        {% if live is none %}<span class="count">?</span>
+        {% elif w.slug in live %}
+          <span class="tag tag-shown">LIVE</span>
+          {% if not w.web_visible %}<div class="count">comes down at next Publish</div>{% endif %}
+        {% elif w.web_visible %}<span class="count">goes live at next Publish</span>
+        {% else %}<span class="count">—</span>{% endif %}
       </td>
       <td style="text-align:right">
         <a class="btn" style="padding:.2em .6em" href="{{ url_for('edit_work', wid=w.id) }}">Edit</a>
