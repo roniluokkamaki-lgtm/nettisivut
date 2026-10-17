@@ -8,8 +8,9 @@ without it.
 
 Works are managed with `Manage artworks`, which also previews and publishes the site.
 
-See `MUISTIINPANOT.md` for the original design notes and `PLAN.md` for the
-full build plan this project followed.
+See `MUISTIINPANOT.md` for the original design notes, `PLAN.md` for the
+full build plan this project followed, and `BACKLOG.md` for what is still to
+do.
 
 ## Managing artworks
 
@@ -23,6 +24,8 @@ From there you can:
 - **Edit anything** about a work you already have.
 - **Record a sale** — date, price paid, and the buyer's name and contact details.
 - **Choose what appears on the website** with the Shown tick on each work.
+- **Sort works for the gallery filter** with a category (painting, drawing or
+  other) and website tags. See *The gallery filter* below.
 - **Archive** a work to take it off the site while keeping its record, or delete
   it permanently behind a typed confirmation.
 - **Preview** the website as it would look, then **Publish** it live.
@@ -43,7 +46,8 @@ is reachable from the internet and there is no password to manage.
 | buyer name, email, phone, address | title, year, medium, size |
 | price actually paid, date sold | asking price, if you set one |
 | sale notes, private notes | description, photograph |
-| tags, exhibitions | whether it is sold |
+| private tags, exhibitions | whether it is sold |
+| | category and website tags (for the gallery filter) |
 
 The website is built from a fixed list of safe columns in `db.py`
 (`PUBLIC_COLUMNS`). No buyer field is in that list, so personal data cannot reach
@@ -70,6 +74,26 @@ Each work has a real status, and the website follows it:
 
 Use *Override what the site says* on a work to force something else, for example
 to mark a piece "not for sale".
+
+### The gallery filter
+
+The gallery page has three menus above the pictures: **Category**, **Years**
+and **Tags**. Each lists only what your works actually have, with a count,
+and a menu with nothing in it is left out. Today only Years appears, because
+no work has a category or website tags yet (see `BACKLOG.md`).
+
+- **Category** is chosen per work in Manage artworks. Paintings are split into
+  *small* and *large* automatically: large means the longest side is at least
+  50 cm. The cut-off is `LARGE_PAINTING_CM` near the top of `build.py`. A
+  painting with no size is listed under Paintings only.
+- **Years** come from each work's year.
+- **Tags** come from the *Website tags* box, separated by commas, with a
+  Finnish version in the box next to it. These are separate from your
+  *private tags*, which are never published.
+
+The filter needs JavaScript. Without it the gallery simply shows every work.
+Clicking a thumbnail at the top of the gallery scrolls down to that work in
+the list; clicking the large picture there opens the viewer.
 
 ### Editing the text pages
 

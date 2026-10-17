@@ -35,7 +35,7 @@ ALLOWED_IMAGE = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp"}
 app = Flask(__name__, template_folder="templates")
 app.secret_key = "local-admin-only"  # only used for flash messages on localhost
 app.jinja_env.globals.update(STATUSES=db.STATUSES, WEB_STATUSES=db.WEB_STATUSES,
-                             SUPPORTS=db.SUPPORTS)
+                             SUPPORTS=db.SUPPORTS, CATEGORIES=db.CATEGORIES)
 
 
 # ----------------------------------------------------------------- helpers
@@ -222,6 +222,9 @@ def save_work(wid):
         status = form_value("status", "in_possession")
         if status not in db.STATUSES:
             raise ValueError("unknown status")
+        category = form_value("category")
+        if category not in db.CATEGORIES:
+            raise ValueError("unknown category")
         override = form_value("web_status_override")
         if override and override not in db.WEB_STATUSES:
             raise ValueError("unknown website status")
@@ -243,6 +246,9 @@ def save_work(wid):
             "year": year, "month": month,
             "medium": form_value("medium"), "medium_fi": form_value("medium_fi"),
             "theme": form_value("theme"), "tags": form_value("tags"),
+            "category": category,
+            "public_tags": form_value("public_tags"),
+            "public_tags_fi": form_value("public_tags_fi"),
             "exhibitions": form_value("exhibitions"),
             "width_cm": width, "height_cm": height, "depth_cm": form_float("depth_cm"),
             "support": form_value("support"),

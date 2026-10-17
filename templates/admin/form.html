@@ -17,8 +17,21 @@
     <div class="row row-3">
       <div><label>Year</label><input name="year" value="{{ val('year') }}" placeholder="2025"></div>
       <div><label>Month (optional)</label><input name="month" value="{{ val('month') }}" placeholder="1-12"></div>
-      <div><label>Tags</label><input name="tags" value="{{ val('tags') }}" placeholder="still life, studio"></div>
+      <div><label>Private tags (never published)</label><input name="tags" value="{{ val('tags') }}" placeholder="for your own notes"></div>
     </div>
+    <div class="row row-3">
+      <div><label>Category (website filter)</label>
+        <select name="category">
+          {% for c in CATEGORIES %}
+          <option value="{{ c }}"{% if val('category') == c %} selected{% endif %}>{{ {'': '— not set —', 'painting': 'Painting', 'drawing': 'Drawing', 'other': 'Other'}[c] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div><label>Website tags</label><input name="public_tags" value="{{ val('public_tags') }}" placeholder="still life, landscape"></div>
+      <div><label>Website tags in Finnish</label><input name="public_tags_fi" value="{{ val('public_tags_fi') }}" placeholder="asetelma, maisema"></div>
+    </div>
+    <p class="hint">Category and website tags appear in the gallery filter. Separate tags with commas.
+      Paintings are split into small and large automatically from their size.</p>
     <div class="row row-2">
       <div><label>Medium</label><input name="medium" value="{{ val('medium') }}" placeholder="Oil on canvas"></div>
       <div><label>Medium in Finnish</label><input name="medium_fi" value="{{ val('medium_fi') }}" placeholder="Öljy kankaalle"></div>

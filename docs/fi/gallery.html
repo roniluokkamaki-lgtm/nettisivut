@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icon-32.png">
 <link rel="apple-touch-icon" href="../img/icon-180.png">
 <link rel="preload" href="../fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/style.css?v=2135e846">
+<link rel="stylesheet" href="../css/style.css?v=6366d14c">
 </head>
 <body>
 
@@ -32,220 +32,105 @@
 <main id="main">
 <h1>Teokset</h1>
 
+<form class="filters" aria-label="Rajaa teoksia" hidden
+      data-showing="Näytetään {n}/{total} teosta" data-total="19">
+  <label class="filter">
+    <span class="filter-label">Vuodet</span>
+    <select name="year">
+      <option value="">Kaikki vuodet</option>
+      <option value="2025">2025 (2)</option>
+      <option value="2023">2023 (3)</option>
+    </select>
+  </label>
+  <p class="filter-status" aria-live="polite">
+    <span class="filter-count"></span>
+    <button type="reset" class="filter-clear" hidden>tyhjennä valinnat</button>
+  </p>
+</form>
+<p class="filter-none" hidden>Yksikään teos ei vastaa valintoja.</p>
+
 <section class="thumb-grid" aria-label="Teokset">
-  <a class="thumb"
-     href="#untitled-study-airport"
-     data-id="untitled-study-airport"
-     data-full="../img/paintings/untitled-study-airport-full.jpg"
-     data-zoom="../img/paintings/untitled-study-airport-zoom.jpg"
-     data-full-w="1051" data-full-h="1400"
-     data-zoom-w="2102" data-zoom-h="2800"
-     data-title="Untitled (Study: airport)"
-     data-caption="2025 · Acrylic and oil on canvas · 23×30 cm &middot; myyty">
+  <a class="thumb" href="#untitled-study-airport"
+     data-cats="" data-year="2025" data-tags="">
     <img src="../img/paintings/untitled-study-airport-thumb.jpg" alt="Untitled (Study: airport)" width="601" height="800" loading="lazy">
 <span class="sold-flag">MYYTY</span>  </a>
-  <a class="thumb"
-     href="#untitled-study-still-life"
-     data-id="untitled-study-still-life"
-     data-full="../img/paintings/untitled-study-still-life-full.jpg"
-     data-zoom="../img/paintings/untitled-study-still-life-zoom.jpg"
-     data-full-w="1000" data-full-h="1400"
-     data-zoom-w="2001" data-zoom-h="2800"
-     data-title="Untitled (Study: still life)"
-     data-caption="2025 · Acrylic on canvas · 24×33 cm &middot; hinta pyynnöstä">
+  <a class="thumb" href="#untitled-study-still-life"
+     data-cats="" data-year="2025" data-tags="">
     <img src="../img/paintings/untitled-study-still-life-thumb.jpg" alt="Untitled (Study: still life)" width="572" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#untitled-study-cuba"
-     data-id="untitled-study-cuba"
-     data-full="../img/paintings/untitled-study-cuba-full.jpg"
-     data-zoom="../img/paintings/untitled-study-cuba-zoom.jpg"
-     data-full-w="1400" data-full-h="992"
-     data-zoom-w="2800" data-zoom-h="1984"
-     data-title="Untitled (Study: Cuba, Hemingway&#39;s house)"
-     data-caption="2023 · Oil pastel on paper · 31×22 cm &middot; hinta pyynnöstä">
+  <a class="thumb" href="#untitled-study-cuba"
+     data-cats="" data-year="2023" data-tags="">
     <img src="../img/paintings/untitled-study-cuba-thumb.jpg" alt="Untitled (Study: Cuba, Hemingway&#39;s house)" width="800" height="567" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#untitled-study-martini"
-     data-id="untitled-study-martini"
-     data-full="../img/paintings/untitled-study-martini-full.jpg"
-     data-zoom="../img/paintings/untitled-study-martini-zoom.jpg"
-     data-full-w="961" data-full-h="1400"
-     data-zoom-w="1895" data-zoom-h="2760"
-     data-title="Untitled (Study: Martini)"
-     data-caption="2023 · Acrylic on paper · 14×20 cm &middot; hinta pyynnöstä">
+  <a class="thumb" href="#untitled-study-martini"
+     data-cats="" data-year="2023" data-tags="">
     <img src="../img/paintings/untitled-study-martini-thumb.jpg" alt="Untitled (Study: Martini)" width="549" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#vision"
-     data-id="vision"
-     data-full="../img/paintings/vision-full.jpg"
-     data-zoom="../img/paintings/vision-zoom.jpg"
-     data-full-w="903" data-full-h="1400"
-     data-zoom-w="1806" data-zoom-h="2800"
-     data-title="Vision"
-     data-caption="2023 · Oil pastel on paper · 23×34 cm &middot; hinta pyynnöstä">
+  <a class="thumb" href="#vision"
+     data-cats="" data-year="2023" data-tags="">
     <img src="../img/paintings/vision-thumb.jpg" alt="Vision" width="516" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1167"
-     data-id="dscf1167"
-     data-full="../img/paintings/dscf1167-full.jpg"
-     data-zoom="../img/paintings/dscf1167-zoom.jpg"
-     data-full-w="998" data-full-h="1400"
-     data-zoom-w="1997" data-zoom-h="2800"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1167"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1167-thumb.jpg" alt="Untitled" width="571" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1176"
-     data-id="dscf1176"
-     data-full="../img/paintings/dscf1176-full.jpg"
-     data-zoom="../img/paintings/dscf1176-zoom.jpg"
-     data-full-w="1060" data-full-h="1400"
-     data-zoom-w="2119" data-zoom-h="2800"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1176"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1176-thumb.jpg" alt="Untitled" width="605" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1185"
-     data-id="dscf1185"
-     data-full="../img/paintings/dscf1185-full.jpg"
-     data-zoom="../img/paintings/dscf1185-zoom.jpg"
-     data-full-w="881" data-full-h="1400"
-     data-zoom-w="1763" data-zoom-h="2800"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1185"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1185-thumb.jpg" alt="Untitled" width="504" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1186"
-     data-id="dscf1186"
-     data-full="../img/paintings/dscf1186-full.jpg"
-     data-zoom="../img/paintings/dscf1186-zoom.jpg"
-     data-full-w="1168" data-full-h="1400"
-     data-zoom-w="2337" data-zoom-h="2800"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1186"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1186-thumb.jpg" alt="Untitled" width="668" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1197"
-     data-id="dscf1197"
-     data-full="../img/paintings/dscf1197-full.jpg"
-     data-zoom="../img/paintings/dscf1197-zoom.jpg"
-     data-full-w="978" data-full-h="1400"
-     data-zoom-w="1902" data-zoom-h="2722"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1197"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1197-thumb.jpg" alt="Untitled" width="559" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1198"
-     data-id="dscf1198"
-     data-full="../img/paintings/dscf1198-full.jpg"
-     data-zoom="../img/paintings/dscf1198-zoom.jpg"
-     data-full-w="1122" data-full-h="1400"
-     data-zoom-w="2244" data-zoom-h="2800"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1198"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1198-thumb.jpg" alt="Untitled" width="641" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1219"
-     data-id="dscf1219"
-     data-full="../img/paintings/dscf1219-full.jpg"
-     data-zoom="../img/paintings/dscf1219-zoom.jpg"
-     data-full-w="1400" data-full-h="1096"
-     data-zoom-w="2800" data-zoom-h="2191"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1219"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1219-thumb.jpg" alt="Untitled" width="800" height="626" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1226"
-     data-id="dscf1226"
-     data-full="../img/paintings/dscf1226-full.jpg"
-     data-zoom="../img/paintings/dscf1226-zoom.jpg"
-     data-full-w="1400" data-full-h="1129"
-     data-zoom-w="2800" data-zoom-h="2259"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1226"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1226-thumb.jpg" alt="Untitled" width="800" height="645" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1231"
-     data-id="dscf1231"
-     data-full="../img/paintings/dscf1231-full.jpg"
-     data-zoom="../img/paintings/dscf1231-zoom.jpg"
-     data-full-w="1121" data-full-h="1400"
-     data-zoom-w="2242" data-zoom-h="2800"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1231"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1231-thumb.jpg" alt="Untitled" width="640" height="800" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1234"
-     data-id="dscf1234"
-     data-full="../img/paintings/dscf1234-full.jpg"
-     data-zoom="../img/paintings/dscf1234-zoom.jpg"
-     data-full-w="1400" data-full-h="954"
-     data-zoom-w="2800" data-zoom-h="1908"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1234"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1234-thumb.jpg" alt="Untitled" width="800" height="545" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1235"
-     data-id="dscf1235"
-     data-full="../img/paintings/dscf1235-full.jpg"
-     data-zoom="../img/paintings/dscf1235-zoom.jpg"
-     data-full-w="1400" data-full-h="1145"
-     data-zoom-w="2800" data-zoom-h="2290"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1235"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1235-thumb.jpg" alt="Untitled" width="800" height="654" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1238"
-     data-id="dscf1238"
-     data-full="../img/paintings/dscf1238-full.jpg"
-     data-zoom="../img/paintings/dscf1238-zoom.jpg"
-     data-full-w="1400" data-full-h="982"
-     data-zoom-w="2800" data-zoom-h="1963"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1238"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1238-thumb.jpg" alt="Untitled" width="800" height="561" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1245"
-     data-id="dscf1245"
-     data-full="../img/paintings/dscf1245-full.jpg"
-     data-zoom="../img/paintings/dscf1245-zoom.jpg"
-     data-full-w="1400" data-full-h="868"
-     data-zoom-w="2800" data-zoom-h="1736"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1245"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1245-thumb.jpg" alt="Untitled" width="800" height="496" loading="lazy">
   </a>
-  <a class="thumb"
-     href="#dscf1251"
-     data-id="dscf1251"
-     data-full="../img/paintings/dscf1251-full.jpg"
-     data-zoom="../img/paintings/dscf1251-zoom.jpg"
-     data-full-w="1400" data-full-h="971"
-     data-zoom-w="2800" data-zoom-h="1942"
-     data-title="Untitled"
-     data-caption="hinta pyynnöstä">
+  <a class="thumb" href="#dscf1251"
+     data-cats="" data-year="" data-tags="">
     <img src="../img/paintings/dscf1251-thumb.jpg" alt="Untitled" width="800" height="555" loading="lazy">
   </a>
 </section>
 
 <section class="full-list">
-  <article class="painting" id="untitled-study-airport">
+  <article class="painting" id="untitled-study-airport"
+           data-cats="" data-year="2025" data-tags="">
     <a href="../img/paintings/untitled-study-airport-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-airport"
@@ -272,7 +157,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="untitled-study-still-life">
+  <article class="painting" id="untitled-study-still-life"
+           data-cats="" data-year="2025" data-tags="">
     <a href="../img/paintings/untitled-study-still-life-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-still-life"
@@ -300,7 +186,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="untitled-study-cuba">
+  <article class="painting" id="untitled-study-cuba"
+           data-cats="" data-year="2023" data-tags="">
     <a href="../img/paintings/untitled-study-cuba-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-cuba"
@@ -328,7 +215,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="untitled-study-martini">
+  <article class="painting" id="untitled-study-martini"
+           data-cats="" data-year="2023" data-tags="">
     <a href="../img/paintings/untitled-study-martini-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-martini"
@@ -356,7 +244,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="vision">
+  <article class="painting" id="vision"
+           data-cats="" data-year="2023" data-tags="">
     <a href="../img/paintings/vision-zoom.jpg"
        class="painting-img-link"
        data-id="vision"
@@ -384,7 +273,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1167">
+  <article class="painting" id="dscf1167"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1167-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1167"
@@ -412,7 +302,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1176">
+  <article class="painting" id="dscf1176"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1176-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1176"
@@ -440,7 +331,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1185">
+  <article class="painting" id="dscf1185"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1185-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1185"
@@ -468,7 +360,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1186">
+  <article class="painting" id="dscf1186"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1186-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1186"
@@ -496,7 +389,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1197">
+  <article class="painting" id="dscf1197"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1197-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1197"
@@ -524,7 +418,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1198">
+  <article class="painting" id="dscf1198"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1198-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1198"
@@ -552,7 +447,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1219">
+  <article class="painting" id="dscf1219"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1219-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1219"
@@ -580,7 +476,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1226">
+  <article class="painting" id="dscf1226"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1226-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1226"
@@ -608,7 +505,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1231">
+  <article class="painting" id="dscf1231"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1231-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1231"
@@ -636,7 +534,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1234">
+  <article class="painting" id="dscf1234"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1234-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1234"
@@ -664,7 +563,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1235">
+  <article class="painting" id="dscf1235"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1235-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1235"
@@ -692,7 +592,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1238">
+  <article class="painting" id="dscf1238"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1238-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1238"
@@ -720,7 +621,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1245">
+  <article class="painting" id="dscf1245"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1245-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1245"
@@ -748,7 +650,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1251">
+  <article class="painting" id="dscf1251"
+           data-cats="" data-year="" data-tags="">
     <a href="../img/paintings/dscf1251-zoom.jpg"
        class="painting-img-link"
        data-id="dscf1251"
@@ -788,6 +691,7 @@
 </footer>
 
 <script id="lb-strings" type="application/json">{"close": "Sulje", "dialog": "Teoskatselin", "next": "Seuraava teos", "prev": "Edellinen teos", "zoom_off": "l\u00e4hennys: pois", "zoom_on": "l\u00e4hennys: p\u00e4\u00e4ll\u00e4"}</script>
-<script src="../js/lightbox.js?v=4f82e897" defer></script>
+<script src="../js/lightbox.js?v=47ce1a11" defer></script>
+<script src="../js/filter.js?v=fd1097b5" defer></script>
 </body>
 </html>

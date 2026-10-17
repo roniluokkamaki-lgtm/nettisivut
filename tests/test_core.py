@@ -136,6 +136,28 @@ for key, value in SECRET.items():
             leaks.append(f"{key} -> {f.relative_to(ROOT)}")
 check("C3b no private value appears in any published file", not leaks, "; ".join(leaks))
 
+# C4: category and website tags reach the gallery filter; private tags still don't
+post(f"/work/{target['id']}/save", title=target["title"], slug=target["slug"],
+     status="sold", web_visible="on", year="2025",
+     medium="Acrylic and oil on canvas", width_cm="23", height_cm="30",
+     category="painting", public_tags="Zqpublic Tag", public_tags_fi="Zqjulkinen",
+     tags="secrettag")
+subprocess.run([sys.executable, "build.py"], cwd=ROOT, capture_output=True)
+gallery_en = (ROOT / "docs" / "gallery.html").read_text(encoding="utf-8")
+gallery_fi = (ROOT / "docs" / "fi" / "gallery.html").read_text(encoding="utf-8")
+check("C4a a 23x30 cm painting is filed as a small painting",
+      'data-cats="painting painting-small"' in gallery_en)
+check("C4b website tags appear in the tag menu, per language",
+      "Zqpublic Tag (1)" in gallery_en and "Zqjulkinen (1)" in gallery_fi)
+check("C4c private tags never appear", "secrettag" not in gallery_en + gallery_fi)
+post(f"/work/{target['id']}/save", title=target["title"], slug=target["slug"],
+     status="sold", web_visible="on", category="sculpture")
+check("C4d an unknown category is refused", row(target["slug"])["category"] == "painting")
+con = db.connect()
+con.execute("UPDATE artworks SET category='', public_tags='', public_tags_fi='' WHERE id=?",
+            (target["id"],))
+con.commit(); con.close()
+
 print("\n=== D. Website status derivation ===")
 con = db.connect()
 def derive(status, price, override=None):

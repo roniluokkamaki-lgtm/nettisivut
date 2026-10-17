@@ -3,19 +3,37 @@
 {% block main %}
 <h1>{{ page_title }}</h1>
 
+{# The filter needs the script to work, so it starts hidden and filter.js
+   reveals it. Without the script the gallery simply shows every work. #}
+{% if filters.menus %}
+<form class="filters" aria-label="{{ L.filter.label }}" hidden
+      data-showing="{{ L.filter.showing }}" data-total="{{ filters.total }}">
+  {% for m in filters.menus %}
+  <label class="filter">
+    <span class="filter-label">{{ m.label }}</span>
+    <select name="{{ m.name }}">
+      <option value="">{{ m.all }}</option>
+      {% for value, text in m.options %}
+      <option value="{{ value }}">{{ text }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  {% endfor %}
+  <p class="filter-status" aria-live="polite">
+    <span class="filter-count"></span>
+    <button type="reset" class="filter-clear" hidden>{{ L.filter['clear'] }}</button>
+  </p>
+</form>
+<p class="filter-none" hidden>{{ L.filter.none }}</p>
+{% endif %}
+
 <section class="thumb-grid" aria-label="{{ page_title }}">
   {% for p in paintings %}
-  <a class="thumb"
-     href="#{{ p.id }}"
-     data-id="{{ p.id }}"
-     data-full="{{ root }}img/paintings/{{ p.id }}-full.jpg"
-     data-zoom="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
-     data-full-w="{{ p.full_w }}" data-full-h="{{ p.full_h }}"
-     data-zoom-w="{{ p.zoom_w }}" data-zoom-h="{{ p.zoom_h }}"
-     data-title="{{ p.title }}"
-     data-caption="{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ p.status_label }}{% endif %}">
-    {# no visible title here, for a quieter grid; the alt text still names the
-       work for screen readers, and the full details are in the list below #}
+  {# a plain link to the work's place in the list below: clicking scrolls
+     there rather than opening the viewer. No visible title, for a quieter
+     grid; the alt text still names the work for screen readers. #}
+  <a class="thumb" href="#{{ p.id }}"
+     data-cats="{{ p.filter_cats }}" data-year="{{ p.year or '' }}" data-tags="{{ p.filter_tags }}">
     <img src="{{ root }}img/paintings/{{ p.id }}-thumb.jpg" alt="{{ p.title }}" width="{{ p.thumb_w }}" height="{{ p.thumb_h }}" loading="lazy">
     {% if p.status == 'sold' %}<span class="sold-flag">{{ L.tag_sold }}</span>{% endif %}
   </a>
@@ -24,7 +42,8 @@
 
 <section class="full-list">
   {% for p in paintings %}
-  <article class="painting" id="{{ p.id }}">
+  <article class="painting" id="{{ p.id }}"
+           data-cats="{{ p.filter_cats }}" data-year="{{ p.year or '' }}" data-tags="{{ p.filter_tags }}">
     <a href="{{ root }}img/paintings/{{ p.id }}-zoom.jpg"
        class="painting-img-link"
        data-id="{{ p.id }}"

@@ -46,6 +46,12 @@
 
 html { color-scheme: dark; }
 
+/* Clicking a gallery thumbnail glides down to that work rather than jumping,
+   unless the visitor has asked their system for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
 body {
   margin: 0;
   /* worn-CRT scanlines, painted into the page background so they sit strictly
@@ -175,6 +181,58 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 }
 .intro-text h1 { margin-top: 0; }
 
+/* --------------------------------------------------------- gallery filter */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.8rem 1.2rem;
+  margin: 1.2rem 0 0.4rem;
+}
+.filter { display: flex; flex-direction: column; gap: 0.3rem; min-width: 12rem; flex: 1 1 12rem; max-width: 18rem; }
+.filter-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.filter select {
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--fg);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.5em 0.7em;
+  cursor: pointer;
+}
+.filter select:hover { border-color: var(--accent); }
+.filter select:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+.filter-status {
+  flex-basis: 100%;
+  margin: 0;
+  min-height: 1.5em;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.filter-clear {
+  font: inherit;
+  color: var(--accent);
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-left: 0.8em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+}
+.filter-clear:hover, .filter-clear:focus-visible { color: var(--accent-hi); }
+.filter-none { color: var(--muted); }
+
+/* .thumb and .painting set their own display, which would otherwise win over
+   the hidden attribute the filter uses */
+.thumb[hidden], .painting[hidden], .filter-clear[hidden] { display: none; }
+
 /* ------------------------------------------------------------ thumb grid */
 
 /* Three works to a row, with room to breathe between them */
@@ -203,6 +261,8 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 
 /* clear space between the thumbnail grid and the list, where a divider line used to be */
 .full-list { margin-top: 3.5rem; }
+/* leave a little room above a work when a thumbnail scrolls to it */
+.painting { scroll-margin-top: 1.5rem; }
 
 .painting {
   display: flex;

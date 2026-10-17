@@ -9,7 +9,9 @@
 (function () {
   "use strict";
 
-  var TRIGGER_SELECTOR = ".thumb[data-full], .painting-img-link[data-full], .btn-view[data-full]";
+  // The thumbnails at the top of the gallery are deliberately not triggers:
+  // they are plain links that scroll down to the work in the list.
+  var TRIGGER_SELECTOR = ".painting-img-link[data-full], .btn-view[data-full]";
 
   // UI strings for the current language, written into the page by build.py.
   // The English defaults keep the viewer usable if that block is ever missing.
@@ -30,8 +32,8 @@
 
   // Build the navigable item list from the full-list section only — each
   // painting appears there exactly once, in gallery order — so prev/next
-  // moves through the whole collection regardless of which element (thumb,
-  // image, or "View closer" link) was clicked to open it.
+  // moves through the whole collection regardless of which element (the
+  // image or the "View closer" link) was clicked to open it.
   var items = Array.prototype.slice
     .call(document.querySelectorAll(".painting-img-link[data-full]"))
     .map(function (el) { return readItem(el); });
@@ -43,6 +45,7 @@
 
   function readItem(el) {
     return {
+      article: el.closest(".painting"),
       id: el.getAttribute("data-id"),
       full: el.getAttribute("data-full"),
       zoom: el.getAttribute("data-zoom"),
@@ -131,8 +134,17 @@
     if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
   }
 
+  // Works hidden by the gallery filter are skipped, so prev/next stays
+  // within what the visitor chose to see.
+  function isShown(it) {
+    return !(it.article && it.article.hidden);
+  }
+
   function step(delta) {
-    current = (current + delta + items.length) % items.length;
+    for (var n = 0; n < items.length; n++) {
+      current = (current + delta + items.length) % items.length;
+      if (isShown(items[current])) break;
+    }
     render();
   }
 

@@ -26,6 +26,9 @@ BACKUP_DIR = Path.home() / "OneDrive" / "nettisivut-backup"
 STATUSES = ("in_possession", "sold")
 WEB_STATUSES = ("for_sale", "inquire", "sold", "not_for_sale")
 SUPPORTS = ("", "canvas", "paper", "panel", "board", "other")
+# What kind of work it is, for the gallery filter. Blank means not yet decided;
+# such a work is still shown, it just isn't listed under any category.
+CATEGORIES = ("", "painting", "drawing", "other")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS artworks (
@@ -47,6 +50,9 @@ CREATE TABLE IF NOT EXISTS artworks (
     description         TEXT    NOT NULL DEFAULT '',
     description_fi      TEXT    NOT NULL DEFAULT '',
     tags                TEXT    NOT NULL DEFAULT '',
+    category            TEXT    NOT NULL DEFAULT '',
+    public_tags         TEXT    NOT NULL DEFAULT '',
+    public_tags_fi      TEXT    NOT NULL DEFAULT '',
     exhibitions         TEXT    NOT NULL DEFAULT '',
     notes               TEXT    NOT NULL DEFAULT '',
     status              TEXT    NOT NULL DEFAULT 'in_possession',
@@ -84,6 +90,9 @@ CREATE INDEX IF NOT EXISTS idx_photos_artwork ON photos(artwork_id);
 PUBLIC_COLUMNS = (
     "slug", "title", "title_fi", "year", "month",
     "medium", "medium_fi", "theme",
+    # category and public_tags drive the gallery filter. `tags` (without the
+    # public_ prefix) is the artist's private labelling and stays off this list.
+    "category", "public_tags", "public_tags_fi",
     "width_cm", "height_cm",
     "description", "description_fi",
     "status", "web_status_override", "asking_price_eur",
@@ -104,6 +113,9 @@ def connect(path: Path = DB_PATH) -> sqlite3.Connection:
 ADDED_COLUMNS = {
     "tags": "TEXT NOT NULL DEFAULT ''",
     "exhibitions": "TEXT NOT NULL DEFAULT ''",
+    "category": "TEXT NOT NULL DEFAULT ''",
+    "public_tags": "TEXT NOT NULL DEFAULT ''",
+    "public_tags_fi": "TEXT NOT NULL DEFAULT ''",
 }
 
 

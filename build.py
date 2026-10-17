@@ -47,6 +47,18 @@ SITE_URL = "https://www.roniluokkamaki.com"
 
 VALID_STATUSES = {"for_sale", "inquire", "sold", "not_for_sale"}
 
+# In the gallery filter, a painting counts as large when its longest side is at
+# least this many centimetres. Paintings with no size entered are listed under
+# "Paintings" only, not as small or large.
+LARGE_PAINTING_CM = 50
+
+# Gallery filter categories, in the order they are listed. The second value is
+# the indent level: small and large sit under paintings.
+FILTER_CATEGORIES = (
+    ("painting", 0), ("painting-small", 1), ("painting-large", 1),
+    ("drawing", 0), ("other", 0),
+)
+
 # English is the default language and lives at the root of docs/. Finnish lives
 # in docs/fi/. Every user-visible string is listed here so a page is never half
 # translated; the Finnish copy is written as Finnish, not translated word by word.
@@ -92,6 +104,18 @@ LANGUAGES = {
         "lb": {
             "close": "Close", "prev": "Previous painting", "next": "Next painting",
             "zoom_on": "zoom: on", "zoom_off": "zoom: off", "dialog": "Painting viewer",
+        },
+        "filter": {
+            "label": "Filter the gallery",
+            "category": "Category", "years": "Years", "tags": "Tags",
+            "all_category": "All works", "all_years": "All years", "all_tags": "All tags",
+            "categories": {
+                "painting": "Paintings", "painting-small": "Small paintings",
+                "painting-large": "Large paintings", "drawing": "Drawings", "other": "Other",
+            },
+            "showing": "Showing {n} of {total} works",
+            "none": "No works match these choices.",
+            "clear": "clear filters",
         },
         "mail_subject": "Painting inquiry: {title} ({id})",
         "mail_body": "Hi,\n\nI'm interested in \"{title}\"{detail}.\n\n",
@@ -139,6 +163,19 @@ LANGUAGES = {
             "zoom_on": "lähennys: päällä", "zoom_off": "lähennys: pois",
             "dialog": "Teoskatselin",
         },
+        "filter": {
+            "label": "Rajaa teoksia",
+            "category": "Kategoria", "years": "Vuodet", "tags": "Tunnisteet",
+            "all_category": "Kaikki teokset", "all_years": "Kaikki vuodet",
+            "all_tags": "Kaikki tunnisteet",
+            "categories": {
+                "painting": "Maalaukset", "painting-small": "Pienet maalaukset",
+                "painting-large": "Suuret maalaukset", "drawing": "Piirustukset", "other": "Muut",
+            },
+            "showing": "Näytetään {n}/{total} teosta",
+            "none": "Yksikään teos ei vastaa valintoja.",
+            "clear": "tyhjennä valinnat",
+        },
         "mail_subject": "Teostiedustelu: {title} ({id})",
         "mail_body": "Hei,\n\nOlen kiinnostunut teoksesta \"{title}\"{detail}.\n\n",
     },
@@ -175,6 +212,7 @@ def load_paintings() -> list[dict]:
             "    py -3 migrate_csv_to_db.py to import the old spreadsheet."
         )
 
+    db.init()  # adds any columns introduced since this database was created
     works = db.public_works()
     if not works:
         raise BuildError("no works are marked visible — nothing to publish")
@@ -213,6 +251,9 @@ def load_paintings() -> list[dict]:
             "technique": w["medium"],
             "technique_fi": w["medium_fi"],
             "theme": w["theme"],
+            "category": w["category"],
+            "public_tags": w["public_tags"],
+            "public_tags_fi": w["public_tags_fi"],
             "width_cm": w_cm,
             "height_cm": h_cm,
             "price_eur": price if status == "for_sale" else None,
@@ -308,8 +349,15 @@ def localise(p: dict, L: dict) -> dict:
     size = f"{p['width_cm']}×{p['height_cm']} cm" if p["width_cm"] and p["height_cm"] else ""
     meta = " · ".join(b for b in (str(p["year"]) if p["year"] else "", technique, size) if b)
 
+    tags = split_tags((p["public_tags_fi"] or p["public_tags"]) if fi else p["public_tags"])
+
     out = dict(p)
     out.update({
+        "categories": filter_categories(p),
+        "tags": tags,
+        # written into data-* attributes for the gallery filter script
+        "filter_cats": " ".join(filter_categories(p)),
+        "filter_tags": "|".join(tag_key(t) for t in tags),
         "title": title,
         "technique": technique,
         "description": description,
@@ -319,6 +367,75 @@ def localise(p: dict, L: dict) -> dict:
     })
     out["buy_href"] = mailto_for(out, L) if p["status"] in ("for_sale", "inquire") else None
     return out
+
+
+def split_tags(text: str) -> list[str]:
+    """Comma-separated tags as entered in the admin tool, tidied and de-duplicated."""
+    seen, out = set(), []
+    for t in (text or "").split(","):
+        t = " ".join(t.split())
+        if t and tag_key(t) not in seen:
+            seen.add(tag_key(t))
+            out.append(t)
+    return out
+
+
+def tag_key(tag: str) -> str:
+    """How tags are compared, so "Still life" and "still life" are one tag."""
+    return " ".join(tag.split()).casefold()
+
+
+def filter_categories(p: dict) -> list[str]:
+    """The gallery filter categories a work belongs to, e.g. painting + painting-large."""
+    cat = p["category"]
+    if not cat:
+        return []
+    cats = [cat]
+    if cat == "painting" and p["width_cm"] and p["height_cm"]:
+        large = max(p["width_cm"], p["height_cm"]) >= LARGE_PAINTING_CM
+        cats.append("painting-large" if large else "painting-small")
+    return cats
+
+
+def gallery_filters(local: list[dict], L: dict) -> dict:
+    """Options for the gallery's three filter menus, each with how many works it holds.
+
+    Only options that at least one work has are listed, and a menu with no
+    options is left out, so the filter never offers a choice that shows nothing.
+    """
+    F = L["filter"]
+    indent = " " * 4
+    cat_counts: dict[str, int] = {}
+    year_counts: dict[int, int] = {}
+    tag_counts: dict[str, list] = {}  # key -> [label, count]
+    for p in local:
+        for c in p["categories"]:
+            cat_counts[c] = cat_counts.get(c, 0) + 1
+        if p["year"]:
+            year_counts[p["year"]] = year_counts.get(p["year"], 0) + 1
+        for t in p["tags"]:
+            tag_counts.setdefault(tag_key(t), [t, 0])[1] += 1
+
+    menus = [
+        ("category", F["category"], F["all_category"], [
+            (c, indent * depth + f"{F['categories'][c]} ({cat_counts[c]})")
+            for c, depth in FILTER_CATEGORIES if c in cat_counts
+        ]),
+        ("year", F["years"], F["all_years"], [
+            (str(y), f"{y} ({n})") for y, n in sorted(year_counts.items(), reverse=True)
+        ]),
+        ("tag", F["tags"], F["all_tags"], [
+            (k, f"{label} ({n})")
+            for k, (label, n) in sorted(tag_counts.items(), key=lambda kv: kv[1][0].casefold())
+        ]),
+    ]
+    return {
+        "menus": [
+            {"name": name, "label": label, "all": all_label, "options": opts}
+            for name, label, all_label, opts in menus if opts
+        ],
+        "total": len(local),
+    }
 
 
 def mailto_for(p: dict, L: dict) -> str:
@@ -377,6 +494,7 @@ def render_site(paintings: list[dict]) -> None:
 
     css_v = asset_version("css/style.css")
     js_v = asset_version("js/lightbox.js")
+    filter_v = asset_version("js/filter.js")
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
 
     for lang, L in LANGUAGES.items():
@@ -397,6 +515,7 @@ def render_site(paintings: list[dict]) -> None:
             "root": L["root"],
             "css_v": css_v,
             "js_v": js_v,
+            "filter_v": filter_v,
             "site_url": SITE_URL,
         }
 
@@ -409,7 +528,11 @@ def render_site(paintings: list[dict]) -> None:
             ("about.html", "page.html", {"page_id": "about", "content": read_content(lang, "about.html")}),
             ("order.html", "page.html", {"page_id": "order", "content": read_content(lang, "order.html")}),
             ("terms.html", "page.html", {"page_id": "terms", "content": read_content(lang, "terms.html")}),
-            ("gallery.html", "gallery.html", {"page_id": "gallery", "paintings": local}),
+            ("gallery.html", "gallery.html", {
+                "page_id": "gallery",
+                "paintings": local,
+                "filters": gallery_filters(local, L),
+            }),
             ("404.html", "404.html", {"page_id": "404"}),
         ]
 
