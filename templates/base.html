@@ -1,3 +1,11 @@
+{# the Instagram glyph, used in both the header and the footer #}
+{% macro instagram_icon() %}
+<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+  <rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+  <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+  <circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/>
+</svg>
+{% endmacro %}
 <!doctype html>
 <html lang="{{ lang }}">
 <head>
@@ -30,6 +38,10 @@
     <a href="order.html"{% if page_id == 'order' %} aria-current="page"{% endif %}>{{ L.nav.order }}</a>
     <span class="sep">|</span>
     <a class="lang-switch" href="{{ switch_href }}" hreflang="{{ L.other }}" title="{{ L.switch_title }}">{{ L.switch_label }}</a>
+    {% if instagram %}
+    <a class="nav-social" href="https://instagram.com/{{ instagram }}" rel="me noopener" target="_blank"
+       title="Instagram @{{ instagram }}" aria-label="Instagram @{{ instagram }}">{{ instagram_icon() }}</a>
+    {% endif %}
   </nav>
 </header>
 
@@ -48,11 +60,7 @@
     {{ L.contact }}: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
     {% if instagram %}
     <a class="social" href="https://instagram.com/{{ instagram }}" rel="me noopener" target="_blank" title="Instagram">
-      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
-        <rect x="2.5" y="2.5" width="19" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
-        <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
-        <circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/>
-      </svg>
+      {{ instagram_icon() }}
       <span>@{{ instagram }}</span>
     </a>
     {% endif %}

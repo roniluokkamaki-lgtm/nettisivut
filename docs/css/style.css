@@ -152,6 +152,16 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   letter-spacing: 0.08em;
 }
 .lang-switch:hover, .lang-switch:focus-visible { border-color: var(--accent-hi); }
+/* small Instagram icon at the end of the menu */
+.main-nav .nav-social {
+  display: inline-flex;
+  vertical-align: -0.2em;
+  margin-left: 0.7em;
+  padding: 0.1em;
+  color: var(--accent);
+}
+.main-nav .nav-social:hover, .main-nav .nav-social:focus-visible { color: var(--accent-hi); }
+.nav-social svg { display: block; width: 18px; height: 18px; }
 
 /* ----------------------------------------------------------------- intro */
 
