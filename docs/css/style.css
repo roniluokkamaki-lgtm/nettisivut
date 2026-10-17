@@ -277,7 +277,9 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 .painting-info { flex: 1 1 260px; min-width: 0; }
 .painting-meta { color: var(--muted); margin: 0.2em 0 0.6em; }
 .painting-desc { margin: 0 0 0.8em; }
-.painting-status { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+/* price, the order/ask button and View closer each on their own row,
+   lined up on the left */
+.painting-status { display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem; }
 
 .price { font-weight: bold; color: var(--accent); font-size: 1.05rem; }
 .tag {
