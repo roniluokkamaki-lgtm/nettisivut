@@ -35,6 +35,14 @@
 <form class="filters" aria-label="Filter the gallery" hidden
       data-showing="Showing {n} of {total} works" data-total="19">
   <label class="filter">
+    <span class="filter-label">Category</span>
+    <select name="category">
+      <option value="">All works</option>
+      <option value="painting">Paintings (5)</option>
+      <option value="painting-small">    Small paintings (5)</option>
+    </select>
+  </label>
+  <label class="filter">
     <span class="filter-label">Years</span>
     <select name="year">
       <option value="">All years</option>
@@ -51,23 +59,23 @@
 
 <section class="thumb-grid" aria-label="Gallery">
   <a class="thumb" href="#untitled-study-airport"
-     data-cats="" data-year="2025" data-tags="">
+     data-cats="painting painting-small" data-year="2025" data-tags="">
     <img src="img/paintings/untitled-study-airport-thumb.jpg" alt="Untitled (Study: airport)" width="601" height="800" loading="lazy">
 <span class="sold-flag">SOLD</span>  </a>
   <a class="thumb" href="#untitled-study-still-life"
-     data-cats="" data-year="2025" data-tags="">
+     data-cats="painting painting-small" data-year="2025" data-tags="">
     <img src="img/paintings/untitled-study-still-life-thumb.jpg" alt="Untitled (Study: still life)" width="572" height="800" loading="lazy">
   </a>
   <a class="thumb" href="#untitled-study-cuba"
-     data-cats="" data-year="2023" data-tags="">
+     data-cats="painting painting-small" data-year="2023" data-tags="">
     <img src="img/paintings/untitled-study-cuba-thumb.jpg" alt="Untitled (Study: Cuba, Hemingway&#39;s house)" width="800" height="567" loading="lazy">
   </a>
   <a class="thumb" href="#untitled-study-martini"
-     data-cats="" data-year="2023" data-tags="">
+     data-cats="painting painting-small" data-year="2023" data-tags="">
     <img src="img/paintings/untitled-study-martini-thumb.jpg" alt="Untitled (Study: Martini)" width="549" height="800" loading="lazy">
   </a>
   <a class="thumb" href="#vision"
-     data-cats="" data-year="2023" data-tags="">
+     data-cats="painting painting-small" data-year="2023" data-tags="">
     <img src="img/paintings/vision-thumb.jpg" alt="Vision" width="516" height="800" loading="lazy">
   </a>
   <a class="thumb" href="#dscf1167"
@@ -130,7 +138,7 @@
 
 <section class="full-list">
   <article class="painting" id="untitled-study-airport"
-           data-cats="" data-year="2025" data-tags="">
+           data-cats="painting painting-small" data-year="2025" data-tags="">
     <a href="img/paintings/untitled-study-airport-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-airport"
@@ -158,7 +166,7 @@
     </div>
   </article>
   <article class="painting" id="untitled-study-still-life"
-           data-cats="" data-year="2025" data-tags="">
+           data-cats="painting painting-small" data-year="2025" data-tags="">
     <a href="img/paintings/untitled-study-still-life-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-still-life"
@@ -187,7 +195,7 @@
     </div>
   </article>
   <article class="painting" id="untitled-study-cuba"
-           data-cats="" data-year="2023" data-tags="">
+           data-cats="painting painting-small" data-year="2023" data-tags="">
     <a href="img/paintings/untitled-study-cuba-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-cuba"
@@ -216,7 +224,7 @@
     </div>
   </article>
   <article class="painting" id="untitled-study-martini"
-           data-cats="" data-year="2023" data-tags="">
+           data-cats="painting painting-small" data-year="2023" data-tags="">
     <a href="img/paintings/untitled-study-martini-zoom.jpg"
        class="painting-img-link"
        data-id="untitled-study-martini"
@@ -245,7 +253,7 @@
     </div>
   </article>
   <article class="painting" id="vision"
-           data-cats="" data-year="2023" data-tags="">
+           data-cats="painting painting-small" data-year="2023" data-tags="">
     <a href="img/paintings/vision-zoom.jpg"
        class="painting-img-link"
        data-id="vision"
