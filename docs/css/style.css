@@ -5,6 +5,26 @@
    --surface is the cap fabric, --accent is the embroidery thread.
    ========================================================================= */
 
+/* Inter, served from docs/fonts/ rather than Google Fonts, so visitors'
+   browsers never contact a third party. One variable file per subset covers
+   every weight from 400 to 700. Licence: docs/fonts/Inter-OFL.txt */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: dark;
 
@@ -17,7 +37,7 @@
   --accent-hi: #cfe6d6; /* thread, lifted — hover/active/focus */
   --rose:      #afa1a6; /* mint, hue turned — sold / unavailable */
 
-  --mono-font: ui-monospace, "Cascadia Mono", "Consolas", "Courier New", monospace;
+  --font: "Inter", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --content-width: 920px;
 }
@@ -39,7 +59,7 @@ body {
     transparent 3px
   );
   color: var(--fg);
-  font-family: var(--mono-font);
+  font-family: var(--font);
   font-size: 16px;
   line-height: 1.55;
   padding-inline: 20px;
@@ -52,7 +72,7 @@ a:hover, a:focus-visible { color: var(--accent-hi); }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
 
 h1, h2, h3 {
-  font-family: var(--mono-font);
+  font-family: var(--font);
   font-weight: 400;
   color: var(--fg);
   text-transform: uppercase;
@@ -82,16 +102,6 @@ h3 { font-size: 1.1rem; margin-top: 0; }
    behind all content, so it can never touch the artwork on any browser,
    rather than relying on stacking order to keep it away. */
 
-.divider {
-  max-width: var(--content-width);
-  margin: 1.6rem auto;
-  overflow: hidden;
-  white-space: nowrap;
-  color: var(--border);
-  font-family: var(--mono-font);
-  font-size: 0.85rem;
-  user-select: none;
-}
 
 /* ---------------------------------------------------------------- header */
 
@@ -102,10 +112,11 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   justify-content: space-between;
   gap: 0.6rem 1.2rem;
   padding-top: calc(1.4rem + env(safe-area-inset-top, 0px));
+  margin-bottom: 2.6rem;
 }
 
 .brand {
-  font-family: var(--mono-font);
+  font-family: var(--font);
   font-weight: 400;
   font-size: 1.15rem;
   color: var(--fg);
@@ -190,6 +201,9 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 
 /* ------------------------------------------------------------- full list */
 
+/* clear space between the thumbnail grid and the list, where a divider line used to be */
+.full-list { margin-top: 3.5rem; }
+
 .painting {
   display: flex;
   gap: 1.6rem;
@@ -221,7 +235,7 @@ h3 { font-size: 1.1rem; margin-top: 0; }
   top: 0;
   left: 0;
   z-index: 2;
-  font-family: var(--mono-font);
+  font-family: var(--font);
   font-size: 0.68rem;
   line-height: 1;
   letter-spacing: 0.16em;
@@ -252,6 +266,7 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 /* ---------------------------------------------------------------- footer */
 
 .site-footer {
+  margin-top: 3rem;
   padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
   font-size: 0.85rem;
   color: var(--muted);
@@ -333,7 +348,7 @@ body:has(main > h1:only-child) main { text-align: left; }
   margin-top: 0.9rem;
   font-size: 0.9rem;
 }
-.lightbox-caption .lightbox-title { font-family: var(--mono-font); font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.1rem; display: block; }
+.lightbox-caption .lightbox-title { font-family: var(--font); font-weight: 400; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.1rem; display: block; }
 
 .lightbox-controls {
   position: absolute;
@@ -350,7 +365,7 @@ body:has(main > h1:only-child) main { text-align: left; }
   background: var(--surface);
   color: var(--fg);
   border: 1px solid var(--border);
-  font-family: var(--mono-font);
+  font-family: var(--font);
   font-size: 0.95rem;
   padding: 0.4em 0.7em;
   cursor: pointer;
@@ -364,7 +379,7 @@ body:has(main > h1:only-child) main { text-align: left; }
   background: var(--surface);
   color: var(--fg);
   border: 1px solid var(--border);
-  font-family: var(--mono-font);
+  font-family: var(--font);
   font-size: 1.4rem;
   width: 2.4rem;
   height: 2.4rem;

@@ -9,6 +9,7 @@
 <link rel="alternate" hreflang="fi" href="{{ alt_fi }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ root }}img/icon-32.png">
 <link rel="apple-touch-icon" href="{{ root }}img/icon-180.png">
+<link rel="preload" href="{{ root }}fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{{ root }}css/style.css?v={{ css_v }}">
 </head>
 <body>
@@ -28,13 +29,9 @@
   </nav>
 </header>
 
-<div class="divider" aria-hidden="true">////////////////////////////////////////////////////////////</div>
-
 <main id="main">
 {% block main %}{% endblock %}
 </main>
-
-<div class="divider" aria-hidden="true">////////////////////////////////////////////////////////////</div>
 
 <footer class="site-footer">
   {% if audio_file %}

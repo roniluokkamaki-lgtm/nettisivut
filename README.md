@@ -154,6 +154,8 @@ overwritten on the next build.
   exists, and is omitted (not broken) while it doesn't.
 - **Site icon**: `docs/img/icon-32.png` and `icon-180.png`, the RL monogram
   shown in the browser tab.
+- **Font files**: `docs/fonts/`, Inter in two parts (basic Latin, and
+  extended Latin for accented letters), plus its licence.
 - **Custom domain**: `docs/CNAME`, containing `www.roniluokkamaki.com`.
   GitHub Pages reads it to know which domain the site answers on.
 
@@ -181,8 +183,13 @@ loading.
   `docs/css/style.css`). `--surface` is the cap fabric, `--accent` is the
   embroidery thread, `--rose` is that same mint hue rotated to a
   blue-leaning red.
-- **Typography**: monospace throughout, including headings — headings are
-  regular weight, uppercase and letter-spaced rather than a separate display font.
+- **Typography**: Inter throughout (changed from monospace on 17.10.2026),
+  including headings, which are regular weight, uppercase and letter-spaced.
+  The font files are in `docs/fonts/` and served from the site itself, not
+  from Google Fonts, so visitors' browsers don't contact Google. Inter is
+  free to use under the SIL Open Font License (`docs/fonts/Inter-OFL.txt`).
+- **No divider lines** between sections (removed 17.10.2026); sections are
+  separated by space alone.
 - **Contact**: roni.luokkamaki@gmail.com, shown both as a mailto link and
   as plain text (per painting on the Order button, and in the footer).
 - **Order terms**: collection in Helsinki, or shipping within Finland by Matkahuolto/UPS from 15 EUR; payment agreed per order, usually MobilePay or bank transfer; made-to-order work exempt from exchange/return. See `content/en/order.html` and `content/fi/order.html`.
