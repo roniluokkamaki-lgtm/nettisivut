@@ -77,5 +77,8 @@
 <script src="{{ root }}js/lightbox.js?v={{ js_v }}" defer></script>
 <script src="{{ root }}js/filter.js?v={{ filter_v }}" defer></script>
 {% endif %}
+{% if page_id == 'order' and form_endpoint %}
+<script src="{{ root }}js/order.js?v={{ order_v }}" defer></script>
+{% endif %}
 </body>
 </html>

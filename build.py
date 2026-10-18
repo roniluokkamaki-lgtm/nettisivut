@@ -42,6 +42,12 @@ AUDIO_FILENAME = "track.mp3"  # only referenced on the page if this file exists 
 # footer entirely, rather than linking somewhere wrong.
 INSTAGRAM_HANDLE = "roniluokkamaki"
 
+# Where the order form on the Order page is sent: the address Formspree gives a
+# form, like "https://formspree.io/f/abcdwxyz". Formspree emails each message on
+# to CONTACT_EMAIL. While this is empty the form is left off and the Order and
+# Ask buttons open a prefilled email instead, as before.
+FORM_ENDPOINT = ""
+
 # Used only to build absolute hreflang URLs. Change this if the site moves to a
 # custom domain (see README, "Custom domain").
 SITE_URL = "https://www.roniluokkamaki.com"
@@ -122,6 +128,26 @@ LANGUAGES = {
             "none": "No works match these choices.",
             "clear": "clear filters",
         },
+        "form": {
+            "heading": "Send an order or a question",
+            "intent": "I would like to",
+            "intent_buy": "buy a work",
+            "intent_ask": "ask a question",
+            "work": "Work",
+            "choose": "Choose a work",
+            "no_work": "No particular work",
+            "name": "Your name",
+            "email": "Your email",
+            "message": "Message (optional)",
+            "message_hint": "For example delivery or collection, or anything you would like to know.",
+            "send": "[ Send ]",
+            "sending": "Sending…",
+            "thanks": "Thank you, your message has been sent. I will reply by email within a few days.",
+            "error": "The message could not be sent. Please try again, or email me directly.",
+            "alt": "Prefer email? Write to",
+            "privacy": "Your message is delivered to me by email through Formspree, a form service, and used only to reply to you.",
+            "subject": "Order form: roniluokkamaki.com",
+        },
         "mail_subject": "Painting inquiry: {title} ({id})",
         "mail_body": "Hi,\n\nI'm interested in \"{title}\"{detail}.\n\n",
     },
@@ -184,6 +210,26 @@ LANGUAGES = {
             "none": "Yksikään teos ei vastaa valintoja.",
             "clear": "tyhjennä valinnat",
         },
+        "form": {
+            "heading": "Lähetä tilaus tai kysymys",
+            "intent": "Haluan",
+            "intent_buy": "ostaa teoksen",
+            "intent_ask": "kysyä jotain",
+            "work": "Teos",
+            "choose": "Valitse teos",
+            "no_work": "Ei tiettyä teosta",
+            "name": "Nimesi",
+            "email": "Sähköpostiosoitteesi",
+            "message": "Viesti (vapaaehtoinen)",
+            "message_hint": "Esimerkiksi toimitus tai nouto, tai mitä tahansa haluat tietää.",
+            "send": "[ Lähetä ]",
+            "sending": "Lähetetään…",
+            "thanks": "Kiitos, viestisi on lähetetty. Vastaan sähköpostitse muutaman päivän kuluessa.",
+            "error": "Viestin lähettäminen ei onnistunut. Yritä uudelleen tai lähetä minulle sähköpostia.",
+            "alt": "Sähköposti sopii paremmin? Kirjoita osoitteeseen",
+            "privacy": "Viestisi välitetään minulle sähköpostina Formspree-lomakepalvelun kautta, ja sitä käytetään vain sinulle vastaamiseen.",
+            "subject": "Tilauslomake: roniluokkamaki.com",
+        },
         "mail_subject": "Teostiedustelu: {title} ({id})",
         "mail_body": "Hei,\n\nOlen kiinnostunut teoksesta \"{title}\"{detail}.\n\n",
     },
@@ -195,6 +241,8 @@ IMAGE_VARIANTS = {
     # high-resolution screen asks for up to ~560px of real image. 800 keeps them
     # sharp without making the page heavy.
     "thumb": (800, 80),
+    # the small pictures in the order form's list of works
+    "mini": (160, 75),
     "full": (1400, 85),
     "zoom": (2800, 85),
 }
@@ -408,7 +456,12 @@ def localise(p: dict, L: dict) -> dict:
         "meta": meta,
         "status_label": L["status"].get(p["status"], p["status"]),
     })
-    out["buy_href"] = mailto_for(out, L) if p["status"] in ("for_sale", "inquire") else None
+    if p["status"] in ("for_sale", "inquire"):
+        # with the order form on, the buttons open it with this work chosen
+        out["buy_href"] = (f"order.html?work={p['id']}#order-form" if FORM_ENDPOINT
+                           else mailto_for(out, L))
+    else:
+        out["buy_href"] = None
     return out
 
 
@@ -566,6 +619,9 @@ def read_content(lang: str, name: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+ORDER_FORM_MARKER = "<!-- order form -->"
+
+
 def front_page_works(paintings: list[dict]) -> list[dict]:
     """The works chosen for the front page in Manage artworks, in their order.
 
@@ -598,6 +654,7 @@ def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
     css_v = asset_version("css/style.css")
     js_v = asset_version("js/lightbox.js")
     filter_v = asset_version("js/filter.js")
+    order_v = asset_version("js/order.js")
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
 
     for lang, L in LANGUAGES.items():
@@ -619,6 +676,8 @@ def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
             "css_v": css_v,
             "js_v": js_v,
             "filter_v": filter_v,
+            "order_v": order_v,
+            "form_endpoint": FORM_ENDPOINT,
             # the Exhibitions page, and its menu link, exist only once there is
             # something to list
             "has_exhibitions": bool(exhibitions),
@@ -632,7 +691,12 @@ def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
                 "featured": front_page_works(local),
             }),
             ("about.html", "page.html", {"page_id": "about", "content": read_content(lang, "about.html")}),
-            ("order.html", "page.html", {"page_id": "order", "content": read_content(lang, "order.html")}),
+            ("order.html", "order.html", {
+                "page_id": "order",
+                # the form goes where the content marks it, after the introduction
+                "content_parts": read_content(lang, "order.html").split(ORDER_FORM_MARKER, 1),
+                "orderable": [p for p in local if p["status"] in ("for_sale", "inquire")],
+            }),
             ("terms.html", "page.html", {"page_id": "terms", "content": read_content(lang, "terms.html")}),
             ("gallery.html", "gallery.html", {
                 "page_id": "gallery",

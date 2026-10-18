@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} &middot; {{ site_name }}{% endblock %}
+{% block main %}
+{{ content_parts[0] | safe }}
+
+{% if form_endpoint %}
+{% set F = L.form %}
+<section class="order-form" id="order-form">
+  <h2>{{ F.heading }}</h2>
+  <form method="post" action="{{ form_endpoint }}" accept-charset="utf-8" data-order-form>
+    <input type="hidden" name="_subject" value="{{ F.subject }}">
+    <input type="hidden" name="language" value="{{ lang }}">
+    {# a field people never see; bots fill it in, and Formspree discards those #}
+    <div class="hp" aria-hidden="true">
+      <label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+    </div>
+
+    <fieldset class="form-row">
+      <legend>{{ F.intent }}</legend>
+      <label class="choice"><input type="radio" name="intent" value="buy" checked> {{ F.intent_buy }}</label>
+      <label class="choice"><input type="radio" name="intent" value="question"> {{ F.intent_ask }}</label>
+    </fieldset>
+
+    <fieldset class="form-row">
+      <legend>{{ F.work }}</legend>
+      {# a list with pictures rather than a <select>, which can only hold text #}
+      <details class="work-picker">
+        <summary><span class="picker-current">{{ F.choose }}</span></summary>
+        <div class="picker-list">
+          <label class="picker-item">
+            <input type="radio" name="work" value="{{ F.no_work }}" checked>
+            <span class="picker-thumb picker-thumb--none" aria-hidden="true"></span>
+            <span class="picker-text"><span class="picker-title">{{ F.no_work }}</span></span>
+          </label>
+          {% for p in orderable %}
+          <label class="picker-item">
+            <input type="radio" name="work" value="{{ p.title }} ({{ p.id }})" data-id="{{ p.id }}">
+            <img class="picker-thumb" src="{{ root }}img/paintings/{{ p.id }}-mini.jpg" alt="" width="{{ p.mini_w }}" height="{{ p.mini_h }}" loading="lazy">
+            <span class="picker-text">
+              <span class="picker-title">{{ p.title }}</span>
+              <span class="picker-meta">{% if p.meta %}{{ p.meta }} &middot; {% endif %}{% if p.status == 'for_sale' %}{{ '%g'|format(p.price_eur) }} EUR{% else %}{{ L.price_on_request }}{% endif %}</span>
+            </span>
+          </label>
+          {% endfor %}
+        </div>
+      </details>
+    </fieldset>
+
+    <div class="form-row">
+      <label for="of-name">{{ F.name }}</label>
+      <input id="of-name" type="text" name="name" autocomplete="name" required>
+    </div>
+    <div class="form-row">
+      <label for="of-email">{{ F.email }}</label>
+      <input id="of-email" type="email" name="email" autocomplete="email" required>
+    </div>
+    <div class="form-row">
+      <label for="of-message">{{ F.message }}</label>
+      <textarea id="of-message" name="message" rows="5" aria-describedby="of-message-hint"></textarea>
+      <p class="form-hint" id="of-message-hint">{{ F.message_hint }}</p>
+    </div>
+
+    <p><button class="btn" type="submit" data-sending="{{ F.sending }}">{{ F.send }}</button></p>
+    <p class="form-status" role="status" aria-live="polite" hidden
+       data-thanks="{{ F.thanks }}" data-error="{{ F.error }}"></p>
+    <p class="form-hint">{{ F.privacy }}</p>
+  </form>
+  <p>{{ F.alt }} <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.</p>
+</section>
+{% endif %}
+
+{% if content_parts | length > 1 %}{{ content_parts[1] | safe }}{% endif %}
+{% endblock %}
