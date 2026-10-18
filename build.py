@@ -46,7 +46,7 @@ INSTAGRAM_HANDLE = "roniluokkamaki"
 # form, like "https://formspree.io/f/abcdwxyz". Formspree emails each message on
 # to CONTACT_EMAIL. While this is empty the form is left off and the Order and
 # Ask buttons open a prefilled email instead, as before.
-FORM_ENDPOINT = ""
+FORM_ENDPOINT = "https://formspree.io/f/xeaedlyo"
 
 # Used only to build absolute hreflang URLs. Change this if the site moves to a
 # custom domain (see README, "Custom domain").
