@@ -109,6 +109,17 @@
         </select>
       </div>
     </div>
+    <div class="row">
+      <div><label>Front page</label>
+        <select name="home_position">
+          <option value="">Not on the front page</option>
+          {% for n in HOME_POSITIONS %}
+          <option value="{{ n }}" {{ 'selected' if w and w['home_position']==n }}>Position {{ n }}</option>
+          {% endfor %}
+        </select>
+        <p class="hint">Picking a position another work holds moves that work off the front page.</p>
+      </div>
+    </div>
     <div class="check"><input type="checkbox" id="vis" name="web_visible"
       {{ 'checked' if not w or w['web_visible'] }}><label for="vis" style="margin:0">Show this work on the website</label></div>
     <p class="hint">With no override: sold shows SOLD, a price shows an Order button, and no price

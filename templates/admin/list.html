@@ -49,6 +49,7 @@
             {% if w.web_visible %}<span class="tag tag-shown">SHOWN</span>{% else %}hidden{% endif %}
           </button>
         </form>
+        {% if w.home_position %}<div class="count">front page {{ w.home_position }}</div>{% endif %}
       </td>
       <td>
         {% if live is none %}<span class="count">?</span>

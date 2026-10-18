@@ -86,7 +86,6 @@ LANGUAGES = {
             "terms": "Terms of purchase.",
             "404": "Page not found.",
         },
-        "latest_work": "latest work",
         "exh_sections": {"solo": "Solo exhibitions", "group": "Group exhibitions"},
         "months": ("January", "February", "March", "April", "May", "June", "July",
                    "August", "September", "October", "November", "December"),
@@ -148,7 +147,6 @@ LANGUAGES = {
             "terms": "Kauppaehdot.",
             "404": "Sivua ei löytynyt.",
         },
-        "latest_work": "uusimmat teokset",
         "exh_sections": {"solo": "Yksityisnäyttelyt", "group": "Ryhmänäyttelyt"},
         "months": None,  # Finnish dates are written as numbers, 11.12.2025
         "view_gallery": "katso kaikki teokset &rarr;",
@@ -270,6 +268,7 @@ def load_paintings() -> list[dict]:
             "height_cm": h_cm,
             "price_eur": price if status == "for_sale" else None,
             "status": status,
+            "home_position": w["home_position"],
             "description": w["description"],
             "description_fi": w["description_fi"],
             "image": image_name,
@@ -567,6 +566,17 @@ def read_content(lang: str, name: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def front_page_works(paintings: list[dict]) -> list[dict]:
+    """The works chosen for the front page in Manage artworks, in their order.
+
+    If none is chosen, the three newest works are shown instead, so the front
+    page never ends up empty.
+    """
+    chosen = sorted((p for p in paintings if p["home_position"]),
+                    key=lambda p: p["home_position"])
+    return chosen or paintings[:3]
+
+
 def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
@@ -619,7 +629,7 @@ def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
             ("index.html", "index.html", {
                 "page_id": "home",
                 "content": read_content(lang, "home.html"),
-                "newest": local[:3],
+                "featured": front_page_works(local),
             }),
             ("about.html", "page.html", {"page_id": "about", "content": read_content(lang, "about.html")}),
             ("order.html", "page.html", {"page_id": "order", "content": read_content(lang, "order.html")}),

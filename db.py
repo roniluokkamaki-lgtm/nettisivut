@@ -36,6 +36,8 @@ SUPPORTS = ("", "canvas", "paper", "panel", "board", "other")
 # such a work is still shown, it just isn't listed under any category.
 CATEGORIES = ("", "painting", "drawing", "other")
 EXHIBITION_KINDS = ("solo", "group")
+# Places on the front page. A work with no position is not featured there.
+HOME_POSITIONS = (1, 2, 3)
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS artworks (
@@ -66,6 +68,7 @@ CREATE TABLE IF NOT EXISTS artworks (
     archived            INTEGER NOT NULL DEFAULT 0,
     web_visible         INTEGER NOT NULL DEFAULT 1,
     web_status_override TEXT,
+    home_position       INTEGER,
     asking_price_eur    REAL,
     sold_date           TEXT,
     sold_price_eur      REAL,
@@ -126,7 +129,7 @@ PUBLIC_COLUMNS = (
     "width_cm", "height_cm",
     "description", "description_fi",
     "status", "web_status_override", "asking_price_eur",
-    "image",
+    "home_position", "image",
 )
 
 
@@ -146,6 +149,7 @@ ADDED_COLUMNS = {
     "category": "TEXT NOT NULL DEFAULT ''",
     "public_tags": "TEXT NOT NULL DEFAULT ''",
     "public_tags_fi": "TEXT NOT NULL DEFAULT ''",
+    "home_position": "INTEGER",
 }
 
 

@@ -36,6 +36,7 @@ ALLOWED_IMAGE = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp"}
 app = Flask(__name__, template_folder="templates")
 app.secret_key = "local-admin-only"  # only used for flash messages on localhost
 app.jinja_env.globals.update(STATUSES=db.STATUSES, WEB_STATUSES=db.WEB_STATUSES,
+                              HOME_POSITIONS=db.HOME_POSITIONS,
                              SUPPORTS=db.SUPPORTS, CATEGORIES=db.CATEGORIES,
                              EXHIBITION_KINDS=db.EXHIBITION_KINDS)
 
@@ -243,6 +244,9 @@ def save_work(wid):
         category = form_value("category")
         if category not in db.CATEGORIES:
             raise ValueError("unknown category")
+        home_position = form_int("home_position")
+        if home_position and home_position not in db.HOME_POSITIONS:
+            raise ValueError("unknown front page position")
         override = form_value("web_status_override")
         if override and override not in db.WEB_STATUSES:
             raise ValueError("unknown website status")
@@ -278,6 +282,7 @@ def save_work(wid):
             "status": status,
             "web_visible": web_visible,
             "web_status_override": override or None,
+            "home_position": home_position or None,
             "asking_price_eur": form_float("asking_price_eur"),
             "sold_date": form_value("sold_date") or None,
             "sold_price_eur": form_float("sold_price_eur"),
@@ -290,6 +295,11 @@ def save_work(wid):
             "updated_at": db.now(),
         }
 
+        if home_position:
+            # one work per place: taking a position frees it from whoever had it
+            con.execute("UPDATE artworks SET home_position = NULL "
+                        "WHERE home_position = ? AND id IS NOT ?",
+                        (home_position, None if is_new else int(wid)))
         if is_new:
             fields["created_at"] = db.now()
             cols = ", ".join(fields)
