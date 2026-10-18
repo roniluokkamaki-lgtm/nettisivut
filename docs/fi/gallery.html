@@ -21,8 +21,6 @@
     <span class="sep">|</span>
     <a href="gallery.html" aria-current="page">TEOKSET</a>
     <span class="sep">|</span>
-    <a href="exhibitions.html">NÄYTTELYT</a>
-    <span class="sep">|</span>
     <a href="about.html">TIETOA</a>
     <span class="sep">|</span>
     <a href="order.html">TILAAMINEN</a>
@@ -42,21 +40,23 @@
 <h1>Teokset</h1>
 
 <form class="filters" aria-label="Rajaa teoksia" hidden
-      data-showing="Näytetään {n}/{total} teosta" data-total="33">
+      data-showing="Näytetään {n}/{total} teosta" data-total="34">
   <label class="filter">
     <span class="filter-label">Kategoria</span>
     <select name="category">
       <option value="">Kaikki teokset</option>
-      <option value="painting">Maalaukset (9)</option>
+      <option value="painting">Maalaukset (22)</option>
       <option value="painting-small">    Pienet maalaukset (3)</option>
-      <option value="drawing">Piirustukset (7)</option>
+      <option value="drawing">Piirustukset (10)</option>
     </select>
   </label>
   <label class="filter">
     <span class="filter-label">Vuodet</span>
     <select name="year">
       <option value="">Kaikki vuodet</option>
-      <option value="2025">2025 (4)</option>
+      <option value="2026">2026 (12)</option>
+      <option value="2025">2025 (7)</option>
+      <option value="2024">2024 (2)</option>
       <option value="2023">2023 (3)</option>
     </select>
   </label>
@@ -64,7 +64,7 @@
     <span class="filter-label">Tunnisteet</span>
     <select name="tag">
       <option value="">Kaikki tunnisteet</option>
-      <option value="abstrakti">abstrakti (11)</option>
+      <option value="abstrakti">abstrakti (12)</option>
       <option value="arkkitehtuuri">arkkitehtuuri (1)</option>
       <option value="asetelma">asetelma (11)</option>
       <option value="eläin">eläin (2)</option>
@@ -82,6 +82,58 @@
 <p class="filter-none" hidden>Yksikään teos ei vastaa valintoja.</p>
 
 <section class="thumb-grid" aria-label="Teokset">
+  <a class="thumb" href="#dscf6020"
+     data-cats="painting" data-year="2026" data-tags="asetelma">
+    <img src="../img/paintings/dscf6020-thumb.jpg" alt="Bowl of Tomatoes" width="610" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6013"
+     data-cats="painting" data-year="2026" data-tags="eläin|asetelma">
+    <img src="../img/paintings/dscf6013-thumb.jpg" alt="Horse Painting No.01" width="800" height="549" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6038"
+     data-cats="painting" data-year="2026" data-tags="maisema">
+    <img src="../img/paintings/dscf6038-thumb.jpg" alt="Letku" width="670" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6015"
+     data-cats="painting" data-year="2026" data-tags="asetelma">
+    <img src="../img/paintings/dscf6015-thumb.jpg" alt="Remote Control Device" width="669" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6025"
+     data-cats="painting" data-year="2026" data-tags="hahmo|sisätila">
+    <img src="../img/paintings/dscf6025-thumb.jpg" alt="Self-Portrait No. 1" width="576" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6030"
+     data-cats="painting" data-year="2026" data-tags="sisätila">
+    <img src="../img/paintings/dscf6030-thumb.jpg" alt="Tool Shed" width="593" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6040"
+     data-cats="painting" data-year="2026" data-tags="kaupunki">
+    <img src="../img/paintings/dscf6040-thumb.jpg" alt="Trashpile" width="800" height="667" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6024"
+     data-cats="painting" data-year="2026" data-tags="hahmo|kaupunki">
+    <img src="../img/paintings/dscf6024-thumb.jpg" alt="Untitled" width="800" height="640" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6031"
+     data-cats="painting" data-year="2026" data-tags="asetelma">
+    <img src="../img/paintings/dscf6031-thumb.jpg" alt="Untitled" width="593" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6036"
+     data-cats="painting" data-year="2026" data-tags="hahmo|maisema">
+    <img src="../img/paintings/dscf6036-thumb.jpg" alt="Untitled" width="675" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6056"
+     data-cats="painting" data-year="2026" data-tags="abstrakti">
+    <img src="../img/paintings/dscf6056-thumb.jpg" alt="Untitled (Study: abstract)" width="359" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6044"
+     data-cats="painting" data-year="2026" data-tags="maisema">
+    <img src="../img/paintings/dscf6044-thumb.jpg" alt="Untitled (Study: landscape)" width="800" height="497" loading="lazy">
+  </a>
+  <a class="thumb" href="#untitled-study-airport"
+     data-cats="painting painting-small" data-year="2025" data-tags="sisätila">
+    <img src="../img/paintings/untitled-study-airport-thumb.jpg" alt="Airport" width="601" height="800" loading="lazy">
+  </a>
   <a class="thumb" href="#dscf1176"
      data-cats="painting" data-year="2025" data-tags="asetelma">
     <img src="../img/paintings/dscf1176-thumb.jpg" alt="Sakset" width="605" height="800" loading="lazy">
@@ -90,17 +142,33 @@
      data-cats="painting" data-year="2025" data-tags="asetelma">
     <img src="../img/paintings/dscf1167-thumb.jpg" alt="Untitled" width="571" height="800" loading="lazy">
   </a>
-  <a class="thumb" href="#untitled-study-airport"
-     data-cats="painting painting-small" data-year="2025" data-tags="sisätila">
-    <img src="../img/paintings/untitled-study-airport-thumb.jpg" alt="Untitled (Study: airport)" width="601" height="800" loading="lazy">
-<span class="sold-flag">MYYTY</span>  </a>
+  <a class="thumb" href="#dscf1198"
+     data-cats="painting" data-year="2025" data-tags="abstrakti">
+    <img src="../img/paintings/dscf1198-thumb.jpg" alt="Untitled" width="641" height="800" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf6050"
+     data-cats="drawing" data-year="2025" data-tags="abstrakti">
+    <img src="../img/paintings/dscf6050-thumb.jpg" alt="Untitled (Study: abstract)" width="800" height="477" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf1186"
+     data-cats="drawing" data-year="2025" data-tags="abstrakti">
+    <img src="../img/paintings/dscf1186-thumb.jpg" alt="Untitled (Study: landscape)" width="668" height="800" loading="lazy">
+  </a>
   <a class="thumb" href="#untitled-study-still-life"
      data-cats="painting painting-small" data-year="2025" data-tags="asetelma">
     <img src="../img/paintings/untitled-study-still-life-thumb.jpg" alt="Untitled (Study: still life)" width="572" height="800" loading="lazy">
   </a>
+  <a class="thumb" href="#dscf1251"
+     data-cats="painting" data-year="2024" data-tags="abstrakti">
+    <img src="../img/paintings/dscf1251-thumb.jpg" alt="Untitled (Study: abstract)" width="800" height="555" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf1185"
+     data-cats="drawing" data-year="2024" data-tags="abstrakti">
+    <img src="../img/paintings/dscf1185-thumb.jpg" alt="Untitled (Study: landscape)" width="504" height="800" loading="lazy">
+  </a>
   <a class="thumb" href="#untitled-study-cuba"
      data-cats="drawing" data-year="2023" data-tags="arkkitehtuuri">
-    <img src="../img/paintings/untitled-study-cuba-thumb.jpg" alt="Untitled (Study: Cuba, Hemingway&#39;s house)" width="800" height="567" loading="lazy">
+    <img src="../img/paintings/untitled-study-cuba-thumb.jpg" alt="Untitled (Study: Cuba, house)" width="800" height="567" loading="lazy">
   </a>
   <a class="thumb" href="#untitled-study-martini"
      data-cats="painting painting-small" data-year="2023" data-tags="asetelma">
@@ -110,18 +178,6 @@
      data-cats="drawing" data-year="2023" data-tags="abstrakti">
     <img src="../img/paintings/vision-thumb.jpg" alt="Vision" width="516" height="800" loading="lazy">
   </a>
-  <a class="thumb" href="#dscf1185"
-     data-cats="" data-year="" data-tags="abstrakti">
-    <img src="../img/paintings/dscf1185-thumb.jpg" alt="Untitled" width="504" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf1186"
-     data-cats="drawing" data-year="" data-tags="abstrakti">
-    <img src="../img/paintings/dscf1186-thumb.jpg" alt="Untitled" width="668" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf1198"
-     data-cats="painting" data-year="" data-tags="abstrakti">
-    <img src="../img/paintings/dscf1198-thumb.jpg" alt="Untitled" width="641" height="800" loading="lazy">
-  </a>
   <a class="thumb" href="#dscf1219"
      data-cats="drawing" data-year="" data-tags="maisema">
     <img src="../img/paintings/dscf1219-thumb.jpg" alt="Untitled" width="800" height="626" loading="lazy">
@@ -129,6 +185,10 @@
   <a class="thumb" href="#dscf1226"
      data-cats="drawing" data-year="" data-tags="abstrakti">
     <img src="../img/paintings/dscf1226-thumb.jpg" alt="Untitled" width="800" height="645" loading="lazy">
+  </a>
+  <a class="thumb" href="#dscf1231"
+     data-cats="drawing" data-year="" data-tags="abstrakti">
+    <img src="../img/paintings/dscf1231-thumb.jpg" alt="Untitled" width="640" height="800" loading="lazy">
   </a>
   <a class="thumb" href="#dscf1235"
      data-cats="drawing" data-year="" data-tags="eläin">
@@ -142,69 +202,13 @@
      data-cats="painting" data-year="" data-tags="abstrakti">
     <img src="../img/paintings/dscf1245-thumb.jpg" alt="Untitled" width="800" height="496" loading="lazy">
   </a>
-  <a class="thumb" href="#dscf1251"
-     data-cats="painting" data-year="" data-tags="abstrakti">
-    <img src="../img/paintings/dscf1251-thumb.jpg" alt="Untitled" width="800" height="555" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6013"
-     data-cats="" data-year="" data-tags="eläin|asetelma">
-    <img src="../img/paintings/dscf6013-thumb.jpg" alt="Untitled" width="800" height="549" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6015"
-     data-cats="" data-year="" data-tags="asetelma">
-    <img src="../img/paintings/dscf6015-thumb.jpg" alt="Untitled" width="669" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6020"
-     data-cats="" data-year="" data-tags="asetelma">
-    <img src="../img/paintings/dscf6020-thumb.jpg" alt="Untitled" width="610" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6024"
-     data-cats="" data-year="" data-tags="hahmo|kaupunki">
-    <img src="../img/paintings/dscf6024-thumb.jpg" alt="Untitled" width="800" height="640" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6025"
-     data-cats="" data-year="" data-tags="hahmo|sisätila">
-    <img src="../img/paintings/dscf6025-thumb.jpg" alt="Untitled" width="576" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6030"
-     data-cats="" data-year="" data-tags="sisätila">
-    <img src="../img/paintings/dscf6030-thumb.jpg" alt="Untitled" width="593" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6031"
-     data-cats="" data-year="" data-tags="asetelma">
-    <img src="../img/paintings/dscf6031-thumb.jpg" alt="Untitled" width="593" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6036"
-     data-cats="" data-year="" data-tags="hahmo|maisema">
-    <img src="../img/paintings/dscf6036-thumb.jpg" alt="Untitled" width="675" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6038"
-     data-cats="" data-year="" data-tags="maisema">
-    <img src="../img/paintings/dscf6038-thumb.jpg" alt="Untitled" width="670" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6040"
-     data-cats="" data-year="" data-tags="kaupunki">
-    <img src="../img/paintings/dscf6040-thumb.jpg" alt="Untitled" width="800" height="667" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6044"
-     data-cats="" data-year="" data-tags="maisema">
-    <img src="../img/paintings/dscf6044-thumb.jpg" alt="Untitled" width="800" height="497" loading="lazy">
-  </a>
   <a class="thumb" href="#dscf6047"
      data-cats="" data-year="" data-tags="abstrakti">
     <img src="../img/paintings/dscf6047-thumb.jpg" alt="Untitled" width="800" height="545" loading="lazy">
   </a>
-  <a class="thumb" href="#dscf6050"
-     data-cats="" data-year="" data-tags="abstrakti">
-    <img src="../img/paintings/dscf6050-thumb.jpg" alt="Untitled" width="800" height="477" loading="lazy">
-  </a>
   <a class="thumb" href="#dscf6053"
-     data-cats="" data-year="" data-tags="asetelma">
-    <img src="../img/paintings/dscf6053-thumb.jpg" alt="Untitled" width="665" height="800" loading="lazy">
-  </a>
-  <a class="thumb" href="#dscf6056"
-     data-cats="" data-year="" data-tags="abstrakti">
-    <img src="../img/paintings/dscf6056-thumb.jpg" alt="Untitled" width="359" height="800" loading="lazy">
+     data-cats="painting" data-year="" data-tags="asetelma">
+    <img src="../img/paintings/dscf6053-thumb.jpg" alt="Untitled (Study: flowers)" width="665" height="800" loading="lazy">
   </a>
   <a class="thumb" href="#dscf1197"
      data-cats="painting" data-year="" data-tags="asetelma">
@@ -217,6 +221,383 @@
 </section>
 
 <section class="full-list">
+  <article class="painting" id="dscf6020"
+           data-cats="painting" data-year="2026" data-tags="asetelma">
+    <a href="../img/paintings/dscf6020-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6020"
+       data-full="../img/paintings/dscf6020-full.jpg"
+       data-zoom="../img/paintings/dscf6020-zoom.jpg"
+       data-full-w="1067" data-full-h="1400"
+       data-zoom-w="2135" data-zoom-h="2800"
+       data-title="Bowl of Tomatoes"
+       data-caption="2026 · Öljy kankaalle &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6020-full.jpg" alt="Bowl of Tomatoes" width="1067" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Bowl of Tomatoes</h3>
+<p class="painting-meta">2026 · Öljy kankaalle</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Bowl%20of%20Tomatoes%20%28dscf6020%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Bowl%20of%20Tomatoes%22%20%282026%2C%20%C3%96ljy%20kankaalle%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6020-zoom.jpg"
+           data-id="dscf6020"
+           data-full="../img/paintings/dscf6020-full.jpg"
+           data-zoom="../img/paintings/dscf6020-zoom.jpg"
+           data-full-w="1067" data-full-h="1400"
+           data-zoom-w="2135" data-zoom-h="2800"
+           data-title="Bowl of Tomatoes"
+           data-caption="2026 · Öljy kankaalle">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6013"
+           data-cats="painting" data-year="2026" data-tags="eläin|asetelma">
+    <a href="../img/paintings/dscf6013-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6013"
+       data-full="../img/paintings/dscf6013-full.jpg"
+       data-zoom="../img/paintings/dscf6013-zoom.jpg"
+       data-full-w="1400" data-full-h="961"
+       data-zoom-w="2800" data-zoom-h="1922"
+       data-title="Horse Painting No.01"
+       data-caption="2026 · Sekatekniikka kankaalle &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6013-full.jpg" alt="Horse Painting No.01" width="1400" height="961" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Horse Painting No.01</h3>
+<p class="painting-meta">2026 · Sekatekniikka kankaalle</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Horse%20Painting%20No.01%20%28dscf6013%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Horse%20Painting%20No.01%22%20%282026%2C%20Sekatekniikka%20kankaalle%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6013-zoom.jpg"
+           data-id="dscf6013"
+           data-full="../img/paintings/dscf6013-full.jpg"
+           data-zoom="../img/paintings/dscf6013-zoom.jpg"
+           data-full-w="1400" data-full-h="961"
+           data-zoom-w="2800" data-zoom-h="1922"
+           data-title="Horse Painting No.01"
+           data-caption="2026 · Sekatekniikka kankaalle">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6038"
+           data-cats="painting" data-year="2026" data-tags="maisema">
+    <a href="../img/paintings/dscf6038-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6038"
+       data-full="../img/paintings/dscf6038-full.jpg"
+       data-zoom="../img/paintings/dscf6038-zoom.jpg"
+       data-full-w="1173" data-full-h="1400"
+       data-zoom-w="2346" data-zoom-h="2800"
+       data-title="Letku"
+       data-caption="2026 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6038-full.jpg" alt="Letku" width="1173" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Letku</h3>
+<p class="painting-meta">2026 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Letku%20%28dscf6038%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Letku%22%20%282026%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6038-zoom.jpg"
+           data-id="dscf6038"
+           data-full="../img/paintings/dscf6038-full.jpg"
+           data-zoom="../img/paintings/dscf6038-zoom.jpg"
+           data-full-w="1173" data-full-h="1400"
+           data-zoom-w="2346" data-zoom-h="2800"
+           data-title="Letku"
+           data-caption="2026 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6015"
+           data-cats="painting" data-year="2026" data-tags="asetelma">
+    <a href="../img/paintings/dscf6015-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6015"
+       data-full="../img/paintings/dscf6015-full.jpg"
+       data-zoom="../img/paintings/dscf6015-zoom.jpg"
+       data-full-w="1170" data-full-h="1400"
+       data-zoom-w="2340" data-zoom-h="2800"
+       data-title="Remote Control Device"
+       data-caption="2026 · Öljy kankaalle &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6015-full.jpg" alt="Remote Control Device" width="1170" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Remote Control Device</h3>
+<p class="painting-meta">2026 · Öljy kankaalle</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Remote%20Control%20Device%20%28dscf6015%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Remote%20Control%20Device%22%20%282026%2C%20%C3%96ljy%20kankaalle%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6015-zoom.jpg"
+           data-id="dscf6015"
+           data-full="../img/paintings/dscf6015-full.jpg"
+           data-zoom="../img/paintings/dscf6015-zoom.jpg"
+           data-full-w="1170" data-full-h="1400"
+           data-zoom-w="2340" data-zoom-h="2800"
+           data-title="Remote Control Device"
+           data-caption="2026 · Öljy kankaalle">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6025"
+           data-cats="painting" data-year="2026" data-tags="hahmo|sisätila">
+    <a href="../img/paintings/dscf6025-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6025"
+       data-full="../img/paintings/dscf6025-full.jpg"
+       data-zoom="../img/paintings/dscf6025-zoom.jpg"
+       data-full-w="1009" data-full-h="1400"
+       data-zoom-w="2018" data-zoom-h="2800"
+       data-title="Self-Portrait No. 1"
+       data-caption="2026 · Akrylli kankaalle &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6025-full.jpg" alt="Self-Portrait No. 1" width="1009" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Self-Portrait No. 1</h3>
+<p class="painting-meta">2026 · Akrylli kankaalle</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Self-Portrait%20No.%201%20%28dscf6025%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Self-Portrait%20No.%201%22%20%282026%2C%20Akrylli%20kankaalle%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6025-zoom.jpg"
+           data-id="dscf6025"
+           data-full="../img/paintings/dscf6025-full.jpg"
+           data-zoom="../img/paintings/dscf6025-zoom.jpg"
+           data-full-w="1009" data-full-h="1400"
+           data-zoom-w="2018" data-zoom-h="2800"
+           data-title="Self-Portrait No. 1"
+           data-caption="2026 · Akrylli kankaalle">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6030"
+           data-cats="painting" data-year="2026" data-tags="sisätila">
+    <a href="../img/paintings/dscf6030-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6030"
+       data-full="../img/paintings/dscf6030-full.jpg"
+       data-zoom="../img/paintings/dscf6030-zoom.jpg"
+       data-full-w="1037" data-full-h="1400"
+       data-zoom-w="2074" data-zoom-h="2800"
+       data-title="Tool Shed"
+       data-caption="2026 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6030-full.jpg" alt="Tool Shed" width="1037" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Tool Shed</h3>
+<p class="painting-meta">2026 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Tool%20Shed%20%28dscf6030%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Tool%20Shed%22%20%282026%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6030-zoom.jpg"
+           data-id="dscf6030"
+           data-full="../img/paintings/dscf6030-full.jpg"
+           data-zoom="../img/paintings/dscf6030-zoom.jpg"
+           data-full-w="1037" data-full-h="1400"
+           data-zoom-w="2074" data-zoom-h="2800"
+           data-title="Tool Shed"
+           data-caption="2026 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6040"
+           data-cats="painting" data-year="2026" data-tags="kaupunki">
+    <a href="../img/paintings/dscf6040-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6040"
+       data-full="../img/paintings/dscf6040-full.jpg"
+       data-zoom="../img/paintings/dscf6040-zoom.jpg"
+       data-full-w="1400" data-full-h="1167"
+       data-zoom-w="2800" data-zoom-h="2334"
+       data-title="Trashpile"
+       data-caption="2026 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6040-full.jpg" alt="Trashpile" width="1400" height="1167" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Trashpile</h3>
+<p class="painting-meta">2026 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Trashpile%20%28dscf6040%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Trashpile%22%20%282026%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6040-zoom.jpg"
+           data-id="dscf6040"
+           data-full="../img/paintings/dscf6040-full.jpg"
+           data-zoom="../img/paintings/dscf6040-zoom.jpg"
+           data-full-w="1400" data-full-h="1167"
+           data-zoom-w="2800" data-zoom-h="2334"
+           data-title="Trashpile"
+           data-caption="2026 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6024"
+           data-cats="painting" data-year="2026" data-tags="hahmo|kaupunki">
+    <a href="../img/paintings/dscf6024-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6024"
+       data-full="../img/paintings/dscf6024-full.jpg"
+       data-zoom="../img/paintings/dscf6024-zoom.jpg"
+       data-full-w="1400" data-full-h="1120"
+       data-zoom-w="2800" data-zoom-h="2241"
+       data-title="Untitled"
+       data-caption="2026 · Öljy kankaalle &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6024-full.jpg" alt="Untitled" width="1400" height="1120" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled</h3>
+<p class="painting-meta">2026 · Öljy kankaalle</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6024%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22%20%282026%2C%20%C3%96ljy%20kankaalle%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6024-zoom.jpg"
+           data-id="dscf6024"
+           data-full="../img/paintings/dscf6024-full.jpg"
+           data-zoom="../img/paintings/dscf6024-zoom.jpg"
+           data-full-w="1400" data-full-h="1120"
+           data-zoom-w="2800" data-zoom-h="2241"
+           data-title="Untitled"
+           data-caption="2026 · Öljy kankaalle">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6031"
+           data-cats="painting" data-year="2026" data-tags="asetelma">
+    <a href="../img/paintings/dscf6031-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6031"
+       data-full="../img/paintings/dscf6031-full.jpg"
+       data-zoom="../img/paintings/dscf6031-zoom.jpg"
+       data-full-w="1038" data-full-h="1400"
+       data-zoom-w="2076" data-zoom-h="2800"
+       data-title="Untitled"
+       data-caption="2026 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6031-full.jpg" alt="Untitled" width="1038" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled</h3>
+<p class="painting-meta">2026 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6031%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22%20%282026%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6031-zoom.jpg"
+           data-id="dscf6031"
+           data-full="../img/paintings/dscf6031-full.jpg"
+           data-zoom="../img/paintings/dscf6031-zoom.jpg"
+           data-full-w="1038" data-full-h="1400"
+           data-zoom-w="2076" data-zoom-h="2800"
+           data-title="Untitled"
+           data-caption="2026 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6036"
+           data-cats="painting" data-year="2026" data-tags="hahmo|maisema">
+    <a href="../img/paintings/dscf6036-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6036"
+       data-full="../img/paintings/dscf6036-full.jpg"
+       data-zoom="../img/paintings/dscf6036-zoom.jpg"
+       data-full-w="1181" data-full-h="1400"
+       data-zoom-w="2362" data-zoom-h="2800"
+       data-title="Untitled"
+       data-caption="2026 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6036-full.jpg" alt="Untitled" width="1181" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled</h3>
+<p class="painting-meta">2026 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6036%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22%20%282026%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6036-zoom.jpg"
+           data-id="dscf6036"
+           data-full="../img/paintings/dscf6036-full.jpg"
+           data-zoom="../img/paintings/dscf6036-zoom.jpg"
+           data-full-w="1181" data-full-h="1400"
+           data-zoom-w="2362" data-zoom-h="2800"
+           data-title="Untitled"
+           data-caption="2026 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6056"
+           data-cats="painting" data-year="2026" data-tags="abstrakti">
+    <a href="../img/paintings/dscf6056-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6056"
+       data-full="../img/paintings/dscf6056-full.jpg"
+       data-zoom="../img/paintings/dscf6056-zoom.jpg"
+       data-full-w="628" data-full-h="1400"
+       data-zoom-w="1255" data-zoom-h="2800"
+       data-title="Untitled (Study: abstract)"
+       data-caption="2026 · Öljy metallille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6056-full.jpg" alt="Untitled (Study: abstract)" width="628" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled (Study: abstract)</h3>
+<p class="painting-meta">2026 · Öljy metallille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20abstract%29%20%28dscf6056%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20abstract%29%22%20%282026%2C%20%C3%96ljy%20metallille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6056-zoom.jpg"
+           data-id="dscf6056"
+           data-full="../img/paintings/dscf6056-full.jpg"
+           data-zoom="../img/paintings/dscf6056-zoom.jpg"
+           data-full-w="628" data-full-h="1400"
+           data-zoom-w="1255" data-zoom-h="2800"
+           data-title="Untitled (Study: abstract)"
+           data-caption="2026 · Öljy metallille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6044"
+           data-cats="painting" data-year="2026" data-tags="maisema">
+    <a href="../img/paintings/dscf6044-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6044"
+       data-full="../img/paintings/dscf6044-full.jpg"
+       data-zoom="../img/paintings/dscf6044-zoom.jpg"
+       data-full-w="1400" data-full-h="870"
+       data-zoom-w="2800" data-zoom-h="1740"
+       data-title="Untitled (Study: landscape)"
+       data-caption="2026 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6044-full.jpg" alt="Untitled (Study: landscape)" width="1400" height="870" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled (Study: landscape)</h3>
+<p class="painting-meta">2026 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20landscape%29%20%28dscf6044%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20landscape%29%22%20%282026%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6044-zoom.jpg"
+           data-id="dscf6044"
+           data-full="../img/paintings/dscf6044-full.jpg"
+           data-zoom="../img/paintings/dscf6044-zoom.jpg"
+           data-full-w="1400" data-full-h="870"
+           data-zoom-w="2800" data-zoom-h="1740"
+           data-title="Untitled (Study: landscape)"
+           data-caption="2026 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="untitled-study-airport"
+           data-cats="painting painting-small" data-year="2025" data-tags="sisätila">
+    <a href="../img/paintings/untitled-study-airport-zoom.jpg"
+       class="painting-img-link"
+       data-id="untitled-study-airport"
+       data-full="../img/paintings/untitled-study-airport-full.jpg"
+       data-zoom="../img/paintings/untitled-study-airport-zoom.jpg"
+       data-full-w="1051" data-full-h="1400"
+       data-zoom-w="2102" data-zoom-h="2800"
+       data-title="Airport"
+       data-caption="2025 · Acrylic and oil on canvas · 23×30 cm &middot; hinta pyynnöstä">
+      <img src="../img/paintings/untitled-study-airport-full.jpg" alt="Airport" width="1051" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Airport</h3>
+<p class="painting-meta">2025 · Acrylic and oil on canvas · 23×30 cm</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Airport%20%28untitled-study-airport%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Airport%22%20%282025%2C%20Acrylic%20and%20oil%20on%20canvas%2C%2023x30%20cm%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/untitled-study-airport-zoom.jpg"
+           data-id="untitled-study-airport"
+           data-full="../img/paintings/untitled-study-airport-full.jpg"
+           data-zoom="../img/paintings/untitled-study-airport-zoom.jpg"
+           data-full-w="1051" data-full-h="1400"
+           data-zoom-w="2102" data-zoom-h="2800"
+           data-title="Airport"
+           data-caption="2025 · Acrylic and oil on canvas · 23×30 cm">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
   <article class="painting" id="dscf1176"
            data-cats="painting" data-year="2025" data-tags="asetelma">
     <a href="../img/paintings/dscf1176-zoom.jpg"
@@ -275,31 +656,90 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="untitled-study-airport"
-           data-cats="painting painting-small" data-year="2025" data-tags="sisätila">
-    <a href="../img/paintings/untitled-study-airport-zoom.jpg"
+  <article class="painting" id="dscf1198"
+           data-cats="painting" data-year="2025" data-tags="abstrakti">
+    <a href="../img/paintings/dscf1198-zoom.jpg"
        class="painting-img-link"
-       data-id="untitled-study-airport"
-       data-full="../img/paintings/untitled-study-airport-full.jpg"
-       data-zoom="../img/paintings/untitled-study-airport-zoom.jpg"
-       data-full-w="1051" data-full-h="1400"
-       data-zoom-w="2102" data-zoom-h="2800"
-       data-title="Untitled (Study: airport)"
-       data-caption="2025 · Acrylic and oil on canvas · 23×30 cm &middot; myyty">
-      <img src="../img/paintings/untitled-study-airport-full.jpg" alt="Untitled (Study: airport)" width="1051" height="1400" loading="lazy">
-<span class="sold-flag sold-flag--large">MYYTY</span>    </a>
+       data-id="dscf1198"
+       data-full="../img/paintings/dscf1198-full.jpg"
+       data-zoom="../img/paintings/dscf1198-zoom.jpg"
+       data-full-w="1122" data-full-h="1400"
+       data-zoom-w="2244" data-zoom-h="2800"
+       data-title="Untitled"
+       data-caption="2025 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf1198-full.jpg" alt="Untitled" width="1122" height="1400" loading="lazy">
+    </a>
     <div class="painting-info">
-      <h3>Untitled (Study: airport)</h3>
-<p class="painting-meta">2025 · Acrylic and oil on canvas · 23×30 cm</p>      <p class="painting-status">
-          <span class="tag tag-sold">MYYTY</span>
-        <a class="btn btn-view" href="../img/paintings/untitled-study-airport-zoom.jpg"
-           data-id="untitled-study-airport"
-           data-full="../img/paintings/untitled-study-airport-full.jpg"
-           data-zoom="../img/paintings/untitled-study-airport-zoom.jpg"
-           data-full-w="1051" data-full-h="1400"
-           data-zoom-w="2102" data-zoom-h="2800"
-           data-title="Untitled (Study: airport)"
-           data-caption="2025 · Acrylic and oil on canvas · 23×30 cm">[ Katso tarkemmin ]</a>
+      <h3>Untitled</h3>
+<p class="painting-meta">2025 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf1198%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22%20%282025%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf1198-zoom.jpg"
+           data-id="dscf1198"
+           data-full="../img/paintings/dscf1198-full.jpg"
+           data-zoom="../img/paintings/dscf1198-zoom.jpg"
+           data-full-w="1122" data-full-h="1400"
+           data-zoom-w="2244" data-zoom-h="2800"
+           data-title="Untitled"
+           data-caption="2025 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf6050"
+           data-cats="drawing" data-year="2025" data-tags="abstrakti">
+    <a href="../img/paintings/dscf6050-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf6050"
+       data-full="../img/paintings/dscf6050-full.jpg"
+       data-zoom="../img/paintings/dscf6050-zoom.jpg"
+       data-full-w="1400" data-full-h="834"
+       data-zoom-w="2800" data-zoom-h="1668"
+       data-title="Untitled (Study: abstract)"
+       data-caption="2025 · Öljypastelli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf6050-full.jpg" alt="Untitled (Study: abstract)" width="1400" height="834" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled (Study: abstract)</h3>
+<p class="painting-meta">2025 · Öljypastelli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20abstract%29%20%28dscf6050%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20abstract%29%22%20%282025%2C%20%C3%96ljypastelli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf6050-zoom.jpg"
+           data-id="dscf6050"
+           data-full="../img/paintings/dscf6050-full.jpg"
+           data-zoom="../img/paintings/dscf6050-zoom.jpg"
+           data-full-w="1400" data-full-h="834"
+           data-zoom-w="2800" data-zoom-h="1668"
+           data-title="Untitled (Study: abstract)"
+           data-caption="2025 · Öljypastelli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf1186"
+           data-cats="drawing" data-year="2025" data-tags="abstrakti">
+    <a href="../img/paintings/dscf1186-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf1186"
+       data-full="../img/paintings/dscf1186-full.jpg"
+       data-zoom="../img/paintings/dscf1186-zoom.jpg"
+       data-full-w="1168" data-full-h="1400"
+       data-zoom-w="2337" data-zoom-h="2800"
+       data-title="Untitled (Study: landscape)"
+       data-caption="2025 · Mixed medium &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf1186-full.jpg" alt="Untitled (Study: landscape)" width="1168" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled (Study: landscape)</h3>
+<p class="painting-meta">2025 · Mixed medium</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20landscape%29%20%28dscf1186%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20landscape%29%22%20%282025%2C%20Mixed%20medium%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf1186-zoom.jpg"
+           data-id="dscf1186"
+           data-full="../img/paintings/dscf1186-full.jpg"
+           data-zoom="../img/paintings/dscf1186-zoom.jpg"
+           data-full-w="1168" data-full-h="1400"
+           data-zoom-w="2337" data-zoom-h="2800"
+           data-title="Untitled (Study: landscape)"
+           data-caption="2025 · Mixed medium">[ Katso tarkemmin ]</a>
       </p>
     </div>
   </article>
@@ -332,6 +772,64 @@
       </p>
     </div>
   </article>
+  <article class="painting" id="dscf1251"
+           data-cats="painting" data-year="2024" data-tags="abstrakti">
+    <a href="../img/paintings/dscf1251-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf1251"
+       data-full="../img/paintings/dscf1251-full.jpg"
+       data-zoom="../img/paintings/dscf1251-zoom.jpg"
+       data-full-w="1400" data-full-h="971"
+       data-zoom-w="2800" data-zoom-h="1942"
+       data-title="Untitled (Study: abstract)"
+       data-caption="2024 · Akrylli paperille &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf1251-full.jpg" alt="Untitled (Study: abstract)" width="1400" height="971" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled (Study: abstract)</h3>
+<p class="painting-meta">2024 · Akrylli paperille</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20abstract%29%20%28dscf1251%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20abstract%29%22%20%282024%2C%20Akrylli%20paperille%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf1251-zoom.jpg"
+           data-id="dscf1251"
+           data-full="../img/paintings/dscf1251-full.jpg"
+           data-zoom="../img/paintings/dscf1251-zoom.jpg"
+           data-full-w="1400" data-full-h="971"
+           data-zoom-w="2800" data-zoom-h="1942"
+           data-title="Untitled (Study: abstract)"
+           data-caption="2024 · Akrylli paperille">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf1185"
+           data-cats="drawing" data-year="2024" data-tags="abstrakti">
+    <a href="../img/paintings/dscf1185-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf1185"
+       data-full="../img/paintings/dscf1185-full.jpg"
+       data-zoom="../img/paintings/dscf1185-zoom.jpg"
+       data-full-w="881" data-full-h="1400"
+       data-zoom-w="1763" data-zoom-h="2800"
+       data-title="Untitled (Study: landscape)"
+       data-caption="2024 · Mixed medium on paper &middot; hinta pyynnöstä">
+      <img src="../img/paintings/dscf1185-full.jpg" alt="Untitled (Study: landscape)" width="881" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled (Study: landscape)</h3>
+<p class="painting-meta">2024 · Mixed medium on paper</p>      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20landscape%29%20%28dscf1185%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20landscape%29%22%20%282024%2C%20Mixed%20medium%20on%20paper%29.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf1185-zoom.jpg"
+           data-id="dscf1185"
+           data-full="../img/paintings/dscf1185-full.jpg"
+           data-zoom="../img/paintings/dscf1185-zoom.jpg"
+           data-full-w="881" data-full-h="1400"
+           data-zoom-w="1763" data-zoom-h="2800"
+           data-title="Untitled (Study: landscape)"
+           data-caption="2024 · Mixed medium on paper">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
   <article class="painting" id="untitled-study-cuba"
            data-cats="drawing" data-year="2023" data-tags="arkkitehtuuri">
     <a href="../img/paintings/untitled-study-cuba-zoom.jpg"
@@ -341,22 +839,22 @@
        data-zoom="../img/paintings/untitled-study-cuba-zoom.jpg"
        data-full-w="1400" data-full-h="992"
        data-zoom-w="2800" data-zoom-h="1984"
-       data-title="Untitled (Study: Cuba, Hemingway&#39;s house)"
+       data-title="Untitled (Study: Cuba, house)"
        data-caption="2023 · Oil pastel on paper (mixed medium) · 31×22 cm &middot; hinta pyynnöstä">
-      <img src="../img/paintings/untitled-study-cuba-full.jpg" alt="Untitled (Study: Cuba, Hemingway&#39;s house)" width="1400" height="992" loading="lazy">
+      <img src="../img/paintings/untitled-study-cuba-full.jpg" alt="Untitled (Study: Cuba, house)" width="1400" height="992" loading="lazy">
     </a>
     <div class="painting-info">
-      <h3>Untitled (Study: Cuba, Hemingway&#39;s house)</h3>
+      <h3>Untitled (Study: Cuba, house)</h3>
 <p class="painting-meta">2023 · Oil pastel on paper (mixed medium) · 31×22 cm</p>      <p class="painting-status">
           <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20Cuba%2C%20Hemingway%27s%20house%29%20%28untitled-study-cuba%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20Cuba%2C%20Hemingway%27s%20house%29%22%20%282023%2C%20Oil%20pastel%20on%20paper%20%28mixed%20medium%29%2C%2031x22%20cm%29.%0A%0A">[ Kysy teoksesta ]</a>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20Cuba%2C%20house%29%20%28untitled-study-cuba%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20Cuba%2C%20house%29%22%20%282023%2C%20Oil%20pastel%20on%20paper%20%28mixed%20medium%29%2C%2031x22%20cm%29.%0A%0A">[ Kysy teoksesta ]</a>
         <a class="btn btn-view" href="../img/paintings/untitled-study-cuba-zoom.jpg"
            data-id="untitled-study-cuba"
            data-full="../img/paintings/untitled-study-cuba-full.jpg"
            data-zoom="../img/paintings/untitled-study-cuba-zoom.jpg"
            data-full-w="1400" data-full-h="992"
            data-zoom-w="2800" data-zoom-h="1984"
-           data-title="Untitled (Study: Cuba, Hemingway&#39;s house)"
+           data-title="Untitled (Study: Cuba, house)"
            data-caption="2023 · Oil pastel on paper (mixed medium) · 31×22 cm">[ Katso tarkemmin ]</a>
       </p>
     </div>
@@ -419,93 +917,6 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1185"
-           data-cats="" data-year="" data-tags="abstrakti">
-    <a href="../img/paintings/dscf1185-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf1185"
-       data-full="../img/paintings/dscf1185-full.jpg"
-       data-zoom="../img/paintings/dscf1185-zoom.jpg"
-       data-full-w="881" data-full-h="1400"
-       data-zoom-w="1763" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf1185-full.jpg" alt="Untitled" width="881" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf1185%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf1185-zoom.jpg"
-           data-id="dscf1185"
-           data-full="../img/paintings/dscf1185-full.jpg"
-           data-zoom="../img/paintings/dscf1185-zoom.jpg"
-           data-full-w="881" data-full-h="1400"
-           data-zoom-w="1763" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf1186"
-           data-cats="drawing" data-year="" data-tags="abstrakti">
-    <a href="../img/paintings/dscf1186-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf1186"
-       data-full="../img/paintings/dscf1186-full.jpg"
-       data-zoom="../img/paintings/dscf1186-zoom.jpg"
-       data-full-w="1168" data-full-h="1400"
-       data-zoom-w="2337" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="Mixed medium &middot; hinta pyynnöstä">
-      <img src="../img/paintings/dscf1186-full.jpg" alt="Untitled" width="1168" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-<p class="painting-meta">Mixed medium</p>      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf1186%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22%20%28Mixed%20medium%29.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf1186-zoom.jpg"
-           data-id="dscf1186"
-           data-full="../img/paintings/dscf1186-full.jpg"
-           data-zoom="../img/paintings/dscf1186-zoom.jpg"
-           data-full-w="1168" data-full-h="1400"
-           data-zoom-w="2337" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="Mixed medium">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf1198"
-           data-cats="painting" data-year="" data-tags="abstrakti">
-    <a href="../img/paintings/dscf1198-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf1198"
-       data-full="../img/paintings/dscf1198-full.jpg"
-       data-zoom="../img/paintings/dscf1198-zoom.jpg"
-       data-full-w="1122" data-full-h="1400"
-       data-zoom-w="2244" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="Acrylic on paper &middot; hinta pyynnöstä">
-      <img src="../img/paintings/dscf1198-full.jpg" alt="Untitled" width="1122" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-<p class="painting-meta">Acrylic on paper</p>      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf1198%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22%20%28Acrylic%20on%20paper%29.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf1198-zoom.jpg"
-           data-id="dscf1198"
-           data-full="../img/paintings/dscf1198-full.jpg"
-           data-zoom="../img/paintings/dscf1198-zoom.jpg"
-           data-full-w="1122" data-full-h="1400"
-           data-zoom-w="2244" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="Acrylic on paper">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
   <article class="painting" id="dscf1219"
            data-cats="drawing" data-year="" data-tags="maisema">
     <a href="../img/paintings/dscf1219-zoom.jpg"
@@ -559,6 +970,35 @@
            data-zoom="../img/paintings/dscf1226-zoom.jpg"
            data-full-w="1400" data-full-h="1129"
            data-zoom-w="2800" data-zoom-h="2259"
+           data-title="Untitled"
+           data-caption="">[ Katso tarkemmin ]</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="dscf1231"
+           data-cats="drawing" data-year="" data-tags="abstrakti">
+    <a href="../img/paintings/dscf1231-zoom.jpg"
+       class="painting-img-link"
+       data-id="dscf1231"
+       data-full="../img/paintings/dscf1231-full.jpg"
+       data-zoom="../img/paintings/dscf1231-zoom.jpg"
+       data-full-w="1121" data-full-h="1400"
+       data-zoom-w="2242" data-zoom-h="2800"
+       data-title="Untitled"
+       data-caption="hinta pyynnöstä">
+      <img src="../img/paintings/dscf1231-full.jpg" alt="Untitled" width="1121" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Untitled</h3>
+      <p class="painting-status">
+          <span class="muted">hinta pyynnöstä</span>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf1231%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
+        <a class="btn btn-view" href="../img/paintings/dscf1231-zoom.jpg"
+           data-id="dscf1231"
+           data-full="../img/paintings/dscf1231-full.jpg"
+           data-zoom="../img/paintings/dscf1231-zoom.jpg"
+           data-full-w="1121" data-full-h="1400"
+           data-zoom-w="2242" data-zoom-h="2800"
            data-title="Untitled"
            data-caption="">[ Katso tarkemmin ]</a>
       </p>
@@ -651,354 +1091,6 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf1251"
-           data-cats="painting" data-year="" data-tags="abstrakti">
-    <a href="../img/paintings/dscf1251-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf1251"
-       data-full="../img/paintings/dscf1251-full.jpg"
-       data-zoom="../img/paintings/dscf1251-zoom.jpg"
-       data-full-w="1400" data-full-h="971"
-       data-zoom-w="2800" data-zoom-h="1942"
-       data-title="Untitled"
-       data-caption="Acrylic on paper &middot; hinta pyynnöstä">
-      <img src="../img/paintings/dscf1251-full.jpg" alt="Untitled" width="1400" height="971" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-<p class="painting-meta">Acrylic on paper</p>      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf1251%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22%20%28Acrylic%20on%20paper%29.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf1251-zoom.jpg"
-           data-id="dscf1251"
-           data-full="../img/paintings/dscf1251-full.jpg"
-           data-zoom="../img/paintings/dscf1251-zoom.jpg"
-           data-full-w="1400" data-full-h="971"
-           data-zoom-w="2800" data-zoom-h="1942"
-           data-title="Untitled"
-           data-caption="Acrylic on paper">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6013"
-           data-cats="" data-year="" data-tags="eläin|asetelma">
-    <a href="../img/paintings/dscf6013-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6013"
-       data-full="../img/paintings/dscf6013-full.jpg"
-       data-zoom="../img/paintings/dscf6013-zoom.jpg"
-       data-full-w="1400" data-full-h="961"
-       data-zoom-w="2800" data-zoom-h="1922"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6013-full.jpg" alt="Untitled" width="1400" height="961" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6013%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6013-zoom.jpg"
-           data-id="dscf6013"
-           data-full="../img/paintings/dscf6013-full.jpg"
-           data-zoom="../img/paintings/dscf6013-zoom.jpg"
-           data-full-w="1400" data-full-h="961"
-           data-zoom-w="2800" data-zoom-h="1922"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6015"
-           data-cats="" data-year="" data-tags="asetelma">
-    <a href="../img/paintings/dscf6015-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6015"
-       data-full="../img/paintings/dscf6015-full.jpg"
-       data-zoom="../img/paintings/dscf6015-zoom.jpg"
-       data-full-w="1170" data-full-h="1400"
-       data-zoom-w="2340" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6015-full.jpg" alt="Untitled" width="1170" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6015%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6015-zoom.jpg"
-           data-id="dscf6015"
-           data-full="../img/paintings/dscf6015-full.jpg"
-           data-zoom="../img/paintings/dscf6015-zoom.jpg"
-           data-full-w="1170" data-full-h="1400"
-           data-zoom-w="2340" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6020"
-           data-cats="" data-year="" data-tags="asetelma">
-    <a href="../img/paintings/dscf6020-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6020"
-       data-full="../img/paintings/dscf6020-full.jpg"
-       data-zoom="../img/paintings/dscf6020-zoom.jpg"
-       data-full-w="1067" data-full-h="1400"
-       data-zoom-w="2135" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6020-full.jpg" alt="Untitled" width="1067" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6020%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6020-zoom.jpg"
-           data-id="dscf6020"
-           data-full="../img/paintings/dscf6020-full.jpg"
-           data-zoom="../img/paintings/dscf6020-zoom.jpg"
-           data-full-w="1067" data-full-h="1400"
-           data-zoom-w="2135" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6024"
-           data-cats="" data-year="" data-tags="hahmo|kaupunki">
-    <a href="../img/paintings/dscf6024-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6024"
-       data-full="../img/paintings/dscf6024-full.jpg"
-       data-zoom="../img/paintings/dscf6024-zoom.jpg"
-       data-full-w="1400" data-full-h="1120"
-       data-zoom-w="2800" data-zoom-h="2241"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6024-full.jpg" alt="Untitled" width="1400" height="1120" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6024%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6024-zoom.jpg"
-           data-id="dscf6024"
-           data-full="../img/paintings/dscf6024-full.jpg"
-           data-zoom="../img/paintings/dscf6024-zoom.jpg"
-           data-full-w="1400" data-full-h="1120"
-           data-zoom-w="2800" data-zoom-h="2241"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6025"
-           data-cats="" data-year="" data-tags="hahmo|sisätila">
-    <a href="../img/paintings/dscf6025-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6025"
-       data-full="../img/paintings/dscf6025-full.jpg"
-       data-zoom="../img/paintings/dscf6025-zoom.jpg"
-       data-full-w="1009" data-full-h="1400"
-       data-zoom-w="2018" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6025-full.jpg" alt="Untitled" width="1009" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6025%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6025-zoom.jpg"
-           data-id="dscf6025"
-           data-full="../img/paintings/dscf6025-full.jpg"
-           data-zoom="../img/paintings/dscf6025-zoom.jpg"
-           data-full-w="1009" data-full-h="1400"
-           data-zoom-w="2018" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6030"
-           data-cats="" data-year="" data-tags="sisätila">
-    <a href="../img/paintings/dscf6030-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6030"
-       data-full="../img/paintings/dscf6030-full.jpg"
-       data-zoom="../img/paintings/dscf6030-zoom.jpg"
-       data-full-w="1037" data-full-h="1400"
-       data-zoom-w="2074" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6030-full.jpg" alt="Untitled" width="1037" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6030%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6030-zoom.jpg"
-           data-id="dscf6030"
-           data-full="../img/paintings/dscf6030-full.jpg"
-           data-zoom="../img/paintings/dscf6030-zoom.jpg"
-           data-full-w="1037" data-full-h="1400"
-           data-zoom-w="2074" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6031"
-           data-cats="" data-year="" data-tags="asetelma">
-    <a href="../img/paintings/dscf6031-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6031"
-       data-full="../img/paintings/dscf6031-full.jpg"
-       data-zoom="../img/paintings/dscf6031-zoom.jpg"
-       data-full-w="1038" data-full-h="1400"
-       data-zoom-w="2076" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6031-full.jpg" alt="Untitled" width="1038" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6031%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6031-zoom.jpg"
-           data-id="dscf6031"
-           data-full="../img/paintings/dscf6031-full.jpg"
-           data-zoom="../img/paintings/dscf6031-zoom.jpg"
-           data-full-w="1038" data-full-h="1400"
-           data-zoom-w="2076" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6036"
-           data-cats="" data-year="" data-tags="hahmo|maisema">
-    <a href="../img/paintings/dscf6036-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6036"
-       data-full="../img/paintings/dscf6036-full.jpg"
-       data-zoom="../img/paintings/dscf6036-zoom.jpg"
-       data-full-w="1181" data-full-h="1400"
-       data-zoom-w="2362" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6036-full.jpg" alt="Untitled" width="1181" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6036%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6036-zoom.jpg"
-           data-id="dscf6036"
-           data-full="../img/paintings/dscf6036-full.jpg"
-           data-zoom="../img/paintings/dscf6036-zoom.jpg"
-           data-full-w="1181" data-full-h="1400"
-           data-zoom-w="2362" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6038"
-           data-cats="" data-year="" data-tags="maisema">
-    <a href="../img/paintings/dscf6038-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6038"
-       data-full="../img/paintings/dscf6038-full.jpg"
-       data-zoom="../img/paintings/dscf6038-zoom.jpg"
-       data-full-w="1173" data-full-h="1400"
-       data-zoom-w="2346" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6038-full.jpg" alt="Untitled" width="1173" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6038%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6038-zoom.jpg"
-           data-id="dscf6038"
-           data-full="../img/paintings/dscf6038-full.jpg"
-           data-zoom="../img/paintings/dscf6038-zoom.jpg"
-           data-full-w="1173" data-full-h="1400"
-           data-zoom-w="2346" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6040"
-           data-cats="" data-year="" data-tags="kaupunki">
-    <a href="../img/paintings/dscf6040-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6040"
-       data-full="../img/paintings/dscf6040-full.jpg"
-       data-zoom="../img/paintings/dscf6040-zoom.jpg"
-       data-full-w="1400" data-full-h="1167"
-       data-zoom-w="2800" data-zoom-h="2334"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6040-full.jpg" alt="Untitled" width="1400" height="1167" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6040%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6040-zoom.jpg"
-           data-id="dscf6040"
-           data-full="../img/paintings/dscf6040-full.jpg"
-           data-zoom="../img/paintings/dscf6040-zoom.jpg"
-           data-full-w="1400" data-full-h="1167"
-           data-zoom-w="2800" data-zoom-h="2334"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6044"
-           data-cats="" data-year="" data-tags="maisema">
-    <a href="../img/paintings/dscf6044-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6044"
-       data-full="../img/paintings/dscf6044-full.jpg"
-       data-zoom="../img/paintings/dscf6044-zoom.jpg"
-       data-full-w="1400" data-full-h="870"
-       data-zoom-w="2800" data-zoom-h="1740"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6044-full.jpg" alt="Untitled" width="1400" height="870" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6044%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6044-zoom.jpg"
-           data-id="dscf6044"
-           data-full="../img/paintings/dscf6044-full.jpg"
-           data-zoom="../img/paintings/dscf6044-zoom.jpg"
-           data-full-w="1400" data-full-h="870"
-           data-zoom-w="2800" data-zoom-h="1740"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
   <article class="painting" id="dscf6047"
            data-cats="" data-year="" data-tags="abstrakti">
     <a href="../img/paintings/dscf6047-zoom.jpg"
@@ -1028,37 +1120,8 @@
       </p>
     </div>
   </article>
-  <article class="painting" id="dscf6050"
-           data-cats="" data-year="" data-tags="abstrakti">
-    <a href="../img/paintings/dscf6050-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6050"
-       data-full="../img/paintings/dscf6050-full.jpg"
-       data-zoom="../img/paintings/dscf6050-zoom.jpg"
-       data-full-w="1400" data-full-h="834"
-       data-zoom-w="2800" data-zoom-h="1668"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6050-full.jpg" alt="Untitled" width="1400" height="834" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6050%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6050-zoom.jpg"
-           data-id="dscf6050"
-           data-full="../img/paintings/dscf6050-full.jpg"
-           data-zoom="../img/paintings/dscf6050-zoom.jpg"
-           data-full-w="1400" data-full-h="834"
-           data-zoom-w="2800" data-zoom-h="1668"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
   <article class="painting" id="dscf6053"
-           data-cats="" data-year="" data-tags="asetelma">
+           data-cats="painting" data-year="" data-tags="asetelma">
     <a href="../img/paintings/dscf6053-zoom.jpg"
        class="painting-img-link"
        data-id="dscf6053"
@@ -1066,51 +1129,22 @@
        data-zoom="../img/paintings/dscf6053-zoom.jpg"
        data-full-w="1164" data-full-h="1400"
        data-zoom-w="2327" data-zoom-h="2800"
-       data-title="Untitled"
+       data-title="Untitled (Study: flowers)"
        data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6053-full.jpg" alt="Untitled" width="1164" height="1400" loading="lazy">
+      <img src="../img/paintings/dscf6053-full.jpg" alt="Untitled (Study: flowers)" width="1164" height="1400" loading="lazy">
     </a>
     <div class="painting-info">
-      <h3>Untitled</h3>
+      <h3>Untitled (Study: flowers)</h3>
       <p class="painting-status">
           <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6053%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
+          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28Study%3A%20flowers%29%20%28dscf6053%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%20%28Study%3A%20flowers%29%22.%0A%0A">[ Kysy teoksesta ]</a>
         <a class="btn btn-view" href="../img/paintings/dscf6053-zoom.jpg"
            data-id="dscf6053"
            data-full="../img/paintings/dscf6053-full.jpg"
            data-zoom="../img/paintings/dscf6053-zoom.jpg"
            data-full-w="1164" data-full-h="1400"
            data-zoom-w="2327" data-zoom-h="2800"
-           data-title="Untitled"
-           data-caption="">[ Katso tarkemmin ]</a>
-      </p>
-    </div>
-  </article>
-  <article class="painting" id="dscf6056"
-           data-cats="" data-year="" data-tags="abstrakti">
-    <a href="../img/paintings/dscf6056-zoom.jpg"
-       class="painting-img-link"
-       data-id="dscf6056"
-       data-full="../img/paintings/dscf6056-full.jpg"
-       data-zoom="../img/paintings/dscf6056-zoom.jpg"
-       data-full-w="628" data-full-h="1400"
-       data-zoom-w="1255" data-zoom-h="2800"
-       data-title="Untitled"
-       data-caption="hinta pyynnöstä">
-      <img src="../img/paintings/dscf6056-full.jpg" alt="Untitled" width="628" height="1400" loading="lazy">
-    </a>
-    <div class="painting-info">
-      <h3>Untitled</h3>
-      <p class="painting-status">
-          <span class="muted">hinta pyynnöstä</span>
-          <a class="btn" href="mailto:roni.luokkamaki@gmail.com?subject=Teostiedustelu%3A%20Untitled%20%28dscf6056%29&amp;body=Hei%2C%0A%0AOlen%20kiinnostunut%20teoksesta%20%22Untitled%22.%0A%0A">[ Kysy teoksesta ]</a>
-        <a class="btn btn-view" href="../img/paintings/dscf6056-zoom.jpg"
-           data-id="dscf6056"
-           data-full="../img/paintings/dscf6056-full.jpg"
-           data-zoom="../img/paintings/dscf6056-zoom.jpg"
-           data-full-w="628" data-full-h="1400"
-           data-zoom-w="1255" data-zoom-h="2800"
-           data-title="Untitled"
+           data-title="Untitled (Study: flowers)"
            data-caption="">[ Katso tarkemmin ]</a>
       </p>
     </div>
