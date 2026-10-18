@@ -374,7 +374,7 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 .order-form form { display: flex; flex-direction: column; gap: 1.1rem; }
 .order-form p { margin: 0; }
 .form-row { display: flex; flex-direction: column; gap: 0.35rem; border: 0; padding: 0; margin: 0; min-width: 0; }
-.form-row > label:not(.choice), .form-row legend {
+.form-row > label, .form-row legend {
   font-size: 0.8rem;
   color: var(--muted);
   text-transform: uppercase;
@@ -397,7 +397,6 @@ h3 { font-size: 1.1rem; margin-top: 0; }
 .order-form input:focus-visible, .order-form textarea:focus-visible,
 .work-picker summary:focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
 .order-form input[type="radio"] { accent-color: var(--accent); margin: 0; }
-.choice { display: inline-flex; align-items: center; gap: 0.5rem; margin-right: 1.5rem; cursor: pointer; }
 .form-hint { font-size: 0.85rem; color: var(--muted); }
 .form-status { color: var(--accent-hi); }
 .order-form button.btn { background: none; font: inherit; font-size: 0.9rem; cursor: pointer; }

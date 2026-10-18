@@ -16,12 +16,6 @@
     </div>
 
     <fieldset class="form-row">
-      <legend>{{ F.intent }}</legend>
-      <label class="choice"><input type="radio" name="intent" value="buy" checked> {{ F.intent_buy }}</label>
-      <label class="choice"><input type="radio" name="intent" value="question"> {{ F.intent_ask }}</label>
-    </fieldset>
-
-    <fieldset class="form-row">
       <legend>{{ F.work }}</legend>
       {# a list with pictures rather than a <select>, which can only hold text #}
       <details class="work-picker">
@@ -63,7 +57,6 @@
     <p><button class="btn" type="submit" data-sending="{{ F.sending }}">{{ F.send }}</button></p>
     <p class="form-status" role="status" aria-live="polite" hidden
        data-thanks="{{ F.thanks }}" data-error="{{ F.error }}"></p>
-    <p class="form-hint">{{ F.privacy }}</p>
   </form>
   <p>{{ F.alt }} <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.</p>
 </section>
