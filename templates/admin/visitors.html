@@ -1,0 +1,106 @@
+{% extends "admin/base.html" %}
+{% block title %}Visitors{% endblock %}
+{% block main %}
+<style>
+  .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; margin:0 0 22px; }
+  .stat { border:1px solid var(--border); background:var(--surface); padding:14px 16px; }
+  .stat .num { font-size:1.8rem; color:var(--fg); line-height:1.2; }
+  .stat .what { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; }
+  .chart { border:1px solid var(--border); background:var(--surface); padding:14px 16px 8px; margin-bottom:22px; }
+  .chart h2, .lists h2 { font-size:.8rem; color:var(--muted); text-transform:uppercase;
+                          letter-spacing:.08em; font-weight:400; margin:0 0 10px; }
+  .chart svg { display:block; width:100%; height:180px; }
+  .chart .bar { fill:var(--accent); }
+  .chart .day:hover .bar { fill:var(--accent-hi); }
+  .chart .hit { fill:transparent; }
+  .axis { display:flex; justify-content:space-between; color:var(--muted); font-size:.75rem; margin-top:4px; }
+  .lists { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:22px; }
+  .lists td { padding:5px 8px; }
+  .lists td.n { text-align:right; width:4.5em; color:var(--fg); }
+  .meter { height:6px; background:var(--accent); border-radius:0 3px 3px 0; margin-top:3px; min-width:2px; }
+  .settings { margin-top:30px; }
+</style>
+
+<div class="bar" style="margin-bottom:16px">
+  {% for p in periods %}
+  <a class="btn{% if p == days %} btn-primary{% endif %}" href="{{ url_for('visitors_page', days=p) }}">Last {{ p }} days</a>
+  {% endfor %}
+  <span class="count">from Cloudflare Web Analytics · cookieless · ad blockers make it run a little low</span>
+</div>
+
+{% if error %}
+  <div class="flash error" style="margin:0 0 16px">{{ error }}</div>
+{% endif %}
+
+{% if data %}
+<div class="stats">
+  <div class="stat"><div class="num">{{ data.visits }}</div><div class="what">visits</div></div>
+  <div class="stat"><div class="num">{{ data.views }}</div><div class="what">page views</div></div>
+  <div class="stat"><div class="num">{{ data.home_views }}</div><div class="what">front page views (EN + FI)</div></div>
+</div>
+
+<div class="chart">
+  <h2>Visits per day</h2>
+  {% set n = data.series|length %}
+  {% set peak = data.peak or 1 %}
+  {# one column per day; the invisible full-height rect makes the whole column hoverable #}
+  <svg viewBox="0 0 {{ n * 10 }} 100" preserveAspectRatio="none" role="img"
+       aria-label="Visits per day, last {{ data.days }} days, highest {{ data.peak }}">
+    {% for s in data.series %}
+    {% set h = (s.visits / peak * 96) if s.visits else 0 %}
+    <g class="day">
+      <title>{{ s.date }}: {{ s.visits }} visits, {{ s.views }} page views</title>
+      <rect class="hit" x="{{ loop.index0 * 10 }}" y="0" width="10" height="100"></rect>
+      {% if h %}<rect class="bar" x="{{ loop.index0 * 10 + 1 }}" y="{{ 100 - h }}" width="8" height="{{ h }}"></rect>{% endif %}
+    </g>
+    {% endfor %}
+  </svg>
+  <div class="axis">
+    <span>{{ data.series[0].date }}</span>
+    <span>highest day: {{ data.peak }} visits · hover a day for its numbers</span>
+    <span>{{ data.series[-1].date }}</span>
+  </div>
+</div>
+
+<div class="lists">
+  {% for title, rows in [("Pages", data.pages), ("Where visitors came from", data.referrers),
+                         ("Countries", data.countries), ("Devices", data.devices)] %}
+  <section>
+    <h2>{{ title }} <span class="count">(page views)</span></h2>
+    {% if rows %}
+    {% set top = rows[0].views or 1 %}
+    <table>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.label }}<div class="meter" style="width:{{ (r.views / top * 100)|round(1) }}%"></div></td>
+        <td class="n">{{ r.views }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p class="count">Nothing recorded yet.</p>
+    {% endif %}
+  </section>
+  {% endfor %}
+</div>
+{% elif not configured %}
+<p>To see visitor numbers here, connect Cloudflare below. You need the read-only API token
+  and the Account ID from your Cloudflare account.</p>
+{% endif %}
+
+<fieldset class="private settings">
+  <legend>Cloudflare connection — private, stays on this computer</legend>
+  <form method="post" action="{{ url_for('visitors_settings') }}">
+    <div class="row row-2">
+      <div><label>Account ID</label>
+        <input name="account_id" value="{{ settings.account_id or '' }}" autocomplete="off" spellcheck="false"></div>
+      <div><label>API token{% if settings.api_token %} (saved: leave empty to keep it){% endif %}</label>
+        <input name="api_token" type="password" autocomplete="off" spellcheck="false"
+               placeholder="{{ 'saved' if settings.api_token else 'paste the token here' }}"></div>
+    </div>
+    <button class="btn btn-primary">Save</button>
+    <p class="hint">The token needs only Account &rarr; Account Analytics &rarr; Read. It is kept in
+      data/cloudflare.json, which is never committed or published.</p>
+  </form>
+</fieldset>
+{% endblock %}

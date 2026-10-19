@@ -9,3 +9,6 @@ data/artworks.db
 data/artworks.db-journal
 data/artworks.db-wal
 data/*.retired
+
+# the Cloudflare analytics API token, entered in Manage artworks: never commit it
+data/cloudflare.json

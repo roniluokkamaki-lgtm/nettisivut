@@ -26,6 +26,7 @@ from io import BytesIO
 
 import build
 import db
+import visitors
 
 ROOT = Path(__file__).resolve().parent
 ORIGINALS = ROOT / "originals"
@@ -434,6 +435,38 @@ def delete_work(wid):
     flash(f"Deleted {row['title']!r} permanently. The OneDrive backup still holds "
           "the previous copy if you need it back.", "ok")
     return redirect(url_for("index"))
+
+
+# ---------------------------------------------------------------- visitors
+
+@app.route("/visitors")
+def visitors_page():
+    days = request.args.get("days", 30, type=int)
+    data, error = None, None
+    if visitors.is_configured():
+        try:
+            data = visitors.fetch(days)
+        except visitors.VisitorsError as e:
+            error = str(e)
+    return render_template("admin/visitors.html", data=data, error=error,
+                           days=days if days in visitors.PERIODS else 30,
+                           periods=visitors.PERIODS,
+                           configured=visitors.is_configured(),
+                           settings=visitors.load_settings())
+
+
+@app.route("/visitors/settings", methods=["POST"])
+def visitors_settings():
+    account_id = form_value("account_id").lower()
+    token = form_value("api_token") or visitors.load_settings().get("api_token", "")
+    if not re.fullmatch(r"[0-9a-f]{32}", account_id):
+        flash("The Account ID should be 32 characters of 0-9 and a-f.", "error")
+    elif not token or re.search(r"\s", token):
+        flash("Paste the API token (it has no spaces).", "error")
+    else:
+        visitors.save_settings(account_id, token)
+        flash("Saved. The token stays on this computer and is never published.", "ok")
+    return redirect(url_for("visitors_page"))
 
 
 # ------------------------------------------------------------- exhibitions
