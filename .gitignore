@@ -12,3 +12,4 @@ data/*.retired
 
 # the Cloudflare analytics API token, entered in Manage artworks: never commit it
 data/cloudflare.json
+tokens.txt
