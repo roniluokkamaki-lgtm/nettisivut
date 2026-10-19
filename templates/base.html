@@ -77,6 +77,9 @@
 <script src="{{ root }}js/lightbox.js?v={{ js_v }}" defer></script>
 <script src="{{ root }}js/filter.js?v={{ filter_v }}" defer></script>
 {% endif %}
+{% if cf_analytics_token %}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ cf_analytics_token }}"}'></script>
+{% endif %}
 {% if page_id == 'order' and form_endpoint %}
 <script src="{{ root }}js/order.js?v={{ order_v }}" defer></script>
 {% endif %}

@@ -48,6 +48,10 @@ INSTAGRAM_HANDLE = "roniluokkamaki"
 # Ask buttons open a prefilled email instead, as before.
 FORM_ENDPOINT = "https://formspree.io/f/xeaedlyo"
 
+# Cloudflare Web Analytics site token: counts visits without cookies. While this
+# is empty no analytics script is added to the pages.
+CF_ANALYTICS_TOKEN = "4c9eff4ea6a64299b66923238a4e2d48"
+
 # Used only to build absolute hreflang URLs. Change this if the site moves to a
 # custom domain (see README, "Custom domain").
 SITE_URL = "https://www.roniluokkamaki.com"
@@ -670,6 +674,7 @@ def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
             "filter_v": filter_v,
             "order_v": order_v,
             "form_endpoint": FORM_ENDPOINT,
+            "cf_analytics_token": CF_ANALYTICS_TOKEN,
             # the Exhibitions page, and its menu link, exist only once there is
             # something to list
             "has_exhibitions": bool(exhibitions),
