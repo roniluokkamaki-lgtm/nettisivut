@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import hashlib
+import io
 import re
 import shutil
 import sys
@@ -22,7 +23,7 @@ import urllib.parse
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
-from PIL import Image, ImageOps
+from PIL import Image, ImageCms, ImageOps
 
 import db
 
@@ -345,6 +346,25 @@ def load_exhibitions() -> list[dict]:
 
 # ------------------------------------------------------------------ images
 
+def to_srgb(im: Image.Image) -> Image.Image:
+    """Convert to plain sRGB using the photo's colour profile.
+
+    The variants are saved without a profile, which browsers read as sRGB. A
+    photo in another space (phones and editors can export HDR "PQ P3") would
+    otherwise look pale and washed out on the site.
+    """
+    icc = im.info.get("icc_profile")
+    if not icc:
+        return im.convert("RGB")
+    src = ImageCms.ImageCmsProfile(io.BytesIO(icc))
+    if ImageCms.getProfileDescription(src).strip() == "sRGB":
+        return im.convert("RGB")
+    if im.mode not in ("RGB", "RGBA", "CMYK", "L"):
+        im = im.convert("RGB")
+    return ImageCms.profileToProfile(im, src, ImageCms.createProfile("sRGB"),
+                                     outputMode="RGB")
+
+
 def resize_variant(src: Path, dest: Path, longest_side: int, quality: int) -> tuple[int, int]:
     """Create dest from src if missing or stale. Returns the variant's (w, h)."""
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -355,7 +375,7 @@ def resize_variant(src: Path, dest: Path, longest_side: int, quality: int) -> tu
     try:
         with Image.open(src) as im:
             im = ImageOps.exif_transpose(im)  # respect camera rotation, then strip EXIF
-            im = im.convert("RGB")
+            im = to_srgb(im)
             w, h = im.size
             scale = longest_side / max(w, h)
             if scale < 1:
