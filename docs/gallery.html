@@ -40,13 +40,13 @@
 <h1>Gallery</h1>
 
 <form class="filters" aria-label="Filter the gallery" hidden
-      data-showing="Showing {n} of {total} works" data-total="34">
+      data-showing="Showing {n} of {total} works" data-total="36">
   <label class="filter">
     <span class="filter-label">Category</span>
     <select name="category">
       <option value="">All works</option>
-      <option value="painting">Paintings (22)</option>
-      <option value="painting-small">    Small paintings (18)</option>
+      <option value="painting">Paintings (24)</option>
+      <option value="painting-small">    Small paintings (20)</option>
       <option value="painting-large">    Large paintings (3)</option>
       <option value="drawing">Drawings (10)</option>
     </select>
@@ -55,7 +55,7 @@
     <span class="filter-label">Years</span>
     <select name="year">
       <option value="">All years</option>
-      <option value="2026">2026 (12)</option>
+      <option value="2026">2026 (14)</option>
       <option value="2025">2025 (7)</option>
       <option value="2024">2024 (2)</option>
       <option value="2023">2023 (3)</option>
@@ -65,12 +65,12 @@
     <span class="filter-label">Tags</span>
     <select name="tag">
       <option value="">All tags</option>
-      <option value="abstract">abstract (12)</option>
+      <option value="abstract">abstract (13)</option>
       <option value="animal">animal (2)</option>
       <option value="architecture">architecture (1)</option>
       <option value="figure">figure (3)</option>
       <option value="interior">interior (3)</option>
-      <option value="landscape">landscape (4)</option>
+      <option value="landscape">landscape (5)</option>
       <option value="still life">still life (11)</option>
       <option value="urban">urban (2)</option>
     </select>
@@ -83,6 +83,10 @@
 <p class="filter-none" hidden>No works match these choices.</p>
 
 <section class="thumb-grid" aria-label="Gallery">
+  <a class="thumb" href="#abstract"
+     data-cats="painting painting-small" data-year="2026" data-tags="abstract">
+    <img src="img/paintings/abstract-thumb.jpg" alt="Abstract" width="778" height="800" loading="lazy">
+  </a>
   <a class="thumb" href="#dscf6020"
      data-cats="painting painting-small" data-year="2026" data-tags="still life">
     <img src="img/paintings/dscf6020-thumb.jpg" alt="Bowl of Tomatoes" width="610" height="800" loading="lazy">
@@ -94,6 +98,10 @@
   <a class="thumb" href="#dscf6013"
      data-cats="painting painting-large" data-year="2026" data-tags="animal|still life">
     <img src="img/paintings/dscf6013-thumb.jpg" alt="Horse Painting No.01" width="800" height="549" loading="lazy">
+  </a>
+  <a class="thumb" href="#kauppatori"
+     data-cats="painting painting-small" data-year="2026" data-tags="landscape">
+    <img src="img/paintings/kauppatori-thumb.jpg" alt="Kauppatori" width="800" height="667" loading="lazy">
   </a>
   <a class="thumb" href="#dscf6038"
      data-cats="painting painting-small" data-year="2026" data-tags="landscape">
@@ -222,6 +230,35 @@
 </section>
 
 <section class="full-list">
+  <article class="painting" id="abstract"
+           data-cats="painting painting-small" data-year="2026" data-tags="abstract">
+    <a href="img/paintings/abstract-zoom.jpg"
+       class="painting-img-link"
+       data-id="abstract"
+       data-full="img/paintings/abstract-full.jpg"
+       data-zoom="img/paintings/abstract-zoom.jpg"
+       data-full-w="1361" data-full-h="1400"
+       data-zoom-w="2723" data-zoom-h="2800"
+       data-title="Abstract"
+       data-caption="2026 · Oil on canvas · 33×31 cm &middot; 400 EUR">
+      <img src="img/paintings/abstract-full.jpg" alt="Abstract" width="1361" height="1400" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Abstract</h3>
+<p class="painting-meta">2026 · Oil on canvas · 33×31 cm</p>      <p class="painting-status">
+          <span class="price">400 EUR</span>
+          <a class="btn" href="order.html?work=abstract#order-form">Order</a>
+        <a class="btn btn-view" href="img/paintings/abstract-zoom.jpg"
+           data-id="abstract"
+           data-full="img/paintings/abstract-full.jpg"
+           data-zoom="img/paintings/abstract-zoom.jpg"
+           data-full-w="1361" data-full-h="1400"
+           data-zoom-w="2723" data-zoom-h="2800"
+           data-title="Abstract"
+           data-caption="2026 · Oil on canvas · 33×31 cm">View closer</a>
+      </p>
+    </div>
+  </article>
   <article class="painting" id="dscf6020"
            data-cats="painting painting-small" data-year="2026" data-tags="still life">
     <a href="img/paintings/dscf6020-zoom.jpg"
@@ -306,6 +343,35 @@
            data-zoom-w="2800" data-zoom-h="1922"
            data-title="Horse Painting No.01"
            data-caption="2026 · Mixed medium on canvas · 48×70 cm">View closer</a>
+      </p>
+    </div>
+  </article>
+  <article class="painting" id="kauppatori"
+           data-cats="painting painting-small" data-year="2026" data-tags="landscape">
+    <a href="img/paintings/kauppatori-zoom.jpg"
+       class="painting-img-link"
+       data-id="kauppatori"
+       data-full="img/paintings/kauppatori-full.jpg"
+       data-zoom="img/paintings/kauppatori-zoom.jpg"
+       data-full-w="1400" data-full-h="1167"
+       data-zoom-w="2800" data-zoom-h="2334"
+       data-title="Kauppatori"
+       data-caption="2026 · Oil on canvas · 36×30 cm &middot; 350 EUR">
+      <img src="img/paintings/kauppatori-full.jpg" alt="Kauppatori" width="1400" height="1167" loading="lazy">
+    </a>
+    <div class="painting-info">
+      <h3>Kauppatori</h3>
+<p class="painting-meta">2026 · Oil on canvas · 36×30 cm</p>      <p class="painting-status">
+          <span class="price">350 EUR</span>
+          <a class="btn" href="order.html?work=kauppatori#order-form">Order</a>
+        <a class="btn btn-view" href="img/paintings/kauppatori-zoom.jpg"
+           data-id="kauppatori"
+           data-full="img/paintings/kauppatori-full.jpg"
+           data-zoom="img/paintings/kauppatori-zoom.jpg"
+           data-full-w="1400" data-full-h="1167"
+           data-zoom-w="2800" data-zoom-h="2334"
+           data-title="Kauppatori"
+           data-caption="2026 · Oil on canvas · 36×30 cm">View closer</a>
       </p>
     </div>
   </article>
