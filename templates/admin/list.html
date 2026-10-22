@@ -25,7 +25,7 @@
 {% else %}
 <table>
   <thead>
-    <tr><th></th><th>Title</th><th>Year</th><th>Size</th><th>Status</th><th>Site</th>
+    <tr><th></th><th>Title</th><th>Year</th><th>Size</th><th>Price</th><th>Status</th><th>Site</th>
       <th title="Whether the work is on www.roniluokkamaki.com right now">Live</th><th></th></tr>
   </thead>
   <tbody>
@@ -39,6 +39,7 @@
       </td>
       <td>{{ w.year or '' }}{% if w.month %}/{{ '%02d'|format(w.month) }}{% endif %}</td>
       <td>{% if w.width_cm %}{{ w.height_cm }}×{{ w.width_cm }} cm{% endif %}</td>
+      <td style="white-space:nowrap">{% if w.asking_price_eur %}{{ '%g'|format(w.asking_price_eur) }} €{% else %}<span class="count">—</span>{% endif %}</td>
       <td>
         {% if w.status == 'sold' %}<span class="tag tag-sold">SOLD</span>
         {% else %}<span class="tag">IN POSSESSION</span>{% endif %}
