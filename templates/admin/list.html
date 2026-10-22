@@ -38,7 +38,7 @@
         {% if w.tags %}<div class="count">{{ w.tags }}</div>{% endif %}
       </td>
       <td>{{ w.year or '' }}{% if w.month %}/{{ '%02d'|format(w.month) }}{% endif %}</td>
-      <td>{% if w.width_cm %}{{ w.width_cm }}×{{ w.height_cm }} cm{% endif %}</td>
+      <td>{% if w.width_cm %}{{ w.height_cm }}×{{ w.width_cm }} cm{% endif %}</td>
       <td>
         {% if w.status == 'sold' %}<span class="tag tag-sold">SOLD</span>
         {% else %}<span class="tag">IN POSSESSION</span>{% endif %}

@@ -237,7 +237,7 @@ def save_work(wid):
 
         width, height = form_int("width_cm"), form_int("height_cm")
         if bool(width) != bool(height):
-            raise ValueError("give both width and height, or neither")
+            raise ValueError("give both height and width, or neither")
 
         status = form_value("status", "in_possession")
         if status not in db.STATUSES:

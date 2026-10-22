@@ -293,7 +293,7 @@ def load_paintings() -> list[dict]:
 
         w_cm, h_cm = w["width_cm"], w["height_cm"]
         if bool(w_cm) != bool(h_cm):
-            errors.append(f"{where}: give both width and height, or neither")
+            errors.append(f"{where}: give both height and width, or neither")
 
         paintings.append({
             # the website's identifier is the slug: it is used in page anchors
@@ -433,7 +433,7 @@ def localise(p: dict, L: dict) -> dict:
     description = (p["description_fi"] or p["description"]) if fi else p["description"]
 
     # real Unicode, not HTML entities, so autoescaping leaves it alone
-    size = f"{p['width_cm']}×{p['height_cm']} cm" if p["width_cm"] and p["height_cm"] else ""
+    size = f"{p['height_cm']}×{p['width_cm']} cm" if p["width_cm"] and p["height_cm"] else ""
     meta = " · ".join(b for b in (str(p["year"]) if p["year"] else "", technique, size) if b)
 
     tags = split_tags((p["public_tags_fi"] or p["public_tags"]) if fi else p["public_tags"])
@@ -585,7 +585,7 @@ def mailto_for(p: dict, L: dict) -> str:
     bits = [b for b in (
         str(p["year"]) if p["year"] else "",
         p["technique"],
-        f"{p['width_cm']}x{p['height_cm']} cm" if p["width_cm"] and p["height_cm"] else "",
+        f"{p['height_cm']}x{p['width_cm']} cm" if p["width_cm"] and p["height_cm"] else "",
     ) if b]
     detail = f" ({', '.join(bits)})" if bits else ""
     body = L["mail_body"].format(title=p["title"], detail=detail)
