@@ -62,8 +62,7 @@ SITE_URL = "https://www.roniluokkamaki.com"
 # www.roniluokkamaki.com/card shows up as /card on the Visitors page.
 REDIRECTS = {
     "card.html": "index.html",
-    # the horse sticker leads straight to the horse painting
-    "sticker.html": "gallery.html#dscf6013",
+    "sticker.html": "index.html",
 }
 
 VALID_STATUSES ={"for_sale", "inquire", "sold", "not_for_sale"}

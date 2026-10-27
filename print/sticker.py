@@ -9,8 +9,8 @@ The sticker is 70 x 48 mm, the painting's own proportions at one tenth of its
 size, plus 2 mm of bleed on every side for the printer to trim off. A copy with
 the trim and safe lines drawn on is written beside it, for checking only.
 
-The QR code points at the /sticker address, which opens the horse painting in
-the gallery and is counted separately on the Visitors page.
+The QR code points at the /sticker address, which forwards to the home page
+and is counted separately on the Visitors page.
 """
 
 import sys

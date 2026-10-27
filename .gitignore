@@ -13,3 +13,8 @@ data/*.retired
 # the Cloudflare analytics API token, entered in Manage artworks: never commit it
 data/cloudflare.json
 tokens.txt
+
+# the business card carries a phone number, so its contact lines and the
+# drawn card stay on this computer: never commit them
+print/card_contacts.txt
+print/business-card-front*.png

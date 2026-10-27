@@ -2,6 +2,9 @@
 
     py -3 print/business_card.py
 
+The contact lines come from print/card_contacts.txt, which is never committed;
+neither are the card images it writes.
+
 The file is 88 x 58 mm at 600 dpi: a standard 85 x 55 mm card plus 1.5 mm of
 bleed on every side, which the printer trims off. Text and the QR code stay at
 least 3 mm inside the trim line. A second copy with the trim and safe lines
@@ -24,11 +27,10 @@ FONT_LATIN = ROOT / "docs" / "fonts" / "inter-latin.woff2"
 
 NAME = "Roni Luokkamäki"
 TITLE = "Kuvataiteilija · Visual artist"
-CONTACTS = [
-    "roniluokkamaki.com",
-    "roni.luokkamaki@gmail.com",
-    "+358 XX XXX XXXX",  # placeholder until the real number is known
-]
+# One line each, top to bottom. Kept in a file git ignores, because the card
+# carries a phone number and this repository is public.
+CONTACTS_FILE = Path(__file__).resolve().parent / "card_contacts.txt"
+CONTACTS: list[str] = []
 QR_URL = "https://www.roniluokkamaki.com/card"
 
 # the site's palette
@@ -111,6 +113,9 @@ def draw_card(guides: bool) -> Image.Image:
 
 
 def main() -> None:
+    if not CONTACTS_FILE.exists():
+        raise SystemExit(f"missing {CONTACTS_FILE.name}: write the card's contact lines in it, one per line")
+    CONTACTS[:] = [x.strip() for x in CONTACTS_FILE.read_text(encoding="utf-8").splitlines() if x.strip()]
     for guides, name in ((False, "business-card-front.png"),
                          (True, "business-card-front-guides.png")):
         draw_card(guides).save(OUT / name, dpi=(DPI, DPI))
