@@ -28,7 +28,8 @@ OUT = Path(__file__).resolve().parent
 PAINTING = ROOT / "originals" / "DSCF6013.jpg"
 QR_URL = "https://www.roniluokkamaki.com/sticker"
 
-DPI = 600
+# the printer asks for 64 x 44 mm at 756 x 520 px, which is 300 dpi
+DPI = 300
 MM = DPI / 25.4
 TRIM_W, TRIM_H = 60, 40
 BLEED = 2 * MM
@@ -54,8 +55,9 @@ def draw_sticker(guides: bool) -> Image.Image:
     quiet = 2
     n = len(matrix) + 2 * quiet
     # 12 mm still scans from a normal distance and leaves the painting in charge
-    tile = round(12 * MM)
-    module = tile / n
+    # whole pixels per module, so every square of the code is the same size
+    module = round(12 * MM / n)
+    tile = module * n
     tx, ty = W - SAFE - tile, H - SAFE - tile
     d.rounded_rectangle((tx, ty, tx + tile, ty + tile), radius=round(0.8 * MM), fill=TILE)
     for r, row in enumerate(matrix):
