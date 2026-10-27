@@ -5,8 +5,9 @@
 The whole of Horse Painting No.01 with a QR code tucked into the empty red
 ground in its lower right corner, and nothing else: no name, no address.
 
-The sticker is 70 x 48 mm, the painting's own proportions at one tenth of its
-size, plus 2 mm of bleed on every side for the printer to trim off. A copy with
+The sticker is 60 x 40 mm, the stock size closest to the painting's own
+proportions (70 x 48 cm), plus 2 mm of bleed on every side for the printer to
+trim off; about 1 mm of the painting's top and bottom edges is lost. A copy with
 the trim and safe lines drawn on is written beside it, for checking only.
 
 The QR code points at the /sticker address, which forwards to the home page
@@ -29,7 +30,7 @@ QR_URL = "https://www.roniluokkamaki.com/sticker"
 
 DPI = 600
 MM = DPI / 25.4
-TRIM_W, TRIM_H = 70, 48
+TRIM_W, TRIM_H = 60, 40
 BLEED = 2 * MM
 W, H = round((TRIM_W + 4) * MM), round((TRIM_H + 4) * MM)
 SAFE = BLEED + 3 * MM
@@ -52,7 +53,8 @@ def draw_sticker(guides: bool) -> Image.Image:
     matrix = list(qr.matrix)
     quiet = 2
     n = len(matrix) + 2 * quiet
-    tile = round(15 * MM)
+    # 12 mm still scans from a normal distance and leaves the painting in charge
+    tile = round(12 * MM)
     module = tile / n
     tx, ty = W - SAFE - tile, H - SAFE - tile
     d.rounded_rectangle((tx, ty, tx + tile, ty + tile), radius=round(0.8 * MM), fill=TILE)
