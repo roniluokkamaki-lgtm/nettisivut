@@ -57,7 +57,14 @@ CF_ANALYTICS_TOKEN = "4c9eff4ea6a64299b66923238a4e2d48"
 # custom domain (see README, "Custom domain").
 SITE_URL = "https://www.roniluokkamaki.com"
 
-VALID_STATUSES = {"for_sale", "inquire", "sold", "not_for_sale"}
+# Short addresses for print (the business card's QR code, stickers), each
+# forwarding to a page. GitHub Pages serves docs/card.html at /card, so a scan of
+# www.roniluokkamaki.com/card shows up as /card on the Visitors page.
+REDIRECTS = {
+    "card.html": "index.html",
+}
+
+VALID_STATUSES ={"for_sale", "inquire", "sold", "not_for_sale"}
 
 # In the gallery filter, a painting counts as large when its longest side is at
 # least this many centimetres. Paintings with no size entered are listed under
@@ -753,6 +760,14 @@ def render_site(paintings: list[dict], exhibitions: list[dict]) -> None:
 
         shown = L["subdir"] + "/" if L["subdir"] else ""
         print(f"wrote docs/{shown}  ({len(pages)} pages, {lang})")
+
+    redirect = env.get_template("redirect.html")
+    for out_name, target in REDIRECTS.items():
+        (DOCS_DIR / out_name).write_text(
+            redirect.render(site_name=SITE_NAME, site_url=SITE_URL, target=target,
+                            cf_analytics_token=CF_ANALYTICS_TOKEN),
+            encoding="utf-8")
+    print(f"wrote {len(REDIRECTS)} print redirect(s): {', '.join(REDIRECTS)}")
 
     (DOCS_DIR / ".nojekyll").touch()
 

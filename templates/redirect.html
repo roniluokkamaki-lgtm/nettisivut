@@ -1,0 +1,27 @@
+{# A short address printed on a business card or sticker. It forwards to a real
+   page, and because it loads the analytics beacon first, each scan is counted
+   under its own path on the Visitors page. #}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ site_name }}</title>
+<link rel="canonical" href="{{ site_url }}/{{ target }}">
+<meta http-equiv="refresh" content="2; url={{ target }}">
+<style>body { background: #1b141a; color: #c9c2c6; font-family: system-ui, sans-serif; padding: 2rem; } a { color: #a1afa7; }</style>
+</head>
+<body>
+<p><a href="{{ target }}">{{ site_name }}</a></p>
+{% if cf_analytics_token %}
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ cf_analytics_token }}"}'></script>
+{% endif %}
+<script>
+  // give the beacon a moment to record the visit, then move on
+  window.addEventListener("load", function () {
+    setTimeout(function () { location.replace("{{ target }}"); }, 400);
+  });
+</script>
+</body>
+</html>
