@@ -405,8 +405,6 @@ def hang(img: Image.Image, painting: Image.Image, frame: dict) -> None:
     soft_shadow(img, lambda d: d.rectangle((ox0 + cm(0.15), oy0 + cm(0.3), ox1 + cm(0.25), oy1 + cm(0.4))), 0.3, 80)
 
     img.paste(painting, (round(inner[0]), round(inner[1])))
-    d = ImageDraw.Draw(img)
-    d.rectangle([round(v) for v in inner], outline=(0, 0, 0), width=1)
 
     x0, y0, x1, y1 = inner
     for kind, width, color in frame["bands"]:
