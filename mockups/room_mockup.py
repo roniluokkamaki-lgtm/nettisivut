@@ -382,10 +382,10 @@ def draw_olive_tree(img: Image.Image) -> None:
 
 # ------------------------------------------------------------- the painting
 
-def load_painting() -> Image.Image:
+def load_painting(px_per_cm: float = S) -> Image.Image:
     with Image.open(PAINTING) as im:
         im = to_srgb(ImageOps.exif_transpose(im))
-    h = round(cm(PAINTING_H_CM))
+    h = round(PAINTING_H_CM * px_per_cm)
     w = round(h * im.width / im.height)
     return im.resize((w, h), Image.LANCZOS)
 
@@ -405,10 +405,14 @@ def hang(img: Image.Image, painting: Image.Image, frame: dict) -> None:
     soft_shadow(img, lambda d: d.rectangle((ox0 + cm(0.15), oy0 + cm(0.3), ox1 + cm(0.25), oy1 + cm(0.4))), 0.3, 80)
 
     img.paste(painting, (round(inner[0]), round(inner[1])))
+    draw_frame(img, inner, frame, S)
 
+
+def draw_frame(img: Image.Image, inner, frame: dict, px_per_cm: float) -> None:
+    """Draw the frame's bands outwards from the canvas edge `inner` (x0, y0, x1, y1)."""
     x0, y0, x1, y1 = inner
     for kind, width, color in frame["bands"]:
-        w = cm(width)
+        w = width * px_per_cm
         X0, Y0, X1, Y1 = x0 - w, y0 - w, x1 + w, y1 + w
         sides = [
             ([(X0, Y0), (X1, Y0), (x1, y0), (x0, y0)], True),   # top
